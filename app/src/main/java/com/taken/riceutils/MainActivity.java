@@ -100,9 +100,6 @@ public class MainActivity extends AppCompatActivity
         allLocs.putAll(BuildingMap.classes);
         String[] placeNames = Arrays.copyOf(allLocs.keySet().toArray(), allLocs.keySet().toArray().length, String[].class);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, placeNames);
-//        textView = (AutoCompleteTextView) findViewById(R.id.search);
-//        textView.setAdapter(adapter);
-//        textView.setOnItemClickListener(this);
 
         AsyncTask<String, Void, JSONArray> busRoutes = new BusRoutes();
         busRoutes.execute("http://bus.rice.edu/json/routes.php");
@@ -115,7 +112,7 @@ public class MainActivity extends AppCompatActivity
         callAsyncTask();
 
         ActionBar actionBar = getSupportActionBar();
-        //actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayShowCustomEnabled(true);
         LayoutInflater layoutInflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = layoutInflater.inflate(R.layout.search_layout, null);
