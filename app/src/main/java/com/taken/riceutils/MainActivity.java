@@ -155,6 +155,12 @@ public class MainActivity extends AppCompatActivity
                     InputMethodManager.HIDE_NOT_ALWAYS);
         }
 
+        if (position > 0) {
+            textView.setVisibility(View.GONE);
+        } else {
+            textView.setVisibility(View.VISIBLE);
+        }
+
         Fragment fragment = PlaceholderFragment.newInstance(position+1);
 
         switch (position) {
@@ -183,7 +189,7 @@ public class MainActivity extends AppCompatActivity
 //         update the main content by replacing fragments
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.map, fragment)
+                .replace(R.id.container, fragment)
                 .commit();
     }
 
