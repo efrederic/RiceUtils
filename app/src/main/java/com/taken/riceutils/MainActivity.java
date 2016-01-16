@@ -175,13 +175,28 @@ public class MainActivity extends AppCompatActivity
             case 4: // servery menu
                 Intent webViewIntent = new Intent(this, WebViews.class);
                 startActivity(webViewIntent);
+                break;
                 //findViewById(R.id.map).setVisibility(View.GONE);
-            case 2:
+            case 5: // other links
                 final ArrayList<String> sites = new ArrayList<>();
-                sites.add("http://www.google.com");
+                sites.add(getString(R.string.library_link));
+                sites.add(getString(R.string.owlspace_link));
+                sites.add(getString(R.string.esther_link));
+                sites.add(getString(R.string.recreation_link));
+                sites.add(getString(R.string.athletics_link));
+                sites.add(getString(R.string.helpdesk_link));
+                sites.add(getString(R.string.news_link));
+                sites.add(getString(R.string.courses_link));
                 new AlertDialog.Builder(this)
                         .setTitle("Choose a site")
-                        .setItems(new CharSequence[]{"Google"}, new DialogInterface.OnClickListener() {
+                        .setItems(new CharSequence[]{"Library",
+                                "OwlSpace",
+                                "Esther",
+                                "Recreation",
+                                "Athletics",
+                                "HelpDesk",
+                                "RiceNews",
+                                "Courses"}, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 Intent webViewIntent = new Intent(MainActivity.this, WebViews.class);
@@ -191,9 +206,6 @@ public class MainActivity extends AppCompatActivity
                             }
                         })
                         .show();
-                break;
-            case 5: // other links
-                findViewById(R.id.map).setVisibility(View.GONE);
                 break;
         }
 //         update the main content by replacing fragments
