@@ -193,7 +193,6 @@ public class MainActivity extends AppCompatActivity
                 sites.add(getString(R.string.courses_link));
                 sites.add(getString(R.string.schedule_link));
                 new AlertDialog.Builder(this)
-//                        .setTitle("Choose a Link")
                         .setTitle(Html.fromHtml("<font color='#03AD97'>Other Links</font>"))
                         .setItems(new CharSequence[]{"Library",
                                         "OwlSpace",
@@ -211,7 +210,7 @@ public class MainActivity extends AppCompatActivity
                                         Intent webViewIntent = new Intent(MainActivity.this, WebViews.class);
                                         webViewIntent.putExtra("url", sites.get(which));
                                         startActivity(webViewIntent);
-//                                    findViewById(R.id.map).setVisibility(View.GONE);
+                                        //findViewById(R.id.map).setVisibility(View.GONE);
                                     }
                                 })
                         .show();
