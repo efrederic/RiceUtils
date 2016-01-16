@@ -1,7 +1,6 @@
 package com.taken.riceutils;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
@@ -194,7 +193,7 @@ public class MainActivity extends AppCompatActivity
                         .show();
                 break;
         }
-//         update the main content by replacing fragments
+        // update the main content by replacing fragments
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.container, fragment)

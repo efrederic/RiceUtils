@@ -1,17 +1,12 @@
 package com.taken.riceutils;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.webkit.WebView;
-import android.webkit.WebSettings;
 import android.webkit.WebViewClient;
-import android.webkit.WebViewFragment;
 
 /**
  *
@@ -30,9 +25,9 @@ public class WebViews extends Activity{
         setContentView(R.layout.activity_webview);
 
         web = (WebView) findViewById(R.id.webview);
-        web.setWebViewClient(new myWebClient(){
+        web.setWebViewClient(new WebViewClient() {
             @Override
-                    public boolean shouldOverrideUrlLoading(WebView view, String url){
+            public boolean shouldOverrideUrlLoading(WebView view, String url){
                 return false;
             }
         });
@@ -41,25 +36,25 @@ public class WebViews extends Activity{
         web.loadUrl(getIntent().getStringExtra("url"));
     }
 
-    public class myWebClient extends WebViewClient {
-        @Override
-        public void onPageStarted(WebView view, String url, Bitmap favicon) {
-            // TODO Auto-generated method stub
-            super.onPageStarted(view, url, favicon);
-        }
-
-        @Override
-        public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            // TODO Auto-generated method stub
-
-            view.loadUrl(url);
-            return true;
-        }
-    }
+//    public class myWebClient extends WebViewClient {
+//        @Override
+//        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+//            // TODO Auto-generated method stub
+//            super.onPageStarted(view, url, favicon);
+//        }
+//
+//        @Override
+//        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+//            // TODO Auto-generated method stub
+//
+//            view.loadUrl(url);
+//            return true;
+//        }
+//    }
 
     // To handle "Back" key press event for WebView to go back to previous screen.
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event)
+    public boolean onKeyDown(int keyCode, @NonNull KeyEvent event)
     {
         if ((keyCode == KeyEvent.KEYCODE_BACK) && web.canGoBack()) {
             web.goBack();
