@@ -6,9 +6,12 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -35,6 +38,9 @@ public class HappeningNow extends Fragment {
     static final String KEY_TITLE = "title";
     static final String KEY_LOCATION = "location";
     static final String KEY_TIME = "time";
+    static final String KEY_DESCRIPTION = "description";
+
+    final ArrayList<HashMap<String, String>> events = new ArrayList<HashMap<String, String>>();
 
     public HappeningNow() {
         // Required empty public constructor
@@ -63,8 +69,6 @@ public class HappeningNow extends Fragment {
             //lmao
         }
 
-        ArrayList<HashMap<String, String>> events = new ArrayList<HashMap<String, String>>();
-
         try {
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();
@@ -88,6 +92,10 @@ public class HappeningNow extends Fragment {
                         map.put(KEY_LOCATION, locationMatcher.group());
                     }
 
+                    String description = eElement.getElementsByTagName("description").item(0).getTextContent();
+                    String[] descriptionParts = description.split("<br>");
+                    map.put(KEY_DESCRIPTION, descriptionParts[descriptionParts.length-1]);
+
                     events.add(map);
                 }
             }
@@ -95,26 +103,21 @@ public class HappeningNow extends Fragment {
             //Handling exceptions is for wusses
         }
 
-//        Pattern titlePattern = Pattern.compile("(?<=<title>).*(?=</title>)");
-//        Matcher titleMatcher = titlePattern.matcher(eventsNow);
-//
-//        Pattern locPattern = Pattern.compile("(?<=<pubDate>).*(?=</pubDate>)");
-//        Matcher locMatcher = locPattern.matcher(eventsNow);
-
-//        HashMap<String, String> map = new HashMap<String, String>();
-//        while (titleMatcher.find()) {
-//            map.put(KEY_TITLE, titleMatcher.group());
-//            map.put(KEY_LOCATION, locMatcher.group());
-//            events.add(map);
-//        }
-
-//        String[] values = new String[] { "Android", "iPhone", "WindowsMobile",
-//                "Blackberry", "WebOS", "Ubuntu", "Windows7", "Max OS X",
-//                "Linux", "OS/2" };
-
-        ListView listView = (ListView) myInflatedView.findViewById(R.id.eventsList);
+        ListView eventsList = (ListView) myInflatedView.findViewById(R.id.eventsList);
         HappeningNowAdapter adapter = new HappeningNowAdapter(getActivity(), events);
-        listView.setAdapter(adapter);
+        eventsList.setAdapter(adapter);
+
+        eventsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?>parent, View view, int position, long id) {
+                Log.e("PRESS", "I WAS");
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setMessage(events.get(position).get(KEY_DESCRIPTION))
+                        .setTitle(events.get(position).get(KEY_TITLE));
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
 
         return myInflatedView;
     }
