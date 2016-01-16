@@ -155,6 +155,12 @@ public class MainActivity extends AppCompatActivity
                     InputMethodManager.HIDE_NOT_ALWAYS);
         }
 
+        if (position > 0) {
+            textView.setVisibility(View.GONE);
+        } else {
+            textView.setVisibility(View.VISIBLE);
+        }
+
         Fragment fragment = PlaceholderFragment.newInstance(position+1);
 
         switch (position) {
