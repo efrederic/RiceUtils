@@ -17,6 +17,8 @@ import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -211,6 +213,14 @@ public class MainActivity extends AppCompatActivity
                         })
                         .show();
                 break;
+            case 6:
+                findViewById(R.id.map).setVisibility(View.GONE);
+                Intent serviceIntent = new Intent(this, BusNotificationService.class);
+                serviceIntent.putExtra("BusType", "RiceVillage").putExtra("BusStop", "A");
+                startService(serviceIntent);
+                break;
+            default:
+                break;
         }
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -246,6 +256,9 @@ public class MainActivity extends AppCompatActivity
                 break;
             case 6:
                 mTitle = getString(R.string.title_section6);
+                break;
+            case 7:
+                mTitle = getString(R.string.title_section7);
                 break;
         }
     }
