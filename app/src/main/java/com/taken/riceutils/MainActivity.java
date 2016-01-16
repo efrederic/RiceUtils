@@ -20,6 +20,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -177,7 +178,7 @@ public class MainActivity extends AppCompatActivity
             case 4: // servery menu
                 Intent webViewIntent = new Intent(this, WebViews.class);
                 startActivity(webViewIntent);
-                findViewById(R.id.map).setVisibility(View.GONE);
+//                findViewById(R.id.map).setVisibility(View.GONE);
                 break;
             case 5: // other links
                 final ArrayList<String> sites = new ArrayList<>();
@@ -192,25 +193,27 @@ public class MainActivity extends AppCompatActivity
                 sites.add(getString(R.string.courses_link));
                 sites.add(getString(R.string.schedule_link));
                 new AlertDialog.Builder(this)
-                        .setTitle("Choose a Link")
+//                        .setTitle("Choose a Link")
+                        .setTitle(Html.fromHtml("<font color='#03AD97'>Other Links</font>"))
                         .setItems(new CharSequence[]{"Library",
-                                "OwlSpace",
-                                "Esther",
-                                "Careers",
-                                "Recreation",
-                                "Athletics",
-                                "HelpDesk",
-                                "RiceNews",
-                                "Courses",
-                                "Schedule Planner"}, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                Intent webViewIntent = new Intent(MainActivity.this, WebViews.class);
-                                webViewIntent.putExtra("url", sites.get(which));
-                                startActivity(webViewIntent);
-                                findViewById(R.id.map).setVisibility(View.GONE);
-                            }
-                        })
+                                        "OwlSpace",
+                                        "Esther",
+                                        "Careers",
+                                        "Recreation",
+                                        "Athletics",
+                                        "HelpDesk",
+                                        "RiceNews",
+                                        "Courses",
+                                        "Schedule Planner"},
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Intent webViewIntent = new Intent(MainActivity.this, WebViews.class);
+                                        webViewIntent.putExtra("url", sites.get(which));
+                                        startActivity(webViewIntent);
+//                                    findViewById(R.id.map).setVisibility(View.GONE);
+                                    }
+                                })
                         .show();
                 break;
             case 6:
