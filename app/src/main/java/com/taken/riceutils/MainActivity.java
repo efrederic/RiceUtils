@@ -26,6 +26,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
+import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebView;
 import android.widget.AdapterView;
@@ -67,7 +68,7 @@ public class MainActivity extends AppCompatActivity
 
     private HashMap<String, LatLng> allLocs = new HashMap<>();
 
-    private Boolean loaded=false;
+    private Boolean loaded = false;
 
     static JSONArray routes = null;
 
@@ -99,9 +100,6 @@ public class MainActivity extends AppCompatActivity
         allLocs.putAll(BuildingMap.classes);
         String[] placeNames = Arrays.copyOf(allLocs.keySet().toArray(), allLocs.keySet().toArray().length, String[].class);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, placeNames);
-        textView = (AutoCompleteTextView) findViewById(R.id.search);
-        textView.setAdapter(adapter);
-        textView.setOnItemClickListener(this);
 
         AsyncTask<String, Void, JSONArray> busRoutes = new BusRoutes();
         busRoutes.execute("http://bus.rice.edu/json/routes.php");
@@ -113,6 +111,16 @@ public class MainActivity extends AppCompatActivity
         isRunning = true;
         callAsyncTask();
 
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayShowCustomEnabled(true);
+        LayoutInflater layoutInflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = layoutInflater.inflate(R.layout.search_layout, null);
+        actionBar.setCustomView(view);
+        textView = (AutoCompleteTextView) view.findViewById(R.id.search);
+        textView.setAdapter(adapter);
+        textView.setOnItemClickListener(this);
+
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
@@ -123,6 +131,14 @@ public class MainActivity extends AppCompatActivity
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
         this.loaded = true;
+
+        InputMethodManager inputManager = (InputMethodManager)
+                getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        if (getCurrentFocus() != null) {
+            inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+                    InputMethodManager.HIDE_NOT_ALWAYS);
+        }
     }
 
     @Override
@@ -130,6 +146,15 @@ public class MainActivity extends AppCompatActivity
         if (!this.loaded){
             return;
         }
+
+        InputMethodManager inputManager = (InputMethodManager)
+                getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        if (getCurrentFocus() != null) {
+            inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+                    InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+
         Fragment fragment = PlaceholderFragment.newInstance(position+1);
 
         switch (position) {
@@ -196,8 +221,7 @@ public class MainActivity extends AppCompatActivity
     public void restoreActionBar() {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-        actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setTitle(mTitle);
+        actionBar.setDisplayShowTitleEnabled(false);
     }
 
 

@@ -10,16 +10,21 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.TaskStackBuilder;
 import android.app.PendingIntent;
+import android.util.Log;
+import java.util.HashMap;
+import java.util.ArrayList;
 
 public class BusNotificationService extends Service {
     private Looper mServiceLooper;
     private ServiceHandler mServiceHandler;
 
+    private ArrayList<String> mTrackedBusStops;
+    private boolean mTimersScheduled;
+
     // Handler that receives messages from the thread
     private final class ServiceHandler extends Handler {
         public ServiceHandler(Looper looper) {
             super(looper);
-
         }
         @Override
         public void handleMessage(Message msg) {
@@ -86,12 +91,18 @@ public class BusNotificationService extends Service {
         // Get the HandlerThread's Looper and use it for our Handler
         mServiceLooper = thread.getLooper();
         mServiceHandler = new ServiceHandler(mServiceLooper);
+
+        // Create an array of bus stops to track
+        mTrackedBusStops = new ArrayList<String>();
+
+        // The first time onStartCommand is run, the timers will be scheduled
+        mTimersScheduled = false;
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Toast.makeText(this, "service starting", Toast.LENGTH_SHORT).show();
-
+        String busType = intent.getExtras().getString("BusType");
+        String busStop = intent.getExtras().getString("BusStop");
         // For each start request, send a message to start a job and deliver the
         // start ID so we know which request we're stopping when we finish the job
         Message msg = mServiceHandler.obtainMessage();
@@ -106,10 +117,5 @@ public class BusNotificationService extends Service {
     public IBinder onBind(Intent intent) {
         // We don't provide binding, so return null
         return null;
-    }
-
-    @Override
-    public void onDestroy() {
-        Toast.makeText(this, "service done", Toast.LENGTH_SHORT).show();
     }
 }
