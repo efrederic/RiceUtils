@@ -2,6 +2,7 @@ package com.taken.riceutils;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.DialogFragment;
 import android.graphics.Bitmap;
 import android.location.Location;
@@ -28,6 +29,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -63,6 +65,8 @@ public class MainActivity extends AppCompatActivity
 
     private HashMap<String, LatLng> allLocs = new HashMap<>();
 
+    private Boolean loaded=false;
+
     static JSONArray routes = null;
 
     @SuppressLint("UseSparseArrays")
@@ -78,15 +82,6 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        mNavigationDrawerFragment = (NavigationDrawerFragment)
-                getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
-        mTitle = getTitle();
-
-        // Set up the drawer.
-        mNavigationDrawerFragment.setUp(
-                R.id.navigation_drawer,
-                (DrawerLayout) findViewById(R.id.drawer_layout));
 
         mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
         mMap.setMyLocationEnabled(true);
@@ -115,16 +110,52 @@ public class MainActivity extends AppCompatActivity
         }
         isRunning = true;
         callAsyncTask();
+
+        mNavigationDrawerFragment = (NavigationDrawerFragment)
+                getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
+        mTitle = getTitle();
+
+        // Set up the drawer.
+        mNavigationDrawerFragment.setUp(
+                R.id.navigation_drawer,
+                (DrawerLayout) findViewById(R.id.drawer_layout));
+
+        this.loaded = true;
     }
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
-        // update the main content by replacing fragments
+        if (!this.loaded){
+            return;
+        }
+        Fragment fragment = PlaceholderFragment.newInstance(position+1);
+
+        switch (position) {
+            case 0:
+                findViewById(R.id.map).setVisibility(View.VISIBLE);
+                break;
+            case 1:
+                fragment = HappeningNow.newInstance();
+                findViewById(R.id.map).setVisibility(View.GONE);
+                break;
+            case 2:
+                findViewById(R.id.map).setVisibility(View.GONE);
+                break;
+        }
+//         update the main content by replacing fragments
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
+                .replace(R.id.map, fragment)
                 .commit();
     }
+
+
+    @Override
+    public void setTitle(CharSequence title) {
+        mTitle = title;
+        getActionBar().setTitle(mTitle);
+    }
+
 
     public void onSectionAttached(int number) {
         switch (number) {
@@ -336,11 +367,13 @@ public class MainActivity extends AppCompatActivity
         }
 
         @Override
-        public void onAttach(Activity activity) {
-            super.onAttach(activity);
-            ((MainActivity) activity).onSectionAttached(
+        public void onAttach(Context context) {
+            super.onAttach(context);
+            ((MainActivity) context).onSectionAttached(
                     getArguments().getInt(ARG_SECTION_NUMBER));
         }
     }
+
+
 
 }
