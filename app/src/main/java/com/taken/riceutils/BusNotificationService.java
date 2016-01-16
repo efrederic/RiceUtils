@@ -122,7 +122,8 @@ public class BusNotificationService extends Service {
                         public void run() {
                             try {
                                 Log.d("HELLO", "HELLO WORLD");
-                                new BusServiceDataRetriever().execute("http://bus.rice.edu/json/buses.php");
+                                // call to check for our target buses using the data at this website
+                                new BusServiceDataRetriever(mTrackedBusStops).execute("http://bus.rice.edu/json/buses.php");
                             } catch (Exception e) {
                                 Log.e("e", e.toString());
                             }
@@ -184,4 +185,18 @@ public class BusNotificationService extends Service {
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.notify(ongoingNotifId, mBuilder.build());
     }
+
+    public static void removeFromTrackedBuses(int notificationId){
+        //check that the bus is in the array. panic if its not
+
+        //remove from array
+
+        //stop ongoing notification
+
+        //throw we found bus notification
+
+        //if the tracked buses array is empty, kill everything
+
+    }
+
 }

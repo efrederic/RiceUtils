@@ -9,6 +9,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 
 /**
  * Created by Karin on 1/16/2016.
@@ -16,6 +17,11 @@ import java.net.URL;
 public class BusServiceDataRetriever extends AsyncTask<String, Void, String> {
 
     private InputStream inputStream = null;
+    private ArrayList<String> trackedStops;
+
+    public BusServiceDataRetriever(ArrayList<String> trackedStops){
+        this.trackedStops = trackedStops;
+    }
 
     @Override
     protected String doInBackground(String... url){
@@ -46,6 +52,17 @@ public class BusServiceDataRetriever extends AsyncTask<String, Void, String> {
         }
         Log.d("BSDR","result: " + result);
         return result;
+    }
+
+    @Override
+    protected void onPostExecute(String res) {
+        super.onPostExecute(res);
+
+        //find any/all buses that are in any/all target zones
+
+        //remove any notifications
+
+        BusNotificationService.removeFromTrackedBuses("","");
     }
 
 }
