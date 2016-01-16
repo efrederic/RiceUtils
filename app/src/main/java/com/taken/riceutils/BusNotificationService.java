@@ -1,17 +1,16 @@
 package com.taken.riceutils;
 
+import android.app.Notification;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.*;
-import android.widget.Toast;
 import android.os.Process;
-import android.support.v4.app.NotificationCompat;
 import android.app.NotificationManager;
 import android.app.TaskStackBuilder;
 import android.app.PendingIntent;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
-import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -120,7 +119,9 @@ public class BusNotificationService extends Service {
                             .setContentTitle(busType)
                             .setContentText("Monitoring " + busType + " near " + busStop)
                             .addAction(R.drawable.ic_cancel_white_48dp, "Dismiss", happeningPendingIntent)
-                            .setOngoing(true);
+                            .setOngoing(true)
+                            .setPriority(Notification.PRIORITY_MAX)
+                            .setWhen(0);
             mBuilder.setContentIntent(mainPendingIntent);
             NotificationManager mNotificationManager =
                     (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
@@ -139,6 +140,7 @@ public class BusNotificationService extends Service {
                         public void run() {
                             try {
                                 Log.d("HELLO", "HELLO WORLD");
+                                new BusServiceDataRetriever().execute("http://bus.rice.edu/json/buses.php");
                             } catch (Exception e) {
                                 Log.e("e", e.toString());
                             }
