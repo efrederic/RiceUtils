@@ -38,6 +38,7 @@ public class WebViews extends Activity{
         });
         web.getSettings().setJavaScriptEnabled(true);
         web.loadUrl(getString(R.string.dining_link));
+        web.loadUrl(getIntent().getStringExtra("url"));
     }
 
     public class myWebClient extends WebViewClient {
