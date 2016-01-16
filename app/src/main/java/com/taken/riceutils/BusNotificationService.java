@@ -11,15 +11,15 @@ import android.app.TaskStackBuilder;
 import android.app.PendingIntent;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
-import java.util.ArrayList;
+
+import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class BusNotificationService extends Service {
-    private Looper mServiceLooper;
     private ServiceHandler mServiceHandler;
 
-    private ArrayList<String> mTrackedBusStops;
+    private HashMap<Integer, String[]> mBusNotifications;
     private boolean mTimersScheduled;
     private int mCurrNotifId;
 
@@ -70,11 +70,11 @@ public class BusNotificationService extends Service {
         thread.start();
 
         // Get the HandlerThread's Looper and use it for our Handler
-        mServiceLooper = thread.getLooper();
+        Looper mServiceLooper = thread.getLooper();
         mServiceHandler = new ServiceHandler(mServiceLooper);
 
         // Create an array of bus stops to track
-        mTrackedBusStops = new ArrayList<String>();
+        mBusNotifications = new HashMap<>();
 
         // The first time onStartCommand is run, the timers will be scheduled
         mTimersScheduled = false;
@@ -89,11 +89,11 @@ public class BusNotificationService extends Service {
                            && intent.hasExtra("BusStop")
                            && !intent.hasExtra("NotifId")) {
 
-            String busType = intent.getStringExtra("BusType");
-            String busStop = intent.getStringExtra("BusStop");
-            mTrackedBusStops.add(busStop);
-
-            createOngoingNotif(busType, busStop);
+            String[] busStrings = new String[]{intent.getStringExtra("BusType"), intent.getStringExtra("BusStop")};
+            if (!mBusNotifications.containsValue(busStrings)) {
+                mBusNotifications.put(mCurrNotifId, busStrings);
+                createOngoingNotif(mCurrNotifId++);
+            }
         }
 
         // if the intent has a notification id, instead, stop monitoring it
@@ -101,10 +101,8 @@ public class BusNotificationService extends Service {
                            && intent.hasExtra("BusStop")
                            && intent.hasExtra("NotifId")) {
 
-            String busType = intent.getStringExtra("BusType");
-            String busStop = intent.getStringExtra("BusStop");
             int notifId = intent.getIntExtra("NotifId", -1);
-            mTrackedBusStops.remove(busStop);
+            mBusNotifications.remove(notifId);
 
             NotificationManager mNotificationManager =
                     (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
@@ -123,7 +121,7 @@ public class BusNotificationService extends Service {
                             try {
                                 Log.d("HELLO", "HELLO WORLD");
                                 // call to check for our target buses using the data at this website
-                                new BusServiceDataRetriever(mTrackedBusStops).execute("http://bus.rice.edu/json/buses.php");
+                                new BusServiceDataRetriever(mBusNotifications).execute("http://bus.rice.edu/json/buses.php");
                             } catch (Exception e) {
                                 Log.e("e", e.toString());
                             }
@@ -149,16 +147,18 @@ public class BusNotificationService extends Service {
         return null;
     }
 
-    private void createOngoingNotif(String busType, String busStop) {
-        int ongoingNotifId = mCurrNotifId++;
+    private void createOngoingNotif(int notifId) {
+
+        String busType = mBusNotifications.get(notifId)[0];
+        String busStop = mBusNotifications.get(notifId)[1];
 
         // this intent goes to the service and stops monitoring of the bus stop
         Intent dismissIntent = new Intent(this, BusNotificationService.class);
         dismissIntent.putExtra("BusType", busType);
         dismissIntent.putExtra("BusStop", busStop);
-        dismissIntent.putExtra("NotifId", ongoingNotifId);
+        dismissIntent.putExtra("NotifId", notifId);
         PendingIntent dismissPendingIntent =
-                PendingIntent.getService(this, ongoingNotifId, dismissIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+                PendingIntent.getService(this, notifId, dismissIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 
         // this intent bring us back to the main maps
         Intent mainIntent = new Intent(BusNotificationService.this, MainActivity.class);
@@ -183,7 +183,7 @@ public class BusNotificationService extends Service {
         mBuilder.setContentIntent(mainPendingIntent);
         NotificationManager mNotificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.notify(ongoingNotifId, mBuilder.build());
+        mNotificationManager.notify(notifId, mBuilder.build());
     }
 
     public static void removeFromTrackedBuses(int notificationId){
