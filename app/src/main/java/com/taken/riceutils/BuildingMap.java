@@ -8,8 +8,44 @@ public class BuildingMap {
 	
 	public static HashMap<String, LatLng> buildings = new HashMap<>();
 	public static HashMap<String, LatLng> classes = new HashMap<>();
+	public static HashMap<String, LatLng> busStops = new HashMap<>();
 	
 	public static void buildMap(){
+
+		busStops.put("Bus Stop 1", new LatLng(29.713845, -95.406353));
+		busStops.put("Bus Stop 2", new LatLng(29.714167, -95.406224));
+		busStops.put("Bus Stop 3", new LatLng(29.715122, -95.405237));
+		busStops.put("Bus Stop 4", new LatLng(29.715332, -95.404684));
+		busStops.put("Bus Stop 5", new LatLng(29.716301, -95.402195));
+		busStops.put("Bus Stop 6", new LatLng(29.716804, -95.400977));
+		busStops.put("Bus Stop 7", new LatLng(29.717088, -95.400237));
+		busStops.put("Bus Stop 8", new LatLng(29.717330, -95.399636));
+		busStops.put("Bus Stop 9", new LatLng(29.717414, -95.398209));
+		busStops.put("Bus Stop 10", new LatLng(29.718029, -95.397850));
+		busStops.put("Bus Stop 11", new LatLng(29.719883, -95.396868));
+		busStops.put("Bus Stop 12", new LatLng(29.719827, -95.398268));
+		busStops.put("Bus Stop 13", new LatLng(29.719461, -95.399288));
+		busStops.put("Bus Stop 14", new LatLng(29.719093, -95.400216));
+		busStops.put("Bus Stop 15", new LatLng(29.718338, -95.402126));
+		busStops.put("Bus Stop 16", new LatLng(29.717877, -95.403338));
+		busStops.put("Bus Stop 17", new LatLng(29.716978, -95.405457));
+		busStops.put("Bus Stop 18", new LatLng(29.719375, -95.403550));
+		busStops.put("Bus Stop 19", new LatLng(29.719780, -95.403663));
+		busStops.put("Bus Stop 20", new LatLng(29.720241, -95.402477));
+		busStops.put("Bus Stop 21", new LatLng(29.720595, -95.401646));
+		busStops.put("Bus Stop 22", new LatLng(29.720840, -95.395398));
+		busStops.put("Bus Stop 23", new LatLng(29.720635, -95.396685));
+		busStops.put("Bus Stop A", new LatLng(29.717716, -95.407792));
+		busStops.put("Bus Stop B", new LatLng(29.716384, -95.406991));
+		busStops.put("Bus Stop C", new LatLng(29.715084, -95.406117));
+		busStops.put("Bus Stop G", new LatLng(29.715772, -95.412404));
+		busStops.put("Glasscock Bus Stop", new LatLng(29.714800, -95.406646));
+		busStops.put("Rice Village Apartments Bus Stop", new LatLng(29.714281, -95.415827));
+		busStops.put("Graduate Apartments Bus Stop", new LatLng(29.725618, -95.398195));
+		busStops.put("BRC Bus Stop", new LatLng(29.711687, -95.402261));
+		busStops.put("Rice Village Bus Stop", new LatLng(29.715834, -95.416603));
+		busStops.put("Target Bus Stop", new LatLng(29.692830, -95.418301));
+
 		buildings.put("Anderson BioLab - ABL", new LatLng(29.718666, -95.402409));
 		buildings.put("Abercrombie Lab - AEL", new LatLng(29.720811, -95.399199));
 		buildings.put("Anderson Hall - ANH", new LatLng(29.718824,-95.399671));
