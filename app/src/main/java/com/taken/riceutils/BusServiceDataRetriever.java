@@ -10,6 +10,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by Karin on 1/16/2016.
@@ -17,9 +18,9 @@ import java.util.ArrayList;
 public class BusServiceDataRetriever extends AsyncTask<String, Void, String> {
 
     private InputStream inputStream = null;
-    private ArrayList<String> trackedStops;
+    private HashMap<Integer, String[]> trackedStops;
 
-    public BusServiceDataRetriever(ArrayList<String> trackedStops){
+    public BusServiceDataRetriever(HashMap<Integer, String[]> trackedStops){
         this.trackedStops = trackedStops;
     }
 
@@ -62,7 +63,7 @@ public class BusServiceDataRetriever extends AsyncTask<String, Void, String> {
 
         //remove any notifications
 
-        BusNotificationService.removeFromTrackedBuses("","");
+        BusNotificationService.removeFromTrackedBuses(0);
     }
 
 }
