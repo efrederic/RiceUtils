@@ -32,7 +32,7 @@ public class WebViews extends Activity{
         web = (WebView) findViewById(R.id.webview);
         web.setWebViewClient(new myWebClient());
         web.getSettings().setJavaScriptEnabled(true);
-        web.loadUrl("http://dining.rice.edu");
+        web.loadUrl(getIntent().getStringExtra("url"));
     }
 
     public class myWebClient extends WebViewClient {

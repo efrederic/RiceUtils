@@ -1,9 +1,9 @@
 package com.taken.riceutils;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DialogFragment;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.location.Location;
@@ -16,24 +16,18 @@ import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
-import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
-import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -172,9 +166,20 @@ public class MainActivity extends AppCompatActivity
                 findViewById(R.id.map).setVisibility(View.GONE);
                 break;
             case 2:
-                Intent webViewIntent = new Intent(this, WebViews.class);
-                startActivity(webViewIntent);
-                findViewById(R.id.map).setVisibility(View.GONE);
+                final ArrayList<String> sites = new ArrayList<>();
+                sites.add("http://www.google.com");
+                new AlertDialog.Builder(this)
+                        .setTitle("Choose a site")
+                        .setItems(new CharSequence[]{"Google"}, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent webViewIntent = new Intent(MainActivity.this, WebViews.class);
+                                webViewIntent.putExtra("url", sites.get(which));
+                                startActivity(webViewIntent);
+                                findViewById(R.id.map).setVisibility(View.GONE);
+                            }
+                        })
+                        .show();
                 break;
             case 3:
                 findViewById(R.id.map).setVisibility(View.GONE);
