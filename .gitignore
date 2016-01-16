@@ -36,5 +36,6 @@ captures/
 .idea/libraries
 
 # Other crap
+app/app.iml
 .DS_Store
 *.swp
