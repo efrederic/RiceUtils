@@ -1,6 +1,7 @@
 package com.taken.riceutils;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -24,11 +25,21 @@ public class WebViews extends Activity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_webview);
 
+        final ProgressDialog progressDialog = ProgressDialog.show(this, "", "Loading. Please wait...", true);
+
         web = (WebView) findViewById(R.id.webview);
         web.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url){
-                return false;
+                view.loadUrl(url);
+                return true;
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                if (progressDialog.isShowing()) {
+                    progressDialog.dismiss();
+                }
             }
         });
         web.getSettings().setJavaScriptEnabled(true);

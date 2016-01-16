@@ -1,6 +1,7 @@
 package com.taken.riceutils;
 
 import android.app.ListFragment;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -109,8 +110,7 @@ public class HappeningNow extends Fragment {
 
         eventsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?>parent, View view, int position, long id) {
-                Log.e("PRESS", "I WAS");
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setMessage(events.get(position).get(KEY_DESCRIPTION))
                         .setTitle(events.get(position).get(KEY_TITLE));
