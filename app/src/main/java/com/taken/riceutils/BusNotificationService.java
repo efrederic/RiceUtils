@@ -84,49 +84,31 @@ public class BusNotificationService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        // check if the intent contains bus stop info as expected
-        if (intent != null && intent.hasExtra("BusType") && intent.hasExtra("BusStop")) {
+        // if the intent has bus stop info, then add it to our arraylist
+        if (intent != null && intent.hasExtra("BusType")
+                           && intent.hasExtra("BusStop")
+                           && !intent.hasExtra("NotifId")) {
+
             String busType = intent.getStringExtra("BusType");
             String busStop = intent.getStringExtra("BusStop");
             mTrackedBusStops.add(busStop);
 
-            // create an "on-going notification"
-            int ongoingNotifId = mCurrNotifId++;
-            Intent mainIntent = new Intent(BusNotificationService.this, MainActivity.class);
-            Intent happeningIntent = new Intent(BusNotificationService.this, WebViews.class);
+            createOngoingNotif(busType, busStop);
+        }
 
-            TaskStackBuilder stackBuilder = TaskStackBuilder.create(BusNotificationService.this);
-            stackBuilder.addParentStack(MainActivity.class);
-            stackBuilder.addNextIntent(mainIntent);
-            PendingIntent mainPendingIntent =
-                    stackBuilder.getPendingIntent(
-                            0,
-                            PendingIntent.FLAG_UPDATE_CURRENT
-                    );
+        // if the intent has a notification id, instead, stop monitoring it
+        if (intent != null && intent.hasExtra("BusType")
+                           && intent.hasExtra("BusStop")
+                           && intent.hasExtra("NotifId")) {
 
-            TaskStackBuilder stackBuilder2 = TaskStackBuilder.create(BusNotificationService.this);
-            stackBuilder2.addParentStack(MainActivity.class);
-            stackBuilder2.addNextIntent(happeningIntent);
-            PendingIntent happeningPendingIntent =
-                    stackBuilder2.getPendingIntent(
-                            0,
-                            PendingIntent.FLAG_UPDATE_CURRENT
-                    );
+            String busType = intent.getStringExtra("BusType");
+            String busStop = intent.getStringExtra("BusStop");
+            int notifId = intent.getIntExtra("NotifId", -1);
+            mTrackedBusStops.remove(busStop);
 
-            NotificationCompat.Builder mBuilder =
-                    new NotificationCompat.Builder(BusNotificationService.this)
-                            .setSmallIcon(R.drawable.ic_directions_bus_white_48dp)
-                            .setContentTitle(busType)
-                            .setContentText("Monitoring " + busType + " near " + busStop)
-                            .addAction(R.drawable.ic_cancel_white_48dp, "Dismiss", happeningPendingIntent)
-                            .setOngoing(true)
-                            .setPriority(Notification.PRIORITY_MAX)
-                            .setWhen(0);
-            mBuilder.setContentIntent(mainPendingIntent);
             NotificationManager mNotificationManager =
                     (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            //mNotificationManager.notify(ongoingNotifId, mBuilder.build());
-            startForeground(ongoingNotifId, mBuilder.build());
+            mNotificationManager.cancel(notifId);
         }
 
         if (!mTimersScheduled) {
@@ -164,5 +146,42 @@ public class BusNotificationService extends Service {
     public IBinder onBind(Intent intent) {
         // We don't provide binding, so return null
         return null;
+    }
+
+    private void createOngoingNotif(String busType, String busStop) {
+        int ongoingNotifId = mCurrNotifId++;
+
+        // this intent goes to the service and stops monitoring of the bus stop
+        Intent dismissIntent = new Intent(this, BusNotificationService.class);
+        dismissIntent.putExtra("BusType", busType);
+        dismissIntent.putExtra("BusStop", busStop);
+        dismissIntent.putExtra("NotifId", ongoingNotifId);
+        PendingIntent dismissPendingIntent =
+                PendingIntent.getService(this, 1, dismissIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+
+        // this intent bring us back to the main maps
+        Intent mainIntent = new Intent(BusNotificationService.this, MainActivity.class);
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(BusNotificationService.this);
+        stackBuilder.addParentStack(MainActivity.class);
+        stackBuilder.addNextIntent(mainIntent);
+        PendingIntent mainPendingIntent =
+                stackBuilder.getPendingIntent(
+                        0,
+                        PendingIntent.FLAG_UPDATE_CURRENT
+                );
+
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(BusNotificationService.this)
+                        .setSmallIcon(R.drawable.ic_directions_bus_white_48dp)
+                        .setContentTitle(busType)
+                        .setContentText("Monitoring " + busType + " near " + busStop)
+                        .addAction(R.drawable.ic_cancel_white_48dp, "Dismiss", dismissPendingIntent)
+                        .setOngoing(true)
+                        .setPriority(Notification.PRIORITY_MAX)
+                        .setWhen(0);
+        mBuilder.setContentIntent(mainPendingIntent);
+        NotificationManager mNotificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.notify(ongoingNotifId, mBuilder.build());
     }
 }
