@@ -157,7 +157,7 @@ public class BusNotificationService extends Service {
         dismissIntent.putExtra("BusStop", busStop);
         dismissIntent.putExtra("NotifId", ongoingNotifId);
         PendingIntent dismissPendingIntent =
-                PendingIntent.getService(this, 1, dismissIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+                PendingIntent.getService(this, ongoingNotifId, dismissIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 
         // this intent bring us back to the main maps
         Intent mainIntent = new Intent(BusNotificationService.this, MainActivity.class);
