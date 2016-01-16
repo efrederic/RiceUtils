@@ -3,8 +3,20 @@
 
     <string name="title_section1">View Map</string>
     <string name="title_section2">Happening Now</string>
-    <string name="title_section3">Servery Menu</string>
-    <string name="title_section4">Esther</string>
+    <string name="title_section3">Bus Notifications</string>
+    <string name="title_section4">Penguin</string>
+    <string name="title_section5">Servery Menus</string>
+    <string name="title_section6">Other Links</string>
+
+    <string name="dining_link">http://dining.rice.edu</string>
+    <string name="esther_link">https://esther.rice.edu</string>
+    <string name="athletics_link">http://www.riceowls.com</string>
+    <string name="owlspace_link">https://owlspace-ccm.rice.edu/portal</string>
+    <string name="library_link">https://library.rice.edu</string>
+    <string name="courses_link">https://courses.rice.edu</string>
+    <string name="helpdesk_link">http://it.rice.edu/</string>
+    <string name="news_link">http://news.rice.edu/</string>
+    <string name="recreation_link">http://recreation.rice.edu</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

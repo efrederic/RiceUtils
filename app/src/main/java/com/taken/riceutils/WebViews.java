@@ -30,9 +30,14 @@ public class WebViews extends Activity{
         setContentView(R.layout.activity_webview);
 
         web = (WebView) findViewById(R.id.webview);
-        web.setWebViewClient(new myWebClient());
+        web.setWebViewClient(new myWebClient(){
+            @Override
+                    public boolean shouldOverrideUrlLoading(WebView view, String url){
+                return false;
+            }
+        });
         web.getSettings().setJavaScriptEnabled(true);
-        web.loadUrl("http://dining.rice.edu");
+        web.loadUrl(getString(R.string.dining_link));
     }
 
     public class myWebClient extends WebViewClient {

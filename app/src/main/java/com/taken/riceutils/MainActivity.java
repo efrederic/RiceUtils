@@ -133,19 +133,25 @@ public class MainActivity extends AppCompatActivity
         Fragment fragment = PlaceholderFragment.newInstance(position+1);
 
         switch (position) {
-            case 0:
+            case 0: // map
                 findViewById(R.id.map).setVisibility(View.VISIBLE);
                 break;
-            case 1:
+            case 1: // happening now
                 fragment = HappeningNow.newInstance();
                 findViewById(R.id.map).setVisibility(View.GONE);
                 break;
-            case 2:
-                Intent webViewIntent = new Intent(this, WebViews.class);
-                startActivity(webViewIntent);
+            case 2: // bus notifications
                 findViewById(R.id.map).setVisibility(View.GONE);
                 break;
-            case 3:
+            case 3: // penguin
+                findViewById(R.id.map).setVisibility(View.GONE);
+                break;
+            case 4: // servery menu
+                Intent webViewIntent = new Intent(this, WebViews.class);
+                startActivity(webViewIntent);
+                //findViewById(R.id.map).setVisibility(View.GONE);
+                break;
+            case 5: // other links
                 findViewById(R.id.map).setVisibility(View.GONE);
                 break;
         }
@@ -177,6 +183,12 @@ public class MainActivity extends AppCompatActivity
                 break;
             case 4:
                 mTitle = getString(R.string.title_section4);
+                break;
+            case 5:
+                mTitle = getString(R.string.title_section5);
+                break;
+            case 6:
+                mTitle = getString(R.string.title_section6);
                 break;
         }
     }
