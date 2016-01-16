@@ -1,15 +1,40 @@
 package com.taken.riceutils;
 
+import android.app.ListFragment;
 import android.content.Context;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.DocumentBuilder;
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.Node;
+import org.w3c.dom.Element;
+import org.xml.sax.InputSource;
+
+import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class HappeningNow extends Fragment {
 
+    static String eventsNow = null;
+
+    static final String KEY_TITLE = "title";
+    static final String KEY_LOCATION = "location";
+    static final String KEY_TIME = "time";
 
     public HappeningNow() {
         // Required empty public constructor
@@ -20,14 +45,78 @@ public class HappeningNow extends Fragment {
         HappeningNow fragment = new HappeningNow();
         Bundle args = new Bundle();
         fragment.setArguments(args);
+
         return fragment;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_happening_now, container, false);
+
+        View myInflatedView = inflater.inflate(R.layout.fragment_happening_now, container, false);
+
+        AsyncTask<String, Void, String> eventsAsync = new Events();
+        eventsAsync.execute("http://services.rice.edu/events/dailyevents.cfm");
+        try {
+            eventsNow = eventsAsync.get();
+        } catch (Exception ayy){
+            //lmao
+        }
+
+        ArrayList<HashMap<String, String>> events = new ArrayList<HashMap<String, String>>();
+
+        try {
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            DocumentBuilder db = dbf.newDocumentBuilder();
+            InputSource is = new InputSource();
+            is.setCharacterStream(new StringReader(eventsNow));
+            Document doc = db.parse(is);
+            NodeList nodes = doc.getElementsByTagName("item");
+
+
+            for (int i = 0; i < nodes.getLength(); i++) {
+                Node nNode = nodes.item(i);
+                HashMap<String, String> map = new HashMap<String, String>();
+                if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+                    Element eElement = (Element) nNode;
+                    map.put(KEY_TITLE, eElement.getElementsByTagName("title").item(0).getTextContent());
+                    map.put(KEY_TIME, eElement.getElementsByTagName("pubDate").item(0).getTextContent());
+
+                    Pattern locationPattern = Pattern.compile("(?<=<br><br><br>).*?(?=<br>)");
+                    Matcher locationMatcher = locationPattern.matcher(eElement.getElementsByTagName("description").item(0).getTextContent());
+                    if(locationMatcher.find()) {
+                        map.put(KEY_LOCATION, locationMatcher.group());
+                    }
+
+                    events.add(map);
+                }
+            }
+        }catch (Exception e){
+            //Handling exceptions is for wusses
+        }
+
+//        Pattern titlePattern = Pattern.compile("(?<=<title>).*(?=</title>)");
+//        Matcher titleMatcher = titlePattern.matcher(eventsNow);
+//
+//        Pattern locPattern = Pattern.compile("(?<=<pubDate>).*(?=</pubDate>)");
+//        Matcher locMatcher = locPattern.matcher(eventsNow);
+
+//        HashMap<String, String> map = new HashMap<String, String>();
+//        while (titleMatcher.find()) {
+//            map.put(KEY_TITLE, titleMatcher.group());
+//            map.put(KEY_LOCATION, locMatcher.group());
+//            events.add(map);
+//        }
+
+//        String[] values = new String[] { "Android", "iPhone", "WindowsMobile",
+//                "Blackberry", "WebOS", "Ubuntu", "Windows7", "Max OS X",
+//                "Linux", "OS/2" };
+
+        ListView listView = (ListView) myInflatedView.findViewById(R.id.eventsList);
+        HappeningNowAdapter adapter = new HappeningNowAdapter(getActivity(), events);
+        listView.setAdapter(adapter);
+
+        return myInflatedView;
     }
 
 }
