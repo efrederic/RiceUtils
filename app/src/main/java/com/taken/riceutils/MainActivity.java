@@ -175,8 +175,9 @@ public class MainActivity extends AppCompatActivity
             case 4: // servery menu
                 Intent webViewIntent = new Intent(this, WebViews.class);
                 startActivity(webViewIntent);
-                //findViewById(R.id.map).setVisibility(View.GONE);
-            case 2:
+                findViewById(R.id.map).setVisibility(View.GONE);
+                break;
+            case 5:
                 final ArrayList<String> sites = new ArrayList<>();
                 sites.add("http://www.google.com");
                 new AlertDialog.Builder(this)
@@ -191,9 +192,6 @@ public class MainActivity extends AppCompatActivity
                             }
                         })
                         .show();
-                break;
-            case 5: // other links
-                findViewById(R.id.map).setVisibility(View.GONE);
                 break;
         }
 //         update the main content by replacing fragments
