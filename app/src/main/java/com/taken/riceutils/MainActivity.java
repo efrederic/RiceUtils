@@ -209,11 +209,10 @@ public class MainActivity extends AppCompatActivity
                         })
                         .show();
                 break;
-            case 4:
+            case 6:
                 findViewById(R.id.map).setVisibility(View.GONE);
                 Intent serviceIntent = new Intent(this, BusNotificationService.class);
                 serviceIntent.putExtra("BusType", "RiceVillage").putExtra("BusStop", "A");
-                Log.d("HELLO", "startService called");
                 startService(serviceIntent);
                 break;
             default:
