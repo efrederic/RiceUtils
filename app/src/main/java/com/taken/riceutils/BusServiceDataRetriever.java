@@ -1,5 +1,6 @@
 package com.taken.riceutils;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -19,8 +20,10 @@ public class BusServiceDataRetriever extends AsyncTask<String, Void, String> {
 
     private InputStream inputStream = null;
     private HashMap<Integer, String[]> trackedStops;
+    private Context context;
 
-    public BusServiceDataRetriever(HashMap<Integer, String[]> trackedStops){
+    public BusServiceDataRetriever(Context context, HashMap<Integer, String[]> trackedStops){
+        this.context = context;
         this.trackedStops = trackedStops;
     }
 
@@ -63,7 +66,7 @@ public class BusServiceDataRetriever extends AsyncTask<String, Void, String> {
 
         //remove any notifications
 
-        BusNotificationService.removeFromTrackedBuses(0);
+        BusNotificationService.removeFromTrackedBuses(context, 0);
     }
 
 }

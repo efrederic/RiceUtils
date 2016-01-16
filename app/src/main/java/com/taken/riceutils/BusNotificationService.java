@@ -19,7 +19,7 @@ import java.util.TimerTask;
 public class BusNotificationService extends Service {
     private ServiceHandler mServiceHandler;
 
-    private HashMap<Integer, String[]> mBusNotifications;
+    public static HashMap<Integer, String[]> mBusNotifications;
     private boolean mTimersScheduled;
     private int mCurrNotifId;
 
@@ -121,7 +121,7 @@ public class BusNotificationService extends Service {
                             try {
                                 Log.d("HELLO", "HELLO WORLD");
                                 // call to check for our target buses using the data at this website
-                                new BusServiceDataRetriever(mBusNotifications).execute("http://bus.rice.edu/json/buses.php");
+                                new BusServiceDataRetriever(BusNotificationService.this, mBusNotifications).execute("http://bus.rice.edu/json/buses.php");
                             } catch (Exception e) {
                                 Log.e("e", e.toString());
                             }
@@ -186,17 +186,24 @@ public class BusNotificationService extends Service {
         mNotificationManager.notify(notifId, mBuilder.build());
     }
 
-    public static void removeFromTrackedBuses(int notificationId){
-        //check that the bus is in the array. panic if its not
+    public static void removeFromTrackedBuses(Context context, int notifId){
+        //check that the bus is in the hash map. panic if its not
+        if (!mBusNotifications.containsKey(notifId)){
+            return;
+        }
+        else {
+            //stop ongoing notification
+            NotificationManager mNotificationManager =
+                    (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+            mNotificationManager.cancel(notifId);
 
-        //remove from array
+            //throw we found bus notification
 
-        //stop ongoing notification
+            //remove from array
 
-        //throw we found bus notification
+            //if the tracked buses array is empty, kill everything
 
-        //if the tracked buses array is empty, kill everything
-
+        }
     }
 
 }
