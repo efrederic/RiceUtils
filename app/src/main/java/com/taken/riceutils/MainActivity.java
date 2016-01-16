@@ -175,9 +175,9 @@ public class MainActivity extends AppCompatActivity
             case 4: // servery menu
                 Intent webViewIntent = new Intent(this, WebViews.class);
                 startActivity(webViewIntent);
+                findViewById(R.id.map).setVisibility(View.GONE);
                 break;
-                //findViewById(R.id.map).setVisibility(View.GONE);
-            case 5: // other links
+            case 5:
                 final ArrayList<String> sites = new ArrayList<>();
                 sites.add(getString(R.string.library_link));
                 sites.add(getString(R.string.owlspace_link));
@@ -208,7 +208,7 @@ public class MainActivity extends AppCompatActivity
                         .show();
                 break;
         }
-//         update the main content by replacing fragments
+        // update the main content by replacing fragments
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.container, fragment)
