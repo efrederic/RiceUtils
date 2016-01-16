@@ -177,26 +177,30 @@ public class MainActivity extends AppCompatActivity
                 startActivity(webViewIntent);
                 findViewById(R.id.map).setVisibility(View.GONE);
                 break;
-            case 5:
+            case 5: // other links
                 final ArrayList<String> sites = new ArrayList<>();
                 sites.add(getString(R.string.library_link));
                 sites.add(getString(R.string.owlspace_link));
                 sites.add(getString(R.string.esther_link));
+                sites.add(getString(R.string.career_link));
                 sites.add(getString(R.string.recreation_link));
                 sites.add(getString(R.string.athletics_link));
                 sites.add(getString(R.string.helpdesk_link));
                 sites.add(getString(R.string.news_link));
                 sites.add(getString(R.string.courses_link));
+                sites.add(getString(R.string.schedule_link));
                 new AlertDialog.Builder(this)
-                        .setTitle("Choose a site")
+                        .setTitle("Choose a Link")
                         .setItems(new CharSequence[]{"Library",
                                 "OwlSpace",
                                 "Esther",
+                                "Careers",
                                 "Recreation",
                                 "Athletics",
                                 "HelpDesk",
                                 "RiceNews",
-                                "Courses"}, new DialogInterface.OnClickListener() {
+                                "Courses",
+                                "Schedule Planner"}, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 Intent webViewIntent = new Intent(MainActivity.this, WebViews.class);

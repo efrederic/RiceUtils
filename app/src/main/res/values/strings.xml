@@ -17,6 +17,8 @@
     <string name="helpdesk_link">http://it.rice.edu/</string>
     <string name="news_link">http://news.rice.edu/</string>
     <string name="recreation_link">http://recreation.rice.edu</string>
+    <string name="career_link">https://ccd.rice.edu/home</string>
+    <string name="schedule_link">http://scheduleplanner.rice.edu</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
