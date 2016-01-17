@@ -10,7 +10,7 @@ public class BuildingMap {
 	public static HashMap<String, LatLng> classes = new HashMap<>();
 	public static HashMap<String, LatLng> busStops = new HashMap<>();
 
-	public static HashMap<String, HashMap> busRoutes = new HashMap<>();
+	public static HashMap<String, HashMap<String, LatLng>> busRoutes = new HashMap<>();
 
 	// LatLng about a quarter mile away from the given stops
 	public static HashMap<String, LatLng> nightEsct_StopNotifs = new HashMap<>(); // TO REMOVE

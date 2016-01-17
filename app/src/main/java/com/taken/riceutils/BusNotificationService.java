@@ -149,7 +149,6 @@ public class BusNotificationService extends Service {
         mNotificationManager.cancel(notifId);
 
         if (foundBus) {
-            //throw we found bus notification
             // Send a notification to tell the user that the bus is close by
             //create pending intent to bring us back to the main maps
             Intent mainIntent = new Intent(this, MainActivity.class);

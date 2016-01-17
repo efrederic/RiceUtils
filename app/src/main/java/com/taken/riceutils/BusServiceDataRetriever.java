@@ -90,10 +90,10 @@ public class BusServiceDataRetriever extends AsyncTask<String, Void, String> {
         //find any/all buses that are in any/all target zones
         for (Map.Entry<Integer, String[]> entry : trackedStops.entrySet()) {
             for (Map.Entry<String, LatLng> bus : buses.entrySet()) {
-                LatLng stopLocation = BuildingMap.busStops.get(entry.getValue()[1]);
+                LatLng checkLocation = BuildingMap.busRoutes.get(entry.getValue()[0]).get(entry.getValue()[1]);
                 if (bus.getKey().equals(entry.getValue()[0]) &&
-                        Math.abs(stopLocation.latitude - bus.getValue().latitude) <= 0.00016 &&
-                        Math.abs(stopLocation.longitude - bus.getValue().longitude) <= 0.00016) {
+                        Math.abs(checkLocation.latitude - bus.getValue().latitude) <= 0.00013 &&
+                        Math.abs(checkLocation.longitude - bus.getValue().longitude) <= 0.00012) {
                     service.removeFromTrackedBuses(entry.getKey(), true);
                     break;
                 }

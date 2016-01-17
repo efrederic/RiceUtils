@@ -165,6 +165,7 @@ public class MainActivity extends AppCompatActivity
         switch (position) {
             case 0: // map
                 mTitle = getString(R.string.title_section1);
+                mMap.clear();
                 findViewById(R.id.map).setVisibility(View.VISIBLE);
                 findViewById(R.id.shoutout).setVisibility(View.GONE);
                 break;
@@ -338,6 +339,8 @@ public class MainActivity extends AppCompatActivity
 //        options.position(new LatLng(3, 3));
 //        Marker m = getMap().addMarker(options);
 //        stop1.add(m);
+        busRouteMarkerArrays = new HashMap<>();
+
         ArrayList<LatLng> innerLoopStops = new ArrayList<>();
         innerLoopStops.add(BuildingMap.busStops.get("Bus Stop 5"));
         innerLoopStops.add(BuildingMap.busStops.get("Bus Stop A"));
