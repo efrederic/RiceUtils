@@ -74,8 +74,7 @@ public class MainActivity extends AppCompatActivity
     static Map<Integer, Bitmap> busIcons = new HashMap<>();
     static ArrayList<Marker> busMarkers = new ArrayList<>();
     static HashMap<String, ArrayList<LatLng>> busRouteMarkerArrays = null;
-    public static ArrayList<Marker> shoutoutMarkers= new ArrayList<>();
-    //static ArrayList<Marker> shoutoutMarkers = new ArrayList<>();
+    public static ArrayList<Marker> shoutoutMarkers = new ArrayList<>();
 
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
@@ -224,9 +223,10 @@ public class MainActivity extends AppCompatActivity
                 break;
             case 3: // shoutout
                 mTitle = getString(R.string.title_section4);
+                mMap.clear();
+                marker = mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)));
                 findViewById(R.id.map).setVisibility(View.VISIBLE);
                 findViewById(R.id.shoutout).setVisibility(View.VISIBLE);
-                showShoutoutMarkers();
                 updateShoutoutMap();
                 break;
             case 4: // servery menu
@@ -296,28 +296,27 @@ public class MainActivity extends AppCompatActivity
         final View v = inflater.inflate(R.layout.shoutout_layout, null);
         builder.setView(v)
                .setPositiveButton("Post", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int id) {
-                String text = ((EditText)v.findViewById(R.id.shoutoutText)).getText().toString();
-                String lat = "";
-                String lng = "";
-                try {
-                    locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 2, locListener);
-                    Location location = locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                    lat = location.getLatitude()+"";
-                    lng = location.getLongitude()+"";
-                } catch (Exception e) {
-                    Log.e("e", e.toString());
-                }
-                // Create a PostShoutoutTask to send the new shoutout to the server
-                AsyncTask<String, Void, Void> postShoutoutTask =
-                        new PostShoutoutTask(mMap, text, lat, lng);
-                postShoutoutTask.execute("http://rice-utilities.appspot.com/addpost");
-            }
-        })
-               .setNegativeButton("Cancel", null);
-        android.support.v7.app.AlertDialog dialog = builder.create();
-        dialog.show();
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        String text = ((EditText)v.findViewById(R.id.shoutoutText)).getText().toString();
+                        String lat = "";
+                        String lng = "";
+                        try {
+                            locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 2, locListener);
+                            Location location = locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                            lat = location.getLatitude()+"";
+                            lng = location.getLongitude()+"";
+                        } catch (Exception e) {
+                            Log.e("e", e.toString());
+                        }
+                        // Create a PostShoutoutTask to send the new shoutout to the server
+                        AsyncTask<String, Void, Void> postShoutoutTask =
+                                new PostShoutoutTask(mMap, text, lat, lng);
+                        postShoutoutTask.execute("http://rice-utilities.appspot.com/addpost");
+                    }
+                })
+               .setNegativeButton("Cancel", null)
+               .show();
     }
 
     private void clearShoutoutMarkers(){
