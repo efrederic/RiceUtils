@@ -97,6 +97,7 @@ public class BusNotificationService extends Service {
 
         String busType = mBusNotifications.get(notifId)[0];
         String busStop = mBusNotifications.get(notifId)[1];
+        Log.e("Service", "busStop: " + busStop);
 
         // this intent goes to the service and stops monitoring of the bus stop
         Intent dismissIntent = new Intent(this, BusNotificationService.class);
@@ -121,7 +122,7 @@ public class BusNotificationService extends Service {
                 new NotificationCompat.Builder(BusNotificationService.this)
                         .setSmallIcon(R.drawable.ic_directions_bus_white_48dp)
                         .setContentTitle(busType)
-                        .setContentText("Monitoring " + busType + " near " + busStop)
+                        .setContentText("Monitoring " + busType + "bus near " + busStop)
                         .addAction(R.drawable.ic_cancel_white_48dp, "Dismiss", dismissPendingIntent)
                         .setOngoing(true)
                         .setPriority(Notification.PRIORITY_MAX)

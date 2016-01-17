@@ -63,7 +63,6 @@ public class BusServiceDataRetriever extends AsyncTask<String, Void, String> {
         }catch(Exception e){
             Log.e("e",e.toString());
         }
-        Log.d("BSDR","result: " + result);
         return result;
     }
 
