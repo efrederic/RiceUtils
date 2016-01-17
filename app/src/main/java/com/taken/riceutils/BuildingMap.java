@@ -12,8 +12,7 @@ public class BuildingMap {
 
 	public static HashMap<String, HashMap> busRoutes = new HashMap<>();
 
-	// LatLng about a quarter mile away from the given stop
-//	public static HashMap<String, LatLng> texMed_StopNotifs = new HashMap<>();
+	// LatLng about a quarter mile away from the given stops
 	public static HashMap<String, LatLng> nightEsct_StopNotifs = new HashMap<>(); // TO REMOVE
 	public static HashMap<String, LatLng> inLoop_StopNotifs = new HashMap<>();
 	public static HashMap<String, LatLng> gradAprt_StopNotifs = new HashMap<>();
@@ -24,6 +23,7 @@ public class BuildingMap {
 	public static HashMap<String, LatLng> ungradShop_StopNotifs = new HashMap<>();
 	public static HashMap<String, LatLng> greatLoop_StopNotifs = new HashMap<>();
 	public static HashMap<String, LatLng> brc_StopNotifs = new HashMap<>();
+//	public static HashMap<String, LatLng> texMed_StopNotifs = new HashMap<>();
 
 	
 	public static void buildMap(){
@@ -156,7 +156,7 @@ public class BuildingMap {
 
 		gradShop_StopNotifs.put("Target Bus Stop", new LatLng(29.696935, -95.412450)); // about a half mile from stop
 		gradShop_StopNotifs.put("Fiesta Bus Stop", new LatLng(29.692830, -95.418301)); // Target stop
-//		gradShop_StopNotifs.put("Rice Village Apartments Bus Stop", new LatLng());
+		gradShop_StopNotifs.put("Rice Village Apartments Bus Stop", new LatLng(29.715120, -95.413008));
 		gradShop_StopNotifs.put("Graduate Apartments Bus Stop", new LatLng(29.724246, -95.400762));
 
 		nightEsct_StopNotifs.put("Bus Stop 3", new LatLng(29.716296, -95.407860));
