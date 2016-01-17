@@ -27,7 +27,17 @@ public class BuildingMap {
 	
 	public static void buildMap(){
 
-//		texMed_StopNotifs.put("Bus Stop 1", new LatLng());
+//		brc_StopNotifs.put("Bus Stop 1", new LatLng());
+//		brc_StopNotifs.put("Bus Stop 2", new LatLng());
+//		brc_StopNotifs.put("Bus Stop 3", new LatLng());
+//		brc_StopNotifs.put("Bus Stop 4", new LatLng());
+//		brc_StopNotifs.put("Bus Stop 5", new LatLng());
+//		brc_StopNotifs.put("Bus Stop 6", new LatLng());
+//		brc_StopNotifs.put("Bus Stop 7", new LatLng());
+//		brc_StopNotifs.put("Bus Stop 8", new LatLng());
+//		brc_StopNotifs.put("Bus Stop 9", new LatLng());
+//		brc_StopNotifs.put("BRC Bus Stop", new LatLng());
+
 		inLoop_StopNotifs.put("Bus Stop 3", new LatLng(29.716296, -95.407860));
 		inLoop_StopNotifs.put("Bus Stop 4", new LatLng(29.716324, -95.407116));
 		inLoop_StopNotifs.put("Bus Stop 5", new LatLng(29.714991, -95.405941));
@@ -45,6 +55,38 @@ public class BuildingMap {
 		inLoop_StopNotifs.put("Bus Stop A", new LatLng(29.717196, -95.404963));
 		inLoop_StopNotifs.put("Bus Stop B", new LatLng(29.718074, -95.406990));
 		inLoop_StopNotifs.put("Bus Stop C", new LatLng(29.717140, -95.408272));
+
+		greatLoop_StopNotifs.put("Bus Stop 3", new LatLng(29.716296, -95.407860));
+//		greatLoop_StopNotifs.put("Bus Stop 4", new LatLng());
+//		greatLoop_StopNotifs.put("Bus Stop 5", new LatLng());
+//		greatLoop_StopNotifs.put("Bus Stop 6", new LatLng());
+//		greatLoop_StopNotifs.put("Bus Stop 7", new LatLng());
+//		greatLoop_StopNotifs.put("Bus Stop 8", new LatLng());
+//		greatLoop_StopNotifs.put("Bus Stop 10", new LatLng());
+//		greatLoop_StopNotifs.put("Bus Stop 11", new LatLng());
+//		greatLoop_StopNotifs.put("Bus Stop 12", new LatLng());
+//		greatLoop_StopNotifs.put("Bus Stop 13", new LatLng());
+//		greatLoop_StopNotifs.put("Bus Stop 14", new LatLng());
+//		greatLoop_StopNotifs.put("Bus Stop 15", new LatLng());
+//		greatLoop_StopNotifs.put("Bus Stop 16", new LatLng());
+//		greatLoop_StopNotifs.put("Bus Stop 17", new LatLng());
+//		greatLoop_StopNotifs.put("Bus Stop A", new LatLng());
+//		greatLoop_StopNotifs.put("Bus Stop S", new LatLng());
+//		greatLoop_StopNotifs.put("Glasscock Bus Stop", new LatLng());
+
+//		gradAprt_StopNotifs.put("Graduate Apartments Bus Stop", new LatLng());
+//		gradAprt_StopNotifs.put("Bus Stop 12", new LatLng());
+//		gradAprt_StopNotifs.put("Bus Stop 13", new LatLng());
+//		gradAprt_StopNotifs.put("Bus Stop 14", new LatLng());
+//		gradAprt_StopNotifs.put("Bus Stop 15", new LatLng());
+//		gradAprt_StopNotifs.put("Bus Stop 18", new LatLng());
+//		gradAprt_StopNotifs.put("Bus Stop 19", new LatLng());
+//		gradAprt_StopNotifs.put("Bus Stop 20", new LatLng());
+//		gradAprt_StopNotifs.put("Bus Stop 21", new LatLng());
+//		gradAprt_StopNotifs.put("Bus Stop 22", new LatLng());
+//		gradAprt_StopNotifs.put("Bus Stop 23", new LatLng());
+//
+//		riceVilAprt_StopNotifs.put("", new LatLng());
 
 
 		busRoutes.put("Texas Medical Center/BRC", texMed_StopNotifs);
@@ -86,6 +128,7 @@ public class BuildingMap {
 		busStops.put("Bus Stop B", new LatLng(29.716384, -95.406991));
 		busStops.put("Bus Stop C", new LatLng(29.715084, -95.406117));
 		busStops.put("Bus Stop G", new LatLng(29.715772, -95.412404));
+//		busStops.put("Bus Stop S", new LatLng());
 		busStops.put("Glasscock Bus Stop", new LatLng(29.714800, -95.406646));
 		busStops.put("Rice Village Apartments Bus Stop", new LatLng(29.714281, -95.415827));
 		busStops.put("Graduate Apartments Bus Stop", new LatLng(29.725618, -95.398195));
