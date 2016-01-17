@@ -184,32 +184,33 @@ public class MainActivity extends AppCompatActivity
                 break;
             case 5: // other links
                 final ArrayList<String> sites = new ArrayList<>();
+                sites.add(getString(R.string.athletics_link));
+                sites.add(getString(R.string.career_link));
+                sites.add(getString(R.string.courses_link));
+                sites.add(getString(R.string.esther_link));
+                sites.add(getString(R.string.event_link));
+                sites.add(getString(R.string.helpdesk_link));
                 sites.add(getString(R.string.library_link));
                 sites.add(getString(R.string.owlspace_link));
-                sites.add(getString(R.string.esther_link));
-                sites.add(getString(R.string.career_link));
-                sites.add(getString(R.string.rpc_link));
                 sites.add(getString(R.string.recreation_link));
-                sites.add(getString(R.string.athletics_link));
-                sites.add(getString(R.string.helpdesk_link));
                 sites.add(getString(R.string.news_link));
-                sites.add(getString(R.string.courses_link));
+                sites.add(getString(R.string.rpc_link));
                 sites.add(getString(R.string.schedule_link));
-                sites.add(getString(R.string.event_link));
                 new AlertDialog.Builder(this)
                         .setTitle(Html.fromHtml("<font color='#03AD97'>Other Links</font>"))
-                        .setItems(new CharSequence[]{"Library",
-                                        "OwlSpace",
-                                        "Esther",
-                                        "Careers",
-                                        "RPC",
-                                        "Recreation",
+                        .setItems(new CharSequence[]{
                                         "Athletics",
-                                        "HelpDesk",
-                                        "RiceNews",
+                                        "Careers",
                                         "Courses",
-                                        "Schedule Planner",
-                                        "Events"},
+                                        "Esther",
+                                        "Events",
+                                        "HelpDesk",
+                                        "Library",
+                                        "OwlSpace",
+                                        "Recreation",
+                                        "RiceNews",
+                                        "RPC",
+                                        "Schedule Planner"},
                                 new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {

@@ -9,8 +9,38 @@ public class BuildingMap {
 	public static HashMap<String, LatLng> buildings = new HashMap<>();
 	public static HashMap<String, LatLng> classes = new HashMap<>();
 	public static HashMap<String, LatLng> busStops = new HashMap<>();
+
+	public static HashMap<String, HashMap> busRoutes = new HashMap<>();
+
+	public static HashMap<String, LatLng> texMed_StopNotifs = new HashMap<>();
+	public static HashMap<String, LatLng> inLoop_StopNotifs = new HashMap<>();
+	public static HashMap<String, LatLng> gradAprt_StopNotifs = new HashMap<>();
+	public static HashMap<String, LatLng> riceVilAprt_StopNotifs = new HashMap<>();
+	public static HashMap<String, LatLng> friRiceVil_StopNotifs = new HashMap<>();
+	public static HashMap<String, LatLng> satRiceVil_StopNotifs = new HashMap<>();
+	public static HashMap<String, LatLng> gradShop_StopNotifs = new HashMap<>();
+	public static HashMap<String, LatLng> ungradShop_StopNotifs = new HashMap<>();
+	public static HashMap<String, LatLng> nightEsct_StopNotifs = new HashMap<>();
+	public static HashMap<String, LatLng> greatLoop_StopNotifs = new HashMap<>();
+	public static HashMap<String, LatLng> brc_StopNotifs = new HashMap<>();
+
 	
 	public static void buildMap(){
+
+//		texMed_StopNotifs.put("Bus Stop 1", new LatLng());
+
+
+		busRoutes.put("Texas Medical Center/BRC", texMed_StopNotifs);
+		busRoutes.put("Inner Loop", inLoop_StopNotifs);
+		busRoutes.put("Graduate Apartments", gradAprt_StopNotifs);
+		busRoutes.put("Rice Village Apartments/Greenbriar", riceVilAprt_StopNotifs);
+		busRoutes.put("Friday Night Rice Village", friRiceVil_StopNotifs);
+		busRoutes.put("Saturday Night Rice Village", satRiceVil_StopNotifs);
+		busRoutes.put("Graduate Apartments Shopping Shuttle", gradShop_StopNotifs);
+		busRoutes.put("Undergraduate Shopping Shuttle", ungradShop_StopNotifs);
+		busRoutes.put("Night Escort Service", nightEsct_StopNotifs);
+		busRoutes.put("Greater Loop", greatLoop_StopNotifs);
+		busRoutes.put("BRC Express", brc_StopNotifs);
 
 		busStops.put("Bus Stop 1", new LatLng(29.713845, -95.406353));
 		busStops.put("Bus Stop 2", new LatLng(29.714167, -95.406224));
