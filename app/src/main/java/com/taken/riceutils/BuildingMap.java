@@ -106,9 +106,9 @@ public class BuildingMap {
 //		friRiceVil_StopNotifs.put("Rice Village Apartments Bus Stop", new LatLng());
 		friRiceVil_StopNotifs.put("Rice Village Bus Stop", new LatLng(29.715104, -95.413389));
 
-//		satRiceVil_StopNotifs.put("Bus Stop 1", new LatLng());
-//		satRiceVil_StopNotifs.put("Bus Stop 2", new LatLng());
-//		satRiceVil_StopNotifs.put("Bus Stop 3", new LatLng());
+		satRiceVil_StopNotifs.put("Bus Stop 1", new LatLng(29.716445, -95.405835));
+		satRiceVil_StopNotifs.put("Bus Stop 2", new LatLng(29.717029, -95.405381));
+		satRiceVil_StopNotifs.put("Bus Stop 3", new LatLng(29.717566, -95.404026));
 		satRiceVil_StopNotifs.put("Bus Stop 4", new LatLng(29.716324, -95.407116));
 		satRiceVil_StopNotifs.put("Bus Stop 5", new LatLng(29.714991, -95.405941));
 		satRiceVil_StopNotifs.put("Bus Stop 6", new LatLng(29.715427, -95.404454));
