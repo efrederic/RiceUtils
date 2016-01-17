@@ -22,7 +22,6 @@ public class BusNotificationService extends Service {
     private int mCurrNotifId;
     private Timer timer;
 
-
     @Override
     public void onCreate() {
         // Start up the thread running the service.  Note that we create a
@@ -47,7 +46,13 @@ public class BusNotificationService extends Service {
                            && !intent.hasExtra("NotifId")) {
 
             String[] busStrings = new String[]{intent.getStringExtra("BusType"), intent.getStringExtra("BusStop")};
-            if (!mBusNotifications.containsValue(busStrings)) {
+            boolean exists = false;
+            for (String[] value : mBusNotifications.values()) {
+                if (value[0].equals(intent.getStringExtra("BusType")) && value[1].equals(intent.getStringExtra("BusStop"))) {
+                    exists = true;
+                }
+            }
+            if (!exists) {
                 mBusNotifications.put(mCurrNotifId, busStrings);
                 createOngoingNotif(mCurrNotifId++);
             }
