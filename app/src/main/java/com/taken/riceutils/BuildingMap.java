@@ -14,7 +14,7 @@ public class BuildingMap {
 
 	// LatLng about a quarter mile away from the given stop
 //	public static HashMap<String, LatLng> texMed_StopNotifs = new HashMap<>();
-//	public static HashMap<String, LatLng> nightEsct_StopNotifs = new HashMap<>();
+	public static HashMap<String, LatLng> nightEsct_StopNotifs = new HashMap<>(); // TO REMOVE
 	public static HashMap<String, LatLng> inLoop_StopNotifs = new HashMap<>();
 	public static HashMap<String, LatLng> gradAprt_StopNotifs = new HashMap<>();
 	public static HashMap<String, LatLng> riceVilAprt_StopNotifs = new HashMap<>();
@@ -140,13 +140,31 @@ public class BuildingMap {
 		ungradShop_StopNotifs.put("Bus Stop 16", new LatLng(29.719161, -95.400014));
 		ungradShop_StopNotifs.put("Bus Stop 17", new LatLng(29.718593, -95.401436));
 
-//		gradShop_StopNotifs.put("Target Bus Stop", new LatLng());
-//		gradShop_StopNotifs.put("Fiesta Bus Stop", new LatLng());
+		gradShop_StopNotifs.put("Target Bus Stop", new LatLng(29.696935, -95.412450)); // about a half mile from stop
+		gradShop_StopNotifs.put("Fiesta Bus Stop", new LatLng(29.692830, -95.418301)); // Target stop
 //		gradShop_StopNotifs.put("Rice Village Apartments Bus Stop", new LatLng());
 		gradShop_StopNotifs.put("Graduate Apartments Bus Stop", new LatLng(29.724246, -95.400762));
 
+		nightEsct_StopNotifs.put("Bus Stop 3", new LatLng(29.716296, -95.407860));
+		nightEsct_StopNotifs.put("Bus Stop 4", new LatLng(29.716324, -95.407116));
+		nightEsct_StopNotifs.put("Bus Stop 5", new LatLng(29.714991, -95.405941));
+		nightEsct_StopNotifs.put("Bus Stop 6", new LatLng(29.715427, -95.404454));
+		nightEsct_StopNotifs.put("Bus Stop 7", new LatLng(29.715563, -95.404145));
+		nightEsct_StopNotifs.put("Bus Stop 8", new LatLng(29.715946, -95.403124));
+		nightEsct_StopNotifs.put("Bus Stop 10", new LatLng(29.716597, -95.401464));
+		nightEsct_StopNotifs.put("Bus Stop 11", new LatLng(29.717601, -95.398940));
+		nightEsct_StopNotifs.put("Bus Stop 12", new LatLng(29.718434, -95.397267));
+		nightEsct_StopNotifs.put("Bus Stop 13", new LatLng(29.718826, -95.396929));
+		nightEsct_StopNotifs.put("Bus Stop 14", new LatLng(29.719436, -95.396682));
+		nightEsct_StopNotifs.put("Bus Stop 15", new LatLng(29.719832, -95.398254));
+		nightEsct_StopNotifs.put("Bus Stop 16", new LatLng(29.719161, -95.400014));
+		nightEsct_StopNotifs.put("Bus Stop 17", new LatLng(29.718593, -95.401436));
+		nightEsct_StopNotifs.put("Bus Stop A", new LatLng(29.717196, -95.404963));
+		nightEsct_StopNotifs.put("Bus Stop B", new LatLng(29.718074, -95.406990));
+		nightEsct_StopNotifs.put("Bus Stop C", new LatLng(29.717140, -95.408272));
+
 //		busRoutes.put("Texas Medical Center/BRC", texMed_StopNotifs);
-//		busRoutes.put("Night Escort Service", nightEsct_StopNotifs);
+		busRoutes.put("Night Escort Service", nightEsct_StopNotifs); // TO REMOVE
 		busRoutes.put("Inner Loop", inLoop_StopNotifs);
 		busRoutes.put("Graduate Apartments", gradAprt_StopNotifs);
 		busRoutes.put("Rice Village Apartments/Greenbriar", riceVilAprt_StopNotifs);
