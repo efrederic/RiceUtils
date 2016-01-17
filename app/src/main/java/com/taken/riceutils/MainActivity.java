@@ -487,6 +487,7 @@ public class MainActivity extends AppCompatActivity
             Intent serviceIntent = new Intent(this, BusNotificationService.class);
             serviceIntent.putExtra("BusType", lastBusName).putExtra("BusStop", busStop);
             startService(serviceIntent);
+            Toast.makeText(this, "Bus notification pending", Toast.LENGTH_LONG).show();
             return true;
         }
         return false;
