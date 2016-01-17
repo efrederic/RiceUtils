@@ -40,37 +40,13 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.json.JSONArray;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
-import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.StringReader;
-import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks, AdapterView.OnItemClickListener, GoogleMap.OnMarkerClickListener, GoogleMap.OnMapClickListener {
@@ -107,6 +83,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
 
         mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
@@ -241,21 +218,7 @@ public class MainActivity extends AppCompatActivity
             case 3: // shoutout
                 findViewById(R.id.map).setVisibility(View.VISIBLE);
                 findViewById(R.id.shoutout).setVisibility(View.VISIBLE);
-                //Get some stuff
-                String[] shoutoutData = {"Party over here","Party over there","Shoutout to pears","Shoutout to pears again","So many flavors"};
-                String[] lattitudes = {"29.713845", "29.714167", "29.715122", "29.715332", "29.716301"};
-                String[] longitudes = {"-95.406353", "-95.406224", "-95.405237", "-95.404684", "-95.402195"};
-                HashMap<String, LatLng> shoutouts = new HashMap<>();
-
-                for (int i=0; i<lattitudes.length; i++){
-//                    shoutouts.put(shoutoutData[i], new LatLng(Double.parseDouble(lattitudes[i]), Double.parseDouble(longitudes[i])));
-                    LatLng latLng = new LatLng(Double.parseDouble(lattitudes[i]), Double.parseDouble(longitudes[i]));
-                    mMap.addMarker(new MarkerOptions()
-                            .position(latLng)
-                            .title(shoutoutData[i]))
-                            .showInfoWindow();
-                }
-
+                updateShoutoutMap();
                 break;
             case 4: // servery menu
                 mTitle = getString(R.string.title_section5);
@@ -314,33 +277,39 @@ public class MainActivity extends AppCompatActivity
 //                .commit();
     }
 
+    public void updateShoutoutMap() {
+        // Create a GetShoutoutsTask to retrieve new pins, clear pins, and set new pins
+        AsyncTask<String, Void, String> getShoutoutsTask = new GetShoutoutsTask(mMap);
+        getShoutoutsTask.execute("http://rice-utilities.appspot.com/getposts");
+    }
+
     public void giveShoutout(View view){
         android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
         builder.setTitle("Give a shoutout!");
         LayoutInflater inflater = this.getLayoutInflater();
         final View v = inflater.inflate(R.layout.shoutout_layout, null);
         builder.setView(v)
-                .setPositiveButton("Post", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        String text = ((EditText)v.findViewById(R.id.shoutoutText)).getText().toString();
-                        String lat = "";
-                        String lng = "";
-                        try {
-                            locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 2, locListener);
-                            Location location = locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                            lat = location.getLatitude()+"";
-                            lng = location.getLongitude()+"";
-                        } catch (Exception e) {
-                            Log.e("e", e.toString());
-                        }
-
-        busRouteMarkerArrays = new HashMap<>();
-                        AsyncTask<String, Void, String> shoutoutTask = new ShoutoutTask(text, lat, lng);
-                        shoutoutTask.execute("http://rice-utilities.appspot.com/addpost");
-                    }
-                })
-                .setNegativeButton("Cancel", null);
+               .setPositiveButton("Post", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+                String text = ((EditText)v.findViewById(R.id.shoutoutText)).getText().toString();
+                String lat = "";
+                String lng = "";
+                try {
+                    locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 2, locListener);
+                    Location location = locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                    lat = location.getLatitude()+"";
+                    lng = location.getLongitude()+"";
+                } catch (Exception e) {
+                    Log.e("e", e.toString());
+                }
+                // Create a PostShoutoutTask to send the new shoutout to the server
+                AsyncTask<String, Void, Void> postShoutoutTask =
+                        new PostShoutoutTask(text, lat, lng);
+                postShoutoutTask.execute("http://rice-utilities.appspot.com/addpost");
+            }
+        })
+               .setNegativeButton("Cancel", null);
         android.support.v7.app.AlertDialog dialog = builder.create();
         dialog.show();
     }
