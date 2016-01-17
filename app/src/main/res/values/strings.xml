@@ -4,7 +4,7 @@
     <string name="title_section1">View Map</string>
     <string name="title_section2">Happening Today</string>
     <string name="title_section3">Bus Notifications</string>
-    <string name="title_section4">Penguin</string>
+    <string name="title_section4">Shoutout</string>
     <string name="title_section5">Servery Menus</string>
     <string name="title_section6">Other Links</string>
     <string name="title_section7">HackHackHack</string>
@@ -37,6 +37,8 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="button_text">Give a Shoutout</string>
+    <string name="shoutoutHint">Write something!</string>
 
 
 </resources>
