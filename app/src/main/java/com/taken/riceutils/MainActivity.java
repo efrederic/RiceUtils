@@ -45,6 +45,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -83,6 +85,7 @@ public class MainActivity extends AppCompatActivity
     private LocationManager locManager;
     private LocationListener locListener;
     private boolean isRunning;
+    private String lastBusName;
 
     private HashMap<String, LatLng> allLocs = new HashMap<>();
 
@@ -93,6 +96,7 @@ public class MainActivity extends AppCompatActivity
     @SuppressLint("UseSparseArrays")
     static Map<Integer, Bitmap> busIcons = new HashMap<>();
     static ArrayList<Marker> busMarkers = new ArrayList<>();
+    static HashMap<String, ArrayList<LatLng>> busRouteMarkerArrays = null;
     static ArrayList<Marker> shoutoutMarkers = new ArrayList<>();
 
     /**
@@ -181,14 +185,14 @@ public class MainActivity extends AppCompatActivity
             textView.setVisibility(View.VISIBLE);
         }
 
-        //Fragment fragment = PlaceholderFragment.newInstance(position+1);
-
         switch (position) {
             case 0: // map
+                mTitle = getString(R.string.title_section1);
                 findViewById(R.id.map).setVisibility(View.VISIBLE);
                 findViewById(R.id.shoutout).setVisibility(View.GONE);
                 break;
             case 1: // happening now
+                mTitle = getString(R.string.title_section2);
                 findViewById(R.id.map).setVisibility(View.GONE);
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 fragmentManager.beginTransaction()
@@ -198,9 +202,41 @@ public class MainActivity extends AppCompatActivity
 
                 findViewById(R.id.shoutout).setVisibility(View.GONE);
                 break;
-            case 2: // bus notifications
-                findViewById(R.id.map).setVisibility(View.GONE);
-                findViewById(R.id.shoutout).setVisibility(View.GONE);
+            case 2: //Bus Notifications
+                mTitle = getString(R.string.title_section3);
+                mMap.clear();
+                final String[] busNames = new String[]{
+                        "Inner Loop",
+                        "Graduate Apartments",
+                        "Rice Village Apartments/Greenbriar",
+                        "Friday Night Rice Village",
+                        "Saturday Night Rice Village",
+                        "Graduate Apartment Shopping",
+                        "Undergraduate Shopping",
+                        "Night Escort Service",
+                        "Greater Loop",
+                        "Brc Express",
+                        "Texas Medical Center/BRC"
+                };
+                if (busRouteMarkerArrays == null) {
+                    initBusRouteMarkerArrays();
+                }
+                new AlertDialog.Builder(this)
+                        .setTitle(Html.fromHtml("<font color='#03AD97'>Select Bus Type</font>"))
+                        .setItems(busNames, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                lastBusName = busNames[which];
+                                ArrayList<LatLng> markerLocs = busRouteMarkerArrays.get(lastBusName);
+                                for (LatLng location : markerLocs) {
+                                    mMap.addMarker(new MarkerOptions().position(location));
+                                }
+                                Toast.makeText(MainActivity.this, "Select desired bus stop", Toast.LENGTH_LONG).show();
+                            }
+                        })
+                        .show();
+
+                findViewById(R.id.map).setVisibility(View.VISIBLE);
                 break;
             case 3: // shoutout
                 findViewById(R.id.map).setVisibility(View.VISIBLE);
@@ -222,10 +258,12 @@ public class MainActivity extends AppCompatActivity
 
                 break;
             case 4: // servery menu
+                mTitle = getString(R.string.title_section5);
                 Intent webViewIntent = new Intent(this, WebViews.class);
                 startActivity(webViewIntent);
                 break;
             case 5: // other links
+                mTitle = getString(R.string.title_section6);
                 final ArrayList<String> sites = new ArrayList<>();
                 sites.add(getString(R.string.athletics_link));
                 sites.add(getString(R.string.career_link));
@@ -265,14 +303,8 @@ public class MainActivity extends AppCompatActivity
                                 })
                         .show();
                 break;
-            case 6:
-                findViewById(R.id.map).setVisibility(View.GONE);
-                findViewById(R.id.shoutout).setVisibility(View.GONE);
-                Intent serviceIntent = new Intent(this, BusNotificationService.class);
-                serviceIntent.putExtra("BusType", "RiceVillage").putExtra("BusStop", "A");
-                startService(serviceIntent);
-                break;
             default:
+                mTitle = getString(R.string.title_section7);
                 break;
         }
         // update the main content by replacing fragments
@@ -282,6 +314,24 @@ public class MainActivity extends AppCompatActivity
 //                .commit();
     }
 
+    private void initBusRouteMarkerArrays() {
+//
+//        for (int i = 0; i < routes.length(); i++) {
+//            ArrayList<LatLng> routeStops = new ArrayList<>();
+//            String routeName = "";
+//            try {
+//                JSONObject route = routes.getJSONObject(i);
+//                routeName = route.getString("Name");
+//            } catch (JSONException e) {
+//
+//            }
+//
+//        }
+//
+//        MarkerOptions options = new MarkerOptions();
+//        options.position(new LatLng(3, 3));
+//        Marker m = getMap().addMarker(options);
+//        stop1.add(m);
     public void giveShoutout(View view){
         android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
         builder.setTitle("Give a shoutout!");
@@ -303,6 +353,7 @@ public class MainActivity extends AppCompatActivity
                             Log.e("e", e.toString());
                         }
 
+        busRouteMarkerArrays = new HashMap<>();
                         AsyncTask<String, Void, String> shoutoutTask = new ShoutoutTask(text, lat, lng);
                         shoutoutTask.execute("http://rice-utilities.appspot.com/addpost");
                     }
@@ -318,32 +369,61 @@ public class MainActivity extends AppCompatActivity
         getActionBar().setTitle(mTitle);
     }
 
+        ArrayList<LatLng> innerLoopStops = new ArrayList<>();
+        innerLoopStops.add(BuildingMap.busStops.get("Bus Stop 5"));
+        innerLoopStops.add(BuildingMap.busStops.get("Bus Stop A"));
+        innerLoopStops.add(BuildingMap.busStops.get("Bus Stop B"));
+        innerLoopStops.add(BuildingMap.busStops.get("Bus Stop C"));
+        busRouteMarkerArrays.put("Inner Loop", innerLoopStops);
 
-    public void onSectionAttached(int number) {
-        switch (number) {
-            case 1:
-                mTitle = getString(R.string.title_section1);
-                break;
-            case 2:
-                mTitle = getString(R.string.title_section2);
-                break;
-            case 3:
-                mTitle = getString(R.string.title_section3);
-                break;
-            case 4:
-                mTitle = getString(R.string.title_section4);
-                break;
-            case 5:
-                mTitle = getString(R.string.title_section5);
-                break;
-            case 6:
-                mTitle = getString(R.string.title_section6);
-                break;
-            case 7:
-                mTitle = getString(R.string.title_section7);
-                break;
-        }
+
+
+        busRouteMarkerArrays.put("Graduate Apartments", new ArrayList());
+        busRouteMarkerArrays.put("Rice Village Apartments/Greenbriar", new ArrayList());
+        busRouteMarkerArrays.put("Friday Night Rice Village", new ArrayList());
+        busRouteMarkerArrays.put("Saturday Night Rice Village", new ArrayList());
+        busRouteMarkerArrays.put("Graduate Apartment Shopping", new ArrayList());
+        busRouteMarkerArrays.put("Undergraduate Shopping", new ArrayList());
+        busRouteMarkerArrays.put("Night Escort Service", new ArrayList());
+        busRouteMarkerArrays.put("Greater Loop", new ArrayList());
+        busRouteMarkerArrays.put("Brc Express", new ArrayList());
+        busRouteMarkerArrays.put("Texas Medical Center/BRC", new ArrayList());
+
     }
+
+
+//    @Override
+//    public void setTitle(CharSequence title) {
+//        mTitle = title;
+//        getActionBar().setTitle(mTitle);
+//    }
+
+
+//    public void onSectionAttached(int number) {
+//        switch (number) {
+//            case 1:
+//                mTitle = getString(R.string.title_section1);
+//                break;
+//            case 2:
+//                mTitle = getString(R.string.title_section2);
+//                break;
+//            case 3:
+//                mTitle = getString(R.string.title_section3);
+//                break;
+//            case 4:
+//                mTitle = getString(R.string.title_section4);
+//                break;
+//            case 5:
+//                mTitle = getString(R.string.title_section5);
+//                break;
+//            case 6:
+//                mTitle = getString(R.string.title_section6);
+//                break;
+//            case 7:
+//                mTitle = getString(R.string.title_section7);
+//                break;
+//        }
+//    }
 
     public void restoreActionBar() {
         ActionBar actionBar = getSupportActionBar();
@@ -452,7 +532,21 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public boolean onMarkerClick(Marker marker){
+    public boolean onMarkerClick(Marker marker) {
+        if (mTitle.equals("Bus Notifications") && lastBusName != null) {
+            String busStop = "";
+            for (Map.Entry<String, LatLng> entry : BuildingMap.busStops.entrySet()) {
+                if (entry.getValue().equals(marker.getPosition())) {
+                    busStop = entry.getKey();
+                }
+            }
+
+            Intent serviceIntent = new Intent(this, BusNotificationService.class);
+            serviceIntent.putExtra("BusType", lastBusName).putExtra("BusStop", busStop);
+            startService(serviceIntent);
+            mNavigationDrawerFragment
+            return true;
+        }
         return false;
     }
 
@@ -480,6 +574,9 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onMapClick(LatLng point){
+        if (mTitle == "Bus Notifications") {
+            return;
+        }
         double clickX = point.longitude;
         double clickY = point.latitude;
         String shortestKey = "";
@@ -510,47 +607,5 @@ public class MainActivity extends AppCompatActivity
     public static GoogleMap getMap() {
         return mMap;
     }
-
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private static final String ARG_SECTION_NUMBER = "section_number";
-
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        public PlaceholderFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-            return rootView;
-        }
-
-        @Override
-        public void onAttach(Context context) {
-            super.onAttach(context);
-            ((MainActivity) context).onSectionAttached(
-                    getArguments().getInt(ARG_SECTION_NUMBER));
-        }
-    }
-
-
 
 }
