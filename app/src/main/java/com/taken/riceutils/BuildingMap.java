@@ -9,8 +9,153 @@ public class BuildingMap {
 	public static HashMap<String, LatLng> buildings = new HashMap<>();
 	public static HashMap<String, LatLng> classes = new HashMap<>();
 	public static HashMap<String, LatLng> busStops = new HashMap<>();
+
+	public static HashMap<String, HashMap> busRoutes = new HashMap<>();
+
+	// LatLng about a quarter mile away from the given stop
+//	public static HashMap<String, LatLng> texMed_StopNotifs = new HashMap<>();
+//	public static HashMap<String, LatLng> nightEsct_StopNotifs = new HashMap<>();
+	public static HashMap<String, LatLng> inLoop_StopNotifs = new HashMap<>();
+	public static HashMap<String, LatLng> gradAprt_StopNotifs = new HashMap<>();
+	public static HashMap<String, LatLng> riceVilAprt_StopNotifs = new HashMap<>();
+	public static HashMap<String, LatLng> friRiceVil_StopNotifs = new HashMap<>();
+	public static HashMap<String, LatLng> satRiceVil_StopNotifs = new HashMap<>();
+	public static HashMap<String, LatLng> gradShop_StopNotifs = new HashMap<>();
+	public static HashMap<String, LatLng> ungradShop_StopNotifs = new HashMap<>();
+	public static HashMap<String, LatLng> greatLoop_StopNotifs = new HashMap<>();
+	public static HashMap<String, LatLng> brc_StopNotifs = new HashMap<>();
+
 	
 	public static void buildMap(){
+
+		brc_StopNotifs.put("Bus Stop 1", new LatLng(29.712203, -95.402987));
+		brc_StopNotifs.put("Bus Stop 2", new LatLng(29.712343, -95.403432));
+		brc_StopNotifs.put("Bus Stop 3", new LatLng(29.712869, -95.405015));
+		brc_StopNotifs.put("Bus Stop 4", new LatLng(29.713116, -95.405777));
+		brc_StopNotifs.put("Bus Stop 5", new LatLng(29.714638, -95.406022));
+		brc_StopNotifs.put("Bus Stop 6", new LatLng(29.715427, -95.404454));
+		brc_StopNotifs.put("Bus Stop 7", new LatLng(29.715563, -95.404145));
+		brc_StopNotifs.put("Bus Stop 8", new LatLng(29.715946, -95.403124));
+		brc_StopNotifs.put("Bus Stop 9", new LatLng(29.716478, -95.401739));
+		brc_StopNotifs.put("BRC Bus Stop", new LatLng(29.711659, -95.400831));
+
+		inLoop_StopNotifs.put("Bus Stop 3", new LatLng(29.716296, -95.407860));
+		inLoop_StopNotifs.put("Bus Stop 4", new LatLng(29.716324, -95.407116));
+		inLoop_StopNotifs.put("Bus Stop 5", new LatLng(29.714991, -95.405941));
+		inLoop_StopNotifs.put("Bus Stop 6", new LatLng(29.715427, -95.404454));
+		inLoop_StopNotifs.put("Bus Stop 7", new LatLng(29.715563, -95.404145));
+		inLoop_StopNotifs.put("Bus Stop 8", new LatLng(29.715946, -95.403124));
+		inLoop_StopNotifs.put("Bus Stop 10", new LatLng(29.716597, -95.401464));
+		inLoop_StopNotifs.put("Bus Stop 11", new LatLng(29.717601, -95.398940));
+		inLoop_StopNotifs.put("Bus Stop 12", new LatLng(29.718434, -95.397267));
+		inLoop_StopNotifs.put("Bus Stop 13", new LatLng(29.718826, -95.396929));
+		inLoop_StopNotifs.put("Bus Stop 14", new LatLng(29.719436, -95.396682));
+		inLoop_StopNotifs.put("Bus Stop 15", new LatLng(29.719832, -95.398254));
+		inLoop_StopNotifs.put("Bus Stop 16", new LatLng(29.719161, -95.400014));
+		inLoop_StopNotifs.put("Bus Stop 17", new LatLng(29.718593, -95.401436));
+		inLoop_StopNotifs.put("Bus Stop A", new LatLng(29.717196, -95.404963));
+		inLoop_StopNotifs.put("Bus Stop B", new LatLng(29.718074, -95.406990));
+		inLoop_StopNotifs.put("Bus Stop C", new LatLng(29.717140, -95.408272));
+
+		greatLoop_StopNotifs.put("Bus Stop 3", new LatLng(29.719832, -95.398254));
+		greatLoop_StopNotifs.put("Bus Stop 4", new LatLng(29.714721, -95.408159));
+		greatLoop_StopNotifs.put("Bus Stop 5", new LatLng(29.714704, -95.406035));
+		greatLoop_StopNotifs.put("Bus Stop 6", new LatLng(29.715427, -95.404454));
+		greatLoop_StopNotifs.put("Bus Stop 7", new LatLng(29.715563, -95.404145));
+		greatLoop_StopNotifs.put("Bus Stop 8", new LatLng(29.715946, -95.403124));
+		greatLoop_StopNotifs.put("Bus Stop 10", new LatLng(29.716597, -95.401464));
+		greatLoop_StopNotifs.put("Bus Stop 11", new LatLng(29.717601, -95.398940));
+		greatLoop_StopNotifs.put("Bus Stop 12", new LatLng(29.718434, -95.397267));
+		greatLoop_StopNotifs.put("Bus Stop 13", new LatLng(29.718826, -95.396929));
+		greatLoop_StopNotifs.put("Bus Stop 14", new LatLng(29.719436, -95.396682));
+		greatLoop_StopNotifs.put("Bus Stop 15", new LatLng(29.719832, -95.398254));
+		greatLoop_StopNotifs.put("Bus Stop 16", new LatLng(29.719161, -95.400014));
+		greatLoop_StopNotifs.put("Bus Stop 17", new LatLng(29.718593, -95.401436));
+		greatLoop_StopNotifs.put("Bus Stop A", new LatLng(29.717196, -95.404963));
+		greatLoop_StopNotifs.put("Bus Stop S", new LatLng(29.717927, -95.407375));
+		greatLoop_StopNotifs.put("Glasscock Bus Stop", new LatLng(29.716318, -95.407880));
+
+		gradAprt_StopNotifs.put("Graduate Apartments Bus Stop", new LatLng(29.724246, -95.400762));
+		gradAprt_StopNotifs.put("Bus Stop 12", new LatLng(29.720857, -95.395711));
+		gradAprt_StopNotifs.put("Bus Stop 13", new LatLng(29.720918, -95.396108));
+		gradAprt_StopNotifs.put("Bus Stop 14", new LatLng(29.720307, -95.396746));
+		gradAprt_StopNotifs.put("Bus Stop 15", new LatLng(29.719832, -95.398254));
+		gradAprt_StopNotifs.put("Bus Stop 18", new LatLng(29.718931, -95.400589));
+		gradAprt_StopNotifs.put("Bus Stop 19", new LatLng(29.718678, -95.401221));
+		gradAprt_StopNotifs.put("Bus Stop 20", new LatLng(29.718244, -95.402311));
+		gradAprt_StopNotifs.put("Bus Stop 21", new LatLng(29.718374, -95.403062));
+		gradAprt_StopNotifs.put("Bus Stop 22", new LatLng(29.722648, -95.397059));
+		gradAprt_StopNotifs.put("Bus Stop 23", new LatLng(29.721966, -95.395928));
+
+//		riceVilAprt_StopNotifs.put("Bus Stop 2", new LatLng());
+//		riceVilAprt_StopNotifs.put("Bus Stop C", new LatLng());
+//		riceVilAprt_StopNotifs.put("Bus Stop A", new LatLng());
+//		riceVilAprt_StopNotifs.put("Bus Stop 17", new LatLng());
+//		riceVilAprt_StopNotifs.put("Bus Stop 16", new LatLng());
+//		riceVilAprt_StopNotifs.put("Bus Stop 18", new LatLng());
+//		riceVilAprt_StopNotifs.put("Bus Stop G", new LatLng());
+//		riceVilAprt_StopNotifs.put("Rice Village Apartments Bus Stop", new LatLng());
+
+//		friRiceVil_StopNotifs.put("Bus Stop 2", new LatLng());
+//		friRiceVil_StopNotifs.put("Bus Stop C", new LatLng());
+//		friRiceVil_StopNotifs.put("Bus Stop A", new LatLng());
+//		friRiceVil_StopNotifs.put("Bus Stop 17", new LatLng());
+//		friRiceVil_StopNotifs.put("Bus Stop 16", new LatLng());
+//		friRiceVil_StopNotifs.put("Bus Stop 18", new LatLng());
+//		friRiceVil_StopNotifs.put("Bus Stop G", new LatLng());
+//		friRiceVil_StopNotifs.put("Rice Village Apartments Bus Stop", new LatLng());
+		friRiceVil_StopNotifs.put("Rice Village Bus Stop", new LatLng(29.715104, -95.413389));
+
+//		satRiceVil_StopNotifs.put("Bus Stop 1", new LatLng());
+//		satRiceVil_StopNotifs.put("Bus Stop 2", new LatLng());
+//		satRiceVil_StopNotifs.put("Bus Stop 3", new LatLng());
+		satRiceVil_StopNotifs.put("Bus Stop 4", new LatLng(29.716324, -95.407116));
+		satRiceVil_StopNotifs.put("Bus Stop 5", new LatLng(29.714991, -95.405941));
+		satRiceVil_StopNotifs.put("Bus Stop 6", new LatLng(29.715427, -95.404454));
+		satRiceVil_StopNotifs.put("Bus Stop 7", new LatLng(29.715563, -95.404145));
+		satRiceVil_StopNotifs.put("Bus Stop 8", new LatLng(29.715946, -95.403124));
+		satRiceVil_StopNotifs.put("Bus Stop 10", new LatLng(29.716597, -95.401464));
+		satRiceVil_StopNotifs.put("Bus Stop 11", new LatLng(29.717601, -95.398940));
+		satRiceVil_StopNotifs.put("Bus Stop 12", new LatLng(29.718434, -95.397267));
+		satRiceVil_StopNotifs.put("Bus Stop 13", new LatLng(29.718826, -95.396929));
+		satRiceVil_StopNotifs.put("Bus Stop 14", new LatLng(29.719436, -95.396682));
+		satRiceVil_StopNotifs.put("Bus Stop 15", new LatLng(29.719832, -95.398254));
+		satRiceVil_StopNotifs.put("Bus Stop 16", new LatLng(29.719161, -95.400014));
+		satRiceVil_StopNotifs.put("Bus Stop 17", new LatLng(29.718593, -95.401436));
+		satRiceVil_StopNotifs.put("Rice Village Bus Stop", new LatLng(29.715104, -95.413389));
+
+		ungradShop_StopNotifs.put("Target Bus Stop", new LatLng(29.696935, -95.412450)); // about a half mile from stop
+		ungradShop_StopNotifs.put("Fiesta Bus Stop", new LatLng(29.692830, -95.418301)); // Target stop
+		ungradShop_StopNotifs.put("Bus Stop 4", new LatLng(29.716324, -95.407116));
+		ungradShop_StopNotifs.put("Bus Stop 5", new LatLng(29.714991, -95.405941));
+		ungradShop_StopNotifs.put("Bus Stop 6", new LatLng(29.715427, -95.404454));
+		ungradShop_StopNotifs.put("Bus Stop 7", new LatLng(29.715563, -95.404145));
+		ungradShop_StopNotifs.put("Bus Stop 8", new LatLng(29.715946, -95.403124));
+		ungradShop_StopNotifs.put("Bus Stop 10", new LatLng(29.716597, -95.401464));
+		ungradShop_StopNotifs.put("Bus Stop 11", new LatLng(29.717601, -95.398940));
+		ungradShop_StopNotifs.put("Bus Stop 12", new LatLng(29.718434, -95.397267));
+		ungradShop_StopNotifs.put("Bus Stop 13", new LatLng(29.718826, -95.396929));
+		ungradShop_StopNotifs.put("Bus Stop 14", new LatLng(29.719436, -95.396682));
+		ungradShop_StopNotifs.put("Bus Stop 15", new LatLng(29.719832, -95.398254));
+		ungradShop_StopNotifs.put("Bus Stop 16", new LatLng(29.719161, -95.400014));
+		ungradShop_StopNotifs.put("Bus Stop 17", new LatLng(29.718593, -95.401436));
+
+//		gradShop_StopNotifs.put("Target Bus Stop", new LatLng());
+//		gradShop_StopNotifs.put("Fiesta Bus Stop", new LatLng());
+//		gradShop_StopNotifs.put("Rice Village Apartments Bus Stop", new LatLng());
+		gradShop_StopNotifs.put("Graduate Apartments Bus Stop", new LatLng(29.724246, -95.400762));
+
+//		busRoutes.put("Texas Medical Center/BRC", texMed_StopNotifs);
+//		busRoutes.put("Night Escort Service", nightEsct_StopNotifs);
+		busRoutes.put("Inner Loop", inLoop_StopNotifs);
+		busRoutes.put("Graduate Apartments", gradAprt_StopNotifs);
+		busRoutes.put("Rice Village Apartments/Greenbriar", riceVilAprt_StopNotifs);
+		busRoutes.put("Friday Night Rice Village", friRiceVil_StopNotifs);
+		busRoutes.put("Saturday Night Rice Village", satRiceVil_StopNotifs);
+		busRoutes.put("Graduate Apartments Shopping Shuttle", gradShop_StopNotifs);
+		busRoutes.put("Undergraduate Shopping Shuttle", ungradShop_StopNotifs);
+		busRoutes.put("Greater Loop", greatLoop_StopNotifs);
+		busRoutes.put("BRC Express", brc_StopNotifs);
 
 		busStops.put("Bus Stop 1", new LatLng(29.713845, -95.406353));
 		busStops.put("Bus Stop 2", new LatLng(29.714167, -95.406224));
@@ -39,14 +184,16 @@ public class BuildingMap {
 		busStops.put("Bus Stop B", new LatLng(29.716384, -95.406991));
 		busStops.put("Bus Stop C", new LatLng(29.715084, -95.406117));
 		busStops.put("Bus Stop G", new LatLng(29.715772, -95.412404));
+		busStops.put("Bus Stop S", new LatLng(29.715371, -95.408301));
 		busStops.put("Glasscock Bus Stop", new LatLng(29.714800, -95.406646));
 		busStops.put("Rice Village Apartments Bus Stop", new LatLng(29.714281, -95.415827));
 		busStops.put("Graduate Apartments Bus Stop", new LatLng(29.725618, -95.398195));
 		busStops.put("BRC Bus Stop", new LatLng(29.711687, -95.402261));
 		busStops.put("Rice Village Bus Stop", new LatLng(29.715834, -95.416603));
 		busStops.put("Target Bus Stop", new LatLng(29.692830, -95.418301));
+		busStops.put("Fiesta Bus Stop", new LatLng(29.690823, -95.415517));
 
-		buildings.put("Anderson BioLab - ABL", new LatLng(29.718666, -95.402409));
+		buildings.put("Anderson Biological Laboratories - ABL", new LatLng(29.718666, -95.402409));
 		buildings.put("Abercrombie Lab - AEL", new LatLng(29.720811, -95.399199));
 		buildings.put("Anderson Hall - ANH", new LatLng(29.718824,-95.399671));
 		buildings.put("Brown Hall - APB", new LatLng(29.716448, -95.404975));
@@ -140,7 +287,7 @@ public class BuildingMap {
 		buildings.put("Rice Village Apartments", new LatLng(29.714436, -95.41556));
 		buildings.put("Student Health Center", new LatLng(29.720979, -95.395572));
 		buildings.put("Reckling Park", new LatLng(29.714259, -95.404314));
-		buildings.put("Hess Tennis Stadium", new LatLng(29.714417, -95.405323));
+		buildings.put("George R. Brown Tennis Complex", new LatLng(29.718279, -95.407862));
 		buildings.put("Holloway Field", new LatLng(29.713182, -95.402581));
 		buildings.put("Wendel D. Ley Track", new LatLng(29.713182, -95.402581));
 		buildings.put("Track/Soccer Stadium", new LatLng(29.713182, -95.402581));
@@ -181,7 +328,22 @@ public class BuildingMap {
 		buildings.put("Farnsworth Pavilion", new LatLng(29.717698, -95.402406));
 		buildings.put("RMC Grand Hall", new LatLng(29.717901, -95.401826));
 		buildings.put("Bandhall", new LatLng(29.714886, -95.403060));
-		
+		buildings.put("Post Office", new LatLng(29.714886, -95.403060));
+		buildings.put("Moody Center for the Arts", new LatLng(29.714166, -95.405510));
+		buildings.put("Wiess President's House", new LatLng(29.714166, -95.405510));
+		buildings.put("45-90-180", new LatLng(29.720366, -95.399748));
+		buildings.put("Academic Quad", new LatLng(29.718606, -95.398862));
+		buildings.put("Engineering Quad", new LatLng(29.720367, -95.399745));
+		buildings.put("Alice Pratt Brown Hall", new LatLng(29.716141, -95.405045));
+		buildings.put("Bike Track", new LatLng(29.716142, -95.411351));
+		buildings.put("Founder's Court", new LatLng(29.719309, -95.397137));
+		buildings.put("Rice Memorial Chapel", new LatLng(29.718147, -95.401269));
+		buildings.put("Miner Lounge", new LatLng(29.717948, -95.402597));
+		buildings.put("Meyer Conference Room", new LatLng(29.717973, -95.402541));
+		buildings.put("Stude Concert Hall", new LatLng(29.716277, -95.405193));
+		buildings.put("Duncan Recital Hall", new LatLng(29.716151, -95.405072));
+		buildings.put("Edythe Bates Grand Organ Hall", new LatLng(29.715804, -95.404922));
+
 		classes.put("Hotel Romeo Zulu", new LatLng(29.719323, -95.398435));
 		classes.put("ANTH 491 004 Howe, Alyssa C.", null);
 		classes.put("MUSI 401 006 Lavenda, Richard A.", null);
