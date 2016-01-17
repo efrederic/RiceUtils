@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.KeyEvent;
+import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -68,7 +69,12 @@ public class WebViews extends Activity{
     public boolean onKeyDown(int keyCode, @NonNull KeyEvent event)
     {
         if ((keyCode == KeyEvent.KEYCODE_BACK) && web.canGoBack()) {
-            web.goBack();
+            if (web.canGoBack()) {
+                web.goBack();
+            }
+            else {
+                finish();
+            }
             return true;
         }
         return super.onKeyDown(keyCode, event);
