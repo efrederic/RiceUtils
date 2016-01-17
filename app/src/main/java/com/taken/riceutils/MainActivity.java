@@ -186,24 +186,28 @@ public class MainActivity extends AppCompatActivity
                 sites.add(getString(R.string.owlspace_link));
                 sites.add(getString(R.string.esther_link));
                 sites.add(getString(R.string.career_link));
+                sites.add(getString(R.string.rpc_link));
                 sites.add(getString(R.string.recreation_link));
                 sites.add(getString(R.string.athletics_link));
                 sites.add(getString(R.string.helpdesk_link));
                 sites.add(getString(R.string.news_link));
                 sites.add(getString(R.string.courses_link));
                 sites.add(getString(R.string.schedule_link));
+                sites.add(getString(R.string.event_link));
                 new AlertDialog.Builder(this)
                         .setTitle(Html.fromHtml("<font color='#03AD97'>Other Links</font>"))
                         .setItems(new CharSequence[]{"Library",
                                         "OwlSpace",
                                         "Esther",
                                         "Careers",
+                                        "RPC",
                                         "Recreation",
                                         "Athletics",
                                         "HelpDesk",
                                         "RiceNews",
                                         "Courses",
-                                        "Schedule Planner"},
+                                        "Schedule Planner",
+                                        "Events"},
                                 new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
