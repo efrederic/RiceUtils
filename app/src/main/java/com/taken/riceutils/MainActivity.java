@@ -45,6 +45,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -270,11 +271,6 @@ public class MainActivity extends AppCompatActivity
             default:
                 break;
         }
-        // update the main content by replacing fragments
-//        FragmentManager fragmentManager = getSupportFragmentManager();
-//        fragmentManager.beginTransaction()
-//                .replace(R.id.container, fragment)
-//                .commit();
     }
 
     public void updateShoutoutMap() {
@@ -321,45 +317,15 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void initBusRouteMarkerArrays() {
-//
-//        for (int i = 0; i < routes.length(); i++) {
-//            ArrayList<LatLng> routeStops = new ArrayList<>();
-//            String routeName = "";
-//            try {
-//                JSONObject route = routes.getJSONObject(i);
-//                routeName = route.getString("Name");
-//            } catch (JSONException e) {
-//
-//            }
-//
-//        }
-//
-//        MarkerOptions options = new MarkerOptions();
-//        options.position(new LatLng(3, 3));
-//        Marker m = getMap().addMarker(options);
-//        stop1.add(m);
         busRouteMarkerArrays = new HashMap<>();
 
-        ArrayList<LatLng> innerLoopStops = new ArrayList<>();
-        innerLoopStops.add(BuildingMap.busStops.get("Bus Stop 5"));
-        innerLoopStops.add(BuildingMap.busStops.get("Bus Stop A"));
-        innerLoopStops.add(BuildingMap.busStops.get("Bus Stop B"));
-        innerLoopStops.add(BuildingMap.busStops.get("Bus Stop C"));
-        busRouteMarkerArrays.put("Inner Loop", innerLoopStops);
-
-
-
-        busRouteMarkerArrays.put("Graduate Apartments", new ArrayList());
-        busRouteMarkerArrays.put("Rice Village Apartments/Greenbriar", new ArrayList());
-        busRouteMarkerArrays.put("Friday Night Rice Village", new ArrayList());
-        busRouteMarkerArrays.put("Saturday Night Rice Village", new ArrayList());
-        busRouteMarkerArrays.put("Graduate Apartment Shopping", new ArrayList());
-        busRouteMarkerArrays.put("Undergraduate Shopping", new ArrayList());
-        busRouteMarkerArrays.put("Night Escort Service", new ArrayList());
-        busRouteMarkerArrays.put("Greater Loop", new ArrayList());
-        busRouteMarkerArrays.put("Brc Express", new ArrayList());
-        busRouteMarkerArrays.put("Texas Medical Center/BRC", new ArrayList());
-
+        for (String route : BuildingMap.busRoutes.keySet()) {
+            ArrayList<LatLng> busStopLocs = new ArrayList<>();
+            for (String stopOnRoute : BuildingMap.busRoutes.get(route).keySet()) {
+                busStopLocs.add(BuildingMap.busStops.get(stopOnRoute));
+            }
+            busRouteMarkerArrays.put(route, busStopLocs);
+        }
     }
 
 
