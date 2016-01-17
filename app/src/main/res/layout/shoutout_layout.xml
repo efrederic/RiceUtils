@@ -8,8 +8,8 @@
         android:inputType="textShortMessage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:layout_margin="5dp"
+        android:padding="15dp"
+        android:layout_margin="20dp"
         android:hint="@string/shoutoutHint"
         android:maxLength="40"/>
 

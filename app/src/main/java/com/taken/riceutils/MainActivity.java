@@ -74,6 +74,7 @@ public class MainActivity extends AppCompatActivity
     static Map<Integer, Bitmap> busIcons = new HashMap<>();
     static ArrayList<Marker> busMarkers = new ArrayList<>();
     static HashMap<String, ArrayList<LatLng>> busRouteMarkerArrays = null;
+    public static ArrayList<Marker> shoutoutMarkers= new ArrayList<>();
     //static ArrayList<Marker> shoutoutMarkers = new ArrayList<>();
 
     /**
@@ -170,10 +171,12 @@ public class MainActivity extends AppCompatActivity
                 marker = mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)));
                 findViewById(R.id.map).setVisibility(View.VISIBLE);
                 findViewById(R.id.shoutout).setVisibility(View.GONE);
+                clearShoutoutMarkers();
                 break;
             case 1: // happening now
                 mTitle = getString(R.string.title_section2);
                 findViewById(R.id.map).setVisibility(View.GONE);
+                clearShoutoutMarkers();
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 fragmentManager.beginTransaction()
                         .replace(R.id.container, HappeningNow.newInstance())
@@ -182,6 +185,7 @@ public class MainActivity extends AppCompatActivity
                 findViewById(R.id.shoutout).setVisibility(View.GONE);
                 break;
             case 2: //Bus Notifications
+                clearShoutoutMarkers();
                 mTitle = getString(R.string.title_section3);
                 mMap.clear();
                 marker = mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)));
@@ -222,14 +226,17 @@ public class MainActivity extends AppCompatActivity
                 mTitle = getString(R.string.title_section4);
                 findViewById(R.id.map).setVisibility(View.VISIBLE);
                 findViewById(R.id.shoutout).setVisibility(View.VISIBLE);
+                showShoutoutMarkers();
                 updateShoutoutMap();
                 break;
             case 4: // servery menu
                 mTitle = getString(R.string.title_section5);
                 Intent webViewIntent = new Intent(this, WebViews.class);
                 startActivity(webViewIntent);
+                clearShoutoutMarkers();
                 break;
             case 5: // other links
+                clearShoutoutMarkers();
                 mTitle = getString(R.string.title_section6);
                 final ArrayList<String> sites = new ArrayList<>();
                 sites.add(getString(R.string.athletics_link));
@@ -279,6 +286,7 @@ public class MainActivity extends AppCompatActivity
         // Create a GetShoutoutsTask to retrieve new pins, clear pins, and set new pins
         AsyncTask<String, Void, String> getShoutoutsTask = new GetShoutoutsTask(mMap);
         getShoutoutsTask.execute("http://rice-utilities.appspot.com/getposts");
+        showShoutoutMarkers();
     }
 
     public void giveShoutout(View view){
@@ -310,6 +318,18 @@ public class MainActivity extends AppCompatActivity
                .setNegativeButton("Cancel", null);
         android.support.v7.app.AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    private void clearShoutoutMarkers(){
+        for (Marker marker : shoutoutMarkers){
+            marker.setVisible(false);
+        }
+    }
+
+    private void showShoutoutMarkers(){
+        for (Marker marker : shoutoutMarkers){
+            marker.showInfoWindow();
+        }
     }
 
     @Override

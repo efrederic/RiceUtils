@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -18,6 +19,7 @@ import java.io.InputStream;
 import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -86,10 +88,11 @@ public class GetShoutoutsTask extends AsyncTask<String, Void, String> {
                         String lng = eElement.getElementsByTagName("longitude").item(0).getTextContent();
 
                         LatLng latLng = new LatLng(Double.parseDouble(lat), Double.parseDouble(lng));
-                        mMap.addMarker(new MarkerOptions()
+                        MarkerOptions mOptions = new MarkerOptions()
                                 .position(latLng)
-                                .title(text))
-                                .showInfoWindow();
+                                .title(text)
+                                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_person_pin_black_24dp));
+                        MainActivity.shoutoutMarkers.add(mMap.addMarker(mOptions));
                     }
                 }
             }catch (Exception e){
