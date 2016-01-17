@@ -177,7 +177,6 @@ public class MainActivity extends AppCompatActivity
                 fragmentManager.beginTransaction()
                         .replace(R.id.container, HappeningNow.newInstance())
                         .commit();
-                //fragment = HappeningNow.newInstance();
 
                 findViewById(R.id.shoutout).setVisibility(View.GONE);
                 break;
@@ -218,6 +217,7 @@ public class MainActivity extends AppCompatActivity
                 findViewById(R.id.map).setVisibility(View.VISIBLE);
                 break;
             case 3: // shoutout
+                mTitle = getString(R.string.title_section4);
                 findViewById(R.id.map).setVisibility(View.VISIBLE);
                 findViewById(R.id.shoutout).setVisibility(View.VISIBLE);
                 updateShoutoutMap();
@@ -517,7 +517,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onMapClick(LatLng point){
-        if (mTitle == "Bus Notifications") {
+        if (mTitle.equals("Bus Notifications")) {
             return;
         }
         double clickX = point.longitude;
