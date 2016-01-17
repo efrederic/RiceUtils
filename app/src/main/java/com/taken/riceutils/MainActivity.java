@@ -305,7 +305,7 @@ public class MainActivity extends AppCompatActivity
                 }
                 // Create a PostShoutoutTask to send the new shoutout to the server
                 AsyncTask<String, Void, Void> postShoutoutTask =
-                        new PostShoutoutTask(text, lat, lng);
+                        new PostShoutoutTask(mMap, text, lat, lng);
                 postShoutoutTask.execute("http://rice-utilities.appspot.com/addpost");
             }
         })

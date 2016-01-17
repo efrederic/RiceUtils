@@ -10,16 +10,20 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import com.google.android.gms.maps.GoogleMap;
+
 /**
  * Created by andrew on 1/17/16.
  */
 public class PostShoutoutTask extends AsyncTask<String, Void, Void> {
 
+    private GoogleMap mMap;
     private String mText;
     private String mLat;
     private String mLng;
 
-    public PostShoutoutTask(String text, String lat, String lng) {
+    public PostShoutoutTask(GoogleMap map, String text, String lat, String lng) {
+        mMap = map;
         mText = text;
         mLat = lat;
         mLng = lng;
@@ -48,6 +52,9 @@ public class PostShoutoutTask extends AsyncTask<String, Void, Void> {
         } catch (Exception e) {
             Log.e("RICEUTILS", e.toString());
         }
+        // Create a GetShoutoutsTask to retrieve new pins, clear pins, and set new pins
+        AsyncTask<String, Void, String> getShoutoutsTask = new GetShoutoutsTask(mMap);
+        getShoutoutsTask.execute("http://rice-utilities.appspot.com/getposts");
         return null;
     }
 }
