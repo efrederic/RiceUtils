@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity
     static Map<Integer, Bitmap> busIcons = new HashMap<>();
     static ArrayList<Marker> busMarkers = new ArrayList<>();
     static HashMap<String, ArrayList<LatLng>> busRouteMarkerArrays = null;
-    static ArrayList<Marker> shoutoutMarkers = new ArrayList<>();
+    //static ArrayList<Marker> shoutoutMarkers = new ArrayList<>();
 
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
@@ -314,24 +314,6 @@ public class MainActivity extends AppCompatActivity
 //                .commit();
     }
 
-    private void initBusRouteMarkerArrays() {
-//
-//        for (int i = 0; i < routes.length(); i++) {
-//            ArrayList<LatLng> routeStops = new ArrayList<>();
-//            String routeName = "";
-//            try {
-//                JSONObject route = routes.getJSONObject(i);
-//                routeName = route.getString("Name");
-//            } catch (JSONException e) {
-//
-//            }
-//
-//        }
-//
-//        MarkerOptions options = new MarkerOptions();
-//        options.position(new LatLng(3, 3));
-//        Marker m = getMap().addMarker(options);
-//        stop1.add(m);
     public void giveShoutout(View view){
         android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
         builder.setTitle("Give a shoutout!");
@@ -369,6 +351,24 @@ public class MainActivity extends AppCompatActivity
         getActionBar().setTitle(mTitle);
     }
 
+    private void initBusRouteMarkerArrays() {
+//
+//        for (int i = 0; i < routes.length(); i++) {
+//            ArrayList<LatLng> routeStops = new ArrayList<>();
+//            String routeName = "";
+//            try {
+//                JSONObject route = routes.getJSONObject(i);
+//                routeName = route.getString("Name");
+//            } catch (JSONException e) {
+//
+//            }
+//
+//        }
+//
+//        MarkerOptions options = new MarkerOptions();
+//        options.position(new LatLng(3, 3));
+//        Marker m = getMap().addMarker(options);
+//        stop1.add(m);
         ArrayList<LatLng> innerLoopStops = new ArrayList<>();
         innerLoopStops.add(BuildingMap.busStops.get("Bus Stop 5"));
         innerLoopStops.add(BuildingMap.busStops.get("Bus Stop A"));
@@ -544,7 +544,6 @@ public class MainActivity extends AppCompatActivity
             Intent serviceIntent = new Intent(this, BusNotificationService.class);
             serviceIntent.putExtra("BusType", lastBusName).putExtra("BusStop", busStop);
             startService(serviceIntent);
-            mNavigationDrawerFragment
             return true;
         }
         return false;
