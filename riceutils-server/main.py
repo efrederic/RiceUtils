@@ -44,6 +44,7 @@ def getposts():
 
 @app.route("/clearposts")
 def clearposts():
+    global posts
     posts = []
     return "Success!"
 
