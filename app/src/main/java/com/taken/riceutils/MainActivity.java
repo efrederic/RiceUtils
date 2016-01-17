@@ -29,6 +29,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -39,13 +40,35 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.json.JSONArray;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.StringReader;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks, AdapterView.OnItemClickListener, GoogleMap.OnMarkerClickListener, GoogleMap.OnMapClickListener {
@@ -70,6 +93,7 @@ public class MainActivity extends AppCompatActivity
     @SuppressLint("UseSparseArrays")
     static Map<Integer, Bitmap> busIcons = new HashMap<>();
     static ArrayList<Marker> busMarkers = new ArrayList<>();
+    static ArrayList<Marker> shoutoutMarkers = new ArrayList<>();
 
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
@@ -93,6 +117,7 @@ public class MainActivity extends AppCompatActivity
 
         allLocs.putAll(BuildingMap.buildings);
         allLocs.putAll(BuildingMap.classes);
+        allLocs.putAll(BuildingMap.busStops);
         String[] placeNames = Arrays.copyOf(allLocs.keySet().toArray(), allLocs.keySet().toArray().length, String[].class);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, placeNames);
 
@@ -125,8 +150,6 @@ public class MainActivity extends AppCompatActivity
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
-        this.loaded = true;
-
         InputMethodManager inputManager = (InputMethodManager)
                 getSystemService(Context.INPUT_METHOD_SERVICE);
 
@@ -134,6 +157,8 @@ public class MainActivity extends AppCompatActivity
             inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
                     InputMethodManager.HIDE_NOT_ALWAYS);
         }
+        findViewById(R.id.shoutout).setVisibility(View.GONE);
+        this.loaded = true;
     }
 
     @Override
@@ -161,6 +186,7 @@ public class MainActivity extends AppCompatActivity
         switch (position) {
             case 0: // map
                 findViewById(R.id.map).setVisibility(View.VISIBLE);
+                findViewById(R.id.shoutout).setVisibility(View.GONE);
                 break;
             case 1: // happening now
                 findViewById(R.id.map).setVisibility(View.GONE);
@@ -170,17 +196,34 @@ public class MainActivity extends AppCompatActivity
                         .commit();
                 //fragment = HappeningNow.newInstance();
 
+                findViewById(R.id.shoutout).setVisibility(View.GONE);
                 break;
             case 2: // bus notifications
                 findViewById(R.id.map).setVisibility(View.GONE);
+                findViewById(R.id.shoutout).setVisibility(View.GONE);
                 break;
-            case 3: // penguin
-                findViewById(R.id.map).setVisibility(View.GONE);
+            case 3: // shoutout
+                findViewById(R.id.map).setVisibility(View.VISIBLE);
+                findViewById(R.id.shoutout).setVisibility(View.VISIBLE);
+                //Get some stuff
+                String[] shoutoutData = {"Party over here","Party over there","Shoutout to pears","Shoutout to pears again","So many flavors"};
+                String[] lattitudes = {"29.713845", "29.714167", "29.715122", "29.715332", "29.716301"};
+                String[] longitudes = {"-95.406353", "-95.406224", "-95.405237", "-95.404684", "-95.402195"};
+                HashMap<String, LatLng> shoutouts = new HashMap<>();
+
+                for (int i=0; i<lattitudes.length; i++){
+//                    shoutouts.put(shoutoutData[i], new LatLng(Double.parseDouble(lattitudes[i]), Double.parseDouble(longitudes[i])));
+                    LatLng latLng = new LatLng(Double.parseDouble(lattitudes[i]), Double.parseDouble(longitudes[i]));
+                    mMap.addMarker(new MarkerOptions()
+                            .position(latLng)
+                            .title(shoutoutData[i]))
+                            .showInfoWindow();
+                }
+
                 break;
             case 4: // servery menu
                 Intent webViewIntent = new Intent(this, WebViews.class);
                 startActivity(webViewIntent);
-//                findViewById(R.id.map).setVisibility(View.GONE);
                 break;
             case 5: // other links
                 final ArrayList<String> sites = new ArrayList<>();
@@ -223,6 +266,7 @@ public class MainActivity extends AppCompatActivity
                 break;
             case 6:
                 findViewById(R.id.map).setVisibility(View.GONE);
+                findViewById(R.id.shoutout).setVisibility(View.GONE);
                 Intent serviceIntent = new Intent(this, BusNotificationService.class);
                 serviceIntent.putExtra("BusType", "RiceVillage").putExtra("BusStop", "A");
                 startService(serviceIntent);
@@ -237,6 +281,35 @@ public class MainActivity extends AppCompatActivity
 //                .commit();
     }
 
+    public void giveShoutout(View view){
+        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
+        builder.setTitle("Give a shoutout!");
+        LayoutInflater inflater = this.getLayoutInflater();
+        final View v = inflater.inflate(R.layout.shoutout_layout, null);
+        builder.setView(v)
+                .setPositiveButton("Post", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        String text = ((EditText)v.findViewById(R.id.shoutoutText)).getText().toString();
+                        String lat = "";
+                        String lng = "";
+                        try {
+                            locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 2, locListener);
+                            Location location = locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                            lat = location.getLatitude()+"";
+                            lng = location.getLongitude()+"";
+                        } catch (Exception e) {
+                            Log.e("e", e.toString());
+                        }
+
+                        AsyncTask<String, Void, String> shoutoutTask = new ShoutoutTask(text, lat, lng);
+                        shoutoutTask.execute("http://rice-utilities.appspot.com/addpost");
+                    }
+                })
+                .setNegativeButton("Cancel", null);
+        android.support.v7.app.AlertDialog dialog = builder.create();
+        dialog.show();
+    }
 
     @Override
     public void setTitle(CharSequence title) {
@@ -411,7 +484,11 @@ public class MainActivity extends AppCompatActivity
         String shortestKey = "";
         double shortestDist = Double.MAX_VALUE;
 
-        for (Map.Entry<String, LatLng> entry : BuildingMap.buildings.entrySet()) {
+        HashMap<String, LatLng> selectableLocs = new HashMap<>();
+        selectableLocs.putAll(BuildingMap.buildings);
+        selectableLocs.putAll(BuildingMap.busStops);
+
+        for (Map.Entry<String, LatLng> entry : selectableLocs.entrySet()) {
             double x = entry.getValue().longitude;
             double y = entry.getValue().latitude;
 
@@ -422,7 +499,7 @@ public class MainActivity extends AppCompatActivity
             }
         }
 
-        LatLng loc = BuildingMap.buildings.get(shortestKey);
+        LatLng loc = selectableLocs.get(shortestKey);
         mMap.animateCamera(CameraUpdateFactory.newLatLng(loc));
         marker.setPosition(loc);
         marker.setTitle(shortestKey);

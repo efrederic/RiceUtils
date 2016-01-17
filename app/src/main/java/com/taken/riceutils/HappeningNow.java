@@ -85,7 +85,12 @@ public class HappeningNow extends Fragment {
                 if (nNode.getNodeType() == Node.ELEMENT_NODE) {
                     Element eElement = (Element) nNode;
                     map.put(KEY_TITLE, eElement.getElementsByTagName("title").item(0).getTextContent());
-                    map.put(KEY_TIME, eElement.getElementsByTagName("pubDate").item(0).getTextContent());
+
+                    Pattern timePattern = Pattern.compile("(?<=20\\d\\d<br>).*?(?=<br><br><br>)");
+                    Matcher timeMatcher = timePattern.matcher(eElement.getElementsByTagName("description").item(0).getTextContent());
+                    if(timeMatcher.find()) {
+                        map.put(KEY_TIME, timeMatcher.group());
+                    }
 
                     Pattern locationPattern = Pattern.compile("(?<=<br><br><br>).*?(?=<br>)");
                     Matcher locationMatcher = locationPattern.matcher(eElement.getElementsByTagName("description").item(0).getTextContent());

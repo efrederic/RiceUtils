@@ -45,8 +45,9 @@ public class BuildingMap {
 		busStops.put("BRC Bus Stop", new LatLng(29.711687, -95.402261));
 		busStops.put("Rice Village Bus Stop", new LatLng(29.715834, -95.416603));
 		busStops.put("Target Bus Stop", new LatLng(29.692830, -95.418301));
+		busStops.put("Fiesta Bus Stop", new LatLng(29.690823, -95.415517));
 
-		buildings.put("Anderson BioLab - ABL", new LatLng(29.718666, -95.402409));
+		buildings.put("Anderson Biological Laboratories - ABL", new LatLng(29.718666, -95.402409));
 		buildings.put("Abercrombie Lab - AEL", new LatLng(29.720811, -95.399199));
 		buildings.put("Anderson Hall - ANH", new LatLng(29.718824,-95.399671));
 		buildings.put("Brown Hall - APB", new LatLng(29.716448, -95.404975));
@@ -140,7 +141,7 @@ public class BuildingMap {
 		buildings.put("Rice Village Apartments", new LatLng(29.714436, -95.41556));
 		buildings.put("Student Health Center", new LatLng(29.720979, -95.395572));
 		buildings.put("Reckling Park", new LatLng(29.714259, -95.404314));
-		buildings.put("Hess Tennis Stadium", new LatLng(29.714417, -95.405323));
+		buildings.put("George R. Brown Tennis Complex", new LatLng(29.718279, -95.407862));
 		buildings.put("Holloway Field", new LatLng(29.713182, -95.402581));
 		buildings.put("Wendel D. Ley Track", new LatLng(29.713182, -95.402581));
 		buildings.put("Track/Soccer Stadium", new LatLng(29.713182, -95.402581));
@@ -181,7 +182,22 @@ public class BuildingMap {
 		buildings.put("Farnsworth Pavilion", new LatLng(29.717698, -95.402406));
 		buildings.put("RMC Grand Hall", new LatLng(29.717901, -95.401826));
 		buildings.put("Bandhall", new LatLng(29.714886, -95.403060));
-		
+		buildings.put("Post Office", new LatLng(29.714886, -95.403060));
+		buildings.put("Moody Center for the Arts", new LatLng(29.714166, -95.405510));
+		buildings.put("Wiess President's House", new LatLng(29.714166, -95.405510));
+		buildings.put("45-90-180", new LatLng(29.720366, -95.399748));
+		buildings.put("Academic Quad", new LatLng(29.718606, -95.398862));
+		buildings.put("Engineering Quad", new LatLng(29.720367, -95.399745));
+		buildings.put("Alice Pratt Brown Hall", new LatLng(29.716141, -95.405045));
+		buildings.put("Bike Track", new LatLng(29.716142, -95.411351));
+		buildings.put("Founder's Court", new LatLng(29.719309, -95.397137));
+		buildings.put("Rice Memorial Chapel", new LatLng(29.718147, -95.401269));
+		buildings.put("Miner Lounge", new LatLng(29.717948, -95.402597));
+		buildings.put("Meyer Conference Room", new LatLng(29.717973, -95.402541));
+		buildings.put("Stude Concert Hall", new LatLng(29.716277, -95.405193));
+		buildings.put("Duncan Recital Hall", new LatLng(29.716151, -95.405072));
+		buildings.put("Edythe Bates Grand Organ Hall", new LatLng(29.715804, -95.404922));
+
 		classes.put("Hotel Romeo Zulu", new LatLng(29.719323, -95.398435));
 		classes.put("ANTH 491 004 Howe, Alyssa C.", null);
 		classes.put("MUSI 401 006 Lavenda, Richard A.", null);
