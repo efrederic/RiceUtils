@@ -178,14 +178,14 @@ public class BuildingMap {
 		nightEsct_StopNotifs.put("Bus Stop C", new LatLng(29.717140, -95.408272));
 
 //		busRoutes.put("Texas Medical Center/BRC", texMed_StopNotifs);
-		busRoutes.put("Night Escort Service", nightEsct_StopNotifs); // TO REMOVE
+		//busRoutes.put("Night Escort Service", nightEsct_StopNotifs); // TO REMOVE
 		busRoutes.put("Inner Loop", inLoop_StopNotifs);
 		busRoutes.put("Graduate Apartments", gradAprt_StopNotifs);
 		busRoutes.put("Rice Village Apartments/Greenbriar", riceVilAprt_StopNotifs);
 		busRoutes.put("Friday Night Rice Village", friRiceVil_StopNotifs);
 		busRoutes.put("Saturday Night Rice Village", satRiceVil_StopNotifs);
-		busRoutes.put("Graduate Apartments Shopping Shuttle", gradShop_StopNotifs);
-		busRoutes.put("Undergraduate Shopping Shuttle", ungradShop_StopNotifs);
+		busRoutes.put("Graduate Apartment Shopping", gradShop_StopNotifs);
+		busRoutes.put("Undergraduate Shopping", ungradShop_StopNotifs);
 		busRoutes.put("Greater Loop", greatLoop_StopNotifs);
 		busRoutes.put("BRC Express", brc_StopNotifs);
 

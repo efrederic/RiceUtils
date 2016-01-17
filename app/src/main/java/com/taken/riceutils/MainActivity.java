@@ -200,10 +200,10 @@ public class MainActivity extends AppCompatActivity
                         "Saturday Night Rice Village",
                         "Graduate Apartment Shopping",
                         "Undergraduate Shopping",
-                        "Night Escort Service",
+                        //"Night Escort Service",
                         "Greater Loop",
-                        "Brc Express",
-                        "Texas Medical Center/BRC"
+                        "BRC Express"
+                        //"Texas Medical Center/BRC"
                 };
                 if (busRouteMarkerArrays == null) {
                     initBusRouteMarkerArrays();
