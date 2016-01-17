@@ -22,7 +22,10 @@
             android:text="@string/button_text"
             android:gravity="center"
             android:layout_alignParentBottom="true"
-            android:onClick="giveShoutout" />
+            android:onClick="giveShoutout"
+            android:textColor="#2B2B2B"
+            android:textSize="24dp"
+            android:background="@layout/button_selector"/>
 
         <fragment xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
