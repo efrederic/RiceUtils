@@ -4,6 +4,14 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -12,6 +20,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Karin on 1/16/2016.
@@ -62,11 +71,35 @@ public class BusServiceDataRetriever extends AsyncTask<String, Void, String> {
     protected void onPostExecute(String res) {
         super.onPostExecute(res);
 
+        // holds type and location
+        HashMap<String, LatLng> buses = new HashMap<>();
+
+        try{
+            JSONObject obj = new JSONObject(res);
+            JSONArray jArray = obj.getJSONArray("d");
+
+            for (int i = 0; i < jArray.length(); i++) {
+                JSONObject bus = jArray.getJSONObject(i);
+                LatLng pos = new LatLng(bus.getDouble("Latitude"), bus.getDouble("Longitude"));
+                buses.put(bus.getString("Name"), pos);
+
+            }
+        } catch (Exception e) {
+            Log.e("e",e.toString());
+        }
+
         //find any/all buses that are in any/all target zones
-
-        //remove any notifications
-
-        service.removeFromTrackedBuses(0, true);
+        for (Map.Entry<Integer, String[]> entry : trackedStops.entrySet()) {
+            for (Map.Entry<String, LatLng> bus : buses.entrySet()) {
+                LatLng stopLocation = BuildingMap.busStops.get(entry.getValue()[1]);
+                if (bus.getKey().equals(entry.getValue()[0]) &&
+                        Math.abs(stopLocation.latitude - bus.getValue().latitude) <= 0.00016 &&
+                        Math.abs(stopLocation.longitude - bus.getValue().longitude) <= 0.00016) {
+                    service.removeFromTrackedBuses(entry.getKey(), true);
+                    break;
+                }
+            }
+        }
     }
 
 }

@@ -1,7 +1,6 @@
 package com.taken.riceutils;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
@@ -17,8 +16,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.content.Context;
-import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
@@ -159,15 +156,20 @@ public class MainActivity extends AppCompatActivity
             textView.setVisibility(View.VISIBLE);
         }
 
-        Fragment fragment = PlaceholderFragment.newInstance(position+1);
+        //Fragment fragment = PlaceholderFragment.newInstance(position+1);
 
         switch (position) {
             case 0: // map
                 findViewById(R.id.map).setVisibility(View.VISIBLE);
                 break;
             case 1: // happening now
-                fragment = HappeningNow.newInstance();
                 findViewById(R.id.map).setVisibility(View.GONE);
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, HappeningNow.newInstance())
+                        .commit();
+                //fragment = HappeningNow.newInstance();
+
                 break;
             case 2: // bus notifications
                 findViewById(R.id.map).setVisibility(View.GONE);
@@ -229,10 +231,10 @@ public class MainActivity extends AppCompatActivity
                 break;
         }
         // update the main content by replacing fragments
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.container, fragment)
-                .commit();
+//        FragmentManager fragmentManager = getSupportFragmentManager();
+//        fragmentManager.beginTransaction()
+//                .replace(R.id.container, fragment)
+//                .commit();
     }
 
 
