@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
-        mTitle = getTitle();
+        mTitle = getString(R.string.title_section1);
 
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(
@@ -163,9 +163,11 @@ public class MainActivity extends AppCompatActivity
             textView.setVisibility(View.VISIBLE);
         }
 
+        ActionBar actionBar = getSupportActionBar();
         switch (position) {
             case 0: // map
                 mTitle = getString(R.string.title_section1);
+                actionBar.setDisplayShowTitleEnabled(false);
                 mMap.clear();
                 marker = mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)));
                 findViewById(R.id.map).setVisibility(View.VISIBLE);
@@ -175,6 +177,7 @@ public class MainActivity extends AppCompatActivity
             case 1: // happening now
                 mTitle = getString(R.string.title_section2);
                 findViewById(R.id.map).setVisibility(View.GONE);
+                actionBar.setDisplayShowTitleEnabled(true);
                 clearShoutoutMarkers();
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 fragmentManager.beginTransaction()
@@ -186,6 +189,7 @@ public class MainActivity extends AppCompatActivity
             case 2: //Bus Notifications
                 clearShoutoutMarkers();
                 mTitle = getString(R.string.title_section3);
+                actionBar.setDisplayShowTitleEnabled(true);
                 mMap.clear();
                 marker = mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)));
                 final String[] busNames = new String[]{
@@ -223,6 +227,7 @@ public class MainActivity extends AppCompatActivity
                 break;
             case 3: // shoutout
                 mTitle = getString(R.string.title_section4);
+                actionBar.setDisplayShowTitleEnabled(true);
                 mMap.clear();
                 marker = mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)));
                 findViewById(R.id.map).setVisibility(View.VISIBLE);
@@ -232,6 +237,7 @@ public class MainActivity extends AppCompatActivity
             case 4: // servery menu
                 clearShoutoutMarkers();
                 mTitle = getString(R.string.title_section5);
+                actionBar.setDisplayShowTitleEnabled(true);
                 Intent webViewIntent = new Intent(this, WebViews.class);
                 webViewIntent.putExtra("url", getString(R.string.dining_link));
                 startActivity(webViewIntent);
@@ -239,6 +245,7 @@ public class MainActivity extends AppCompatActivity
             case 5: // other links
                 clearShoutoutMarkers();
                 mTitle = getString(R.string.title_section6);
+                actionBar.setDisplayShowTitleEnabled(true);
                 final ArrayList<String> sites = new ArrayList<>();
                 sites.add(getString(R.string.athletics_link));
                 sites.add(getString(R.string.career_link));
@@ -386,7 +393,11 @@ public class MainActivity extends AppCompatActivity
     public void restoreActionBar() {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-        actionBar.setDisplayShowTitleEnabled(false);
+        if (mTitle.equals(getString(R.string.title_section1))) {
+            actionBar.setDisplayShowTitleEnabled(false);
+        } else {
+            actionBar.setDisplayShowTitleEnabled(true);
+        }
     }
 
     @Override
@@ -508,7 +519,11 @@ public class MainActivity extends AppCompatActivity
             Intent serviceIntent = new Intent(this, BusNotificationService.class);
             serviceIntent.putExtra("BusType", lastBusName).putExtra("BusStop", busStop);
             startService(serviceIntent);
-            Toast.makeText(this, "Bus notification pending", Toast.LENGTH_LONG).show();
+            //Toast.makeText(this, "Bus notification pending", Toast.LENGTH_LONG).show();
+            new AlertDialog.Builder(this)
+                    .setTitle("Bus notification pending")
+                    .setPositiveButton("OK", null)
+                    .show();
             return true;
         }
         return false;
