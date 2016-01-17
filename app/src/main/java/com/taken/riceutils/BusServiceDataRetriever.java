@@ -20,10 +20,10 @@ public class BusServiceDataRetriever extends AsyncTask<String, Void, String> {
 
     private InputStream inputStream = null;
     private HashMap<Integer, String[]> trackedStops;
-    private Context context;
+    private BusNotificationService service;
 
-    public BusServiceDataRetriever(Context context, HashMap<Integer, String[]> trackedStops){
-        this.context = context;
+    public BusServiceDataRetriever(BusNotificationService service, HashMap<Integer, String[]> trackedStops){
+        this.service = service;
         this.trackedStops = trackedStops;
     }
 
@@ -66,7 +66,7 @@ public class BusServiceDataRetriever extends AsyncTask<String, Void, String> {
 
         //remove any notifications
 
-        BusNotificationService.removeFromTrackedBuses(context, 0);
+        service.removeFromTrackedBuses(0, true);
     }
 
 }

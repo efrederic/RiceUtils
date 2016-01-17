@@ -5,7 +5,6 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.*;
-import android.os.Process;
 import android.app.NotificationManager;
 import android.app.TaskStackBuilder;
 import android.app.PendingIntent;
@@ -17,47 +16,12 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class BusNotificationService extends Service {
-    private ServiceHandler mServiceHandler;
 
-    public static HashMap<Integer, String[]> mBusNotifications;
+    public HashMap<Integer, String[]> mBusNotifications;
     private boolean mTimersScheduled;
     private int mCurrNotifId;
+    private Timer timer;
 
-    // Handler that receives messages from the thread
-    private final class ServiceHandler extends Handler {
-        public ServiceHandler(Looper looper) {
-            super(looper);
-        }
-        @Override
-        public void handleMessage(Message msg) {
-            // Normally we would do some work here, like download a file.
-            // For our sample, we just sleep for 5 seconds.
-//            long endTime = System.currentTimeMillis() + 10*1000;
-//            while (System.currentTimeMillis() < endTime) {
-//                synchronized (this) {
-//                    try {
-//                        wait(endTime - System.currentTimeMillis());
-//                    } catch (Exception e) {
-//                    }
-//                }
-//            }
-//            mNotificationManager.cancel(ongoingNotifId);
-            // Send a notification to tell the user that the bus is close by
-//            mBuilder =
-//                    new Notification.Builder(BusNotificationService.this)
-//                    .setSmallIcon(R.drawable.rice_icon)
-//                    .setContentTitle("BUSSSS")
-//                    .setContentText("Your bussssss is hereeee")
-//                    .setAutoCancel(true)
-//                    .setPriority(Notification.PRIORITY_MAX)
-//                    .setDefaults(Notification.DEFAULT_ALL);
-//            mBuilder.setContentIntent(resultPendingIntent);
-//            mNotificationManager.notify(2, mBuilder.build());
-            // Stop the service using the startId, so that we don't stop
-            // the service in the middle of handling another job
-            stopSelf(msg.arg1);
-        }
-    }
 
     @Override
     public void onCreate() {
@@ -65,13 +29,6 @@ public class BusNotificationService extends Service {
         // separate thread because the service normally runs in the process's
         // main thread, which we don't want to block.  We also make it
         // background priority so CPU-intensive work will not disrupt our UI.
-        HandlerThread thread = new HandlerThread("ServiceStartArguments",
-                Process.THREAD_PRIORITY_BACKGROUND);
-        thread.start();
-
-        // Get the HandlerThread's Looper and use it for our Handler
-        Looper mServiceLooper = thread.getLooper();
-        mServiceHandler = new ServiceHandler(mServiceLooper);
 
         // Create an array of bus stops to track
         mBusNotifications = new HashMap<>();
@@ -79,7 +36,7 @@ public class BusNotificationService extends Service {
         // The first time onStartCommand is run, the timers will be scheduled
         mTimersScheduled = false;
 
-        mCurrNotifId = 1;
+        mCurrNotifId = 0;
     }
 
     @Override
@@ -102,17 +59,13 @@ public class BusNotificationService extends Service {
                            && intent.hasExtra("NotifId")) {
 
             int notifId = intent.getIntExtra("NotifId", -1);
-            mBusNotifications.remove(notifId);
-
-            NotificationManager mNotificationManager =
-                    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            mNotificationManager.cancel(notifId);
+            removeFromTrackedBuses(notifId, false);
         }
 
         if (!mTimersScheduled) {
             mTimersScheduled = true;
             final Handler handler = new Handler();
-            Timer timer = new Timer();
+            timer = new Timer();
             TimerTask doAsyncTask = new TimerTask() {
                 @Override
                 public void run() {
@@ -131,13 +84,6 @@ public class BusNotificationService extends Service {
             };
             timer.schedule(doAsyncTask, 0, 1000);
         }
-        // For each start request, send a message to start a job and deliver the
-        // start ID so we know which request we're stopping when we finish the job
-//        Message msg = mServiceHandler.obtainMessage();
-//        msg.arg1 = startId;
-//        mServiceHandler.sendMessage(msg);
-
-        // If we get killed, after returning from here, restart
         return START_STICKY;
     }
 
@@ -186,23 +132,54 @@ public class BusNotificationService extends Service {
         mNotificationManager.notify(notifId, mBuilder.build());
     }
 
-    public static void removeFromTrackedBuses(Context context, int notifId){
+    public void removeFromTrackedBuses(int notifId, boolean foundBus){
         //check that the bus is in the hash map. panic if its not
         if (!mBusNotifications.containsKey(notifId)){
             return;
         }
-        else {
-            //stop ongoing notification
-            NotificationManager mNotificationManager =
-                    (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-            mNotificationManager.cancel(notifId);
 
+        //create the bus stop and bus type variables from the notifId
+        String busType = mBusNotifications.get(notifId)[0];
+        String busStop = mBusNotifications.get(notifId)[1];
+
+        //stop ongoing notification
+        NotificationManager mNotificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.cancel(notifId);
+
+        if (foundBus) {
             //throw we found bus notification
+            // Send a notification to tell the user that the bus is close by
+            //create pending intent to bring us back to the main maps
+            Intent mainIntent = new Intent(this, MainActivity.class);
+            TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+            stackBuilder.addParentStack(MainActivity.class);
+            stackBuilder.addNextIntent(mainIntent);
+            PendingIntent mainPendingIntent =
+                    stackBuilder.getPendingIntent(
+                            0,
+                            PendingIntent.FLAG_UPDATE_CURRENT
+                    );
+            //generate the actual notification
+            Notification.Builder mBuilder =
+                    new Notification.Builder(this)
+                            .setSmallIcon(R.drawable.ic_directions_bus_white_48dp)
+                            .setContentTitle("Bus Arrival")
+                            .setContentText(busType + " has arrived at " + busStop)
+                            .setAutoCancel(true)
+                            .setPriority(Notification.PRIORITY_MAX)
+                            .setDefaults(Notification.DEFAULT_ALL);
+            mBuilder.setContentIntent(mainPendingIntent);
+            mNotificationManager.notify(notifId, mBuilder.build());
+        }
 
-            //remove from array
+        //remove from array
+        mBusNotifications.remove(notifId);
 
-            //if the tracked buses array is empty, kill everything
-
+        // if there are no buses to wait for, stop self
+        if (mBusNotifications.isEmpty()) {
+            timer.cancel();
+            stopSelf();
         }
     }
 
