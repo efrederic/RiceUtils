@@ -230,10 +230,11 @@ public class MainActivity extends AppCompatActivity
                 updateShoutoutMap();
                 break;
             case 4: // servery menu
+                clearShoutoutMarkers();
                 mTitle = getString(R.string.title_section5);
                 Intent webViewIntent = new Intent(this, WebViews.class);
+                webViewIntent.putExtra("url", getString(R.string.dining_link));
                 startActivity(webViewIntent);
-                clearShoutoutMarkers();
                 break;
             case 5: // other links
                 clearShoutoutMarkers();
@@ -272,7 +273,6 @@ public class MainActivity extends AppCompatActivity
                                         Intent webViewIntent = new Intent(MainActivity.this, WebViews.class);
                                         webViewIntent.putExtra("url", sites.get(which));
                                         startActivity(webViewIntent);
-                                        //findViewById(R.id.map).setVisibility(View.GONE);
                                     }
                                 })
                         .show();

@@ -13,7 +13,7 @@ import android.webkit.WebViewClient;
 /**
  *
  */
-public class WebViews extends Activity{
+public class WebViews extends Activity {
 
     public WebViews() {
         // Required empty public constructor
@@ -44,25 +44,8 @@ public class WebViews extends Activity{
             }
         });
         web.getSettings().setJavaScriptEnabled(true);
-        web.loadUrl(getString(R.string.dining_link));
         web.loadUrl(getIntent().getStringExtra("url"));
     }
-
-//    public class myWebClient extends WebViewClient {
-//        @Override
-//        public void onPageStarted(WebView view, String url, Bitmap favicon) {
-//            // TODO Auto-generated method stub
-//            super.onPageStarted(view, url, favicon);
-//        }
-//
-//        @Override
-//        public boolean shouldOverrideUrlLoading(WebView view, String url) {
-//            // TODO Auto-generated method stub
-//
-//            view.loadUrl(url);
-//            return true;
-//        }
-//    }
 
     // To handle "Back" key press event for WebView to go back to previous screen.
     @Override
