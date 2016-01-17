@@ -13,19 +13,9 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <Button
-            android:id="@+id/shoutout"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/button_text"
-            android:gravity="center"
-            android:layout_alignParentBottom="true"
-            android:onClick="giveShoutout"
-            android:textColor="#2B2B2B"
-            android:textSize="24dp"
-            android:background="@layout/button_selector"/>
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        >
 
         <fragment xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
@@ -37,8 +27,18 @@
             map:mapType="normal"
             map:cameraTargetLat="29.71747"
             map:cameraTargetLng="-95.40263"
-            map:cameraZoom="16"
-            android:layout_above="@id/shoutout"/>
+            map:cameraZoom="16" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/shoutout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="giveShoutout"
+            android:src="@drawable/ic_record_voice_over_black_24dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="16dp"
+            />
 
     </RelativeLayout>
 
