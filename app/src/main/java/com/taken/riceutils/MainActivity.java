@@ -167,6 +167,7 @@ public class MainActivity extends AppCompatActivity
             case 0: // map
                 mTitle = getString(R.string.title_section1);
                 mMap.clear();
+                marker = mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)));
                 findViewById(R.id.map).setVisibility(View.VISIBLE);
                 findViewById(R.id.shoutout).setVisibility(View.GONE);
                 break;
@@ -183,6 +184,7 @@ public class MainActivity extends AppCompatActivity
             case 2: //Bus Notifications
                 mTitle = getString(R.string.title_section3);
                 mMap.clear();
+                marker = mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)));
                 final String[] busNames = new String[]{
                         "Inner Loop",
                         "Graduate Apartments",
@@ -516,7 +518,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onMapClick(LatLng point){
+    public void onMapClick(LatLng point) {
         if (mTitle.equals("Bus Notifications")) {
             return;
         }
