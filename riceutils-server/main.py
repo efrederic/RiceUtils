@@ -42,7 +42,7 @@ def getposts():
     xmlstr = etree.tostring(root)
     return xmlstr
 
-@approute("/clearposts")
+@app.route("/clearposts")
 def clearposts():
     posts = []
     return "Success!"
@@ -56,6 +56,3 @@ def page_not_found(e):
 def application_error(e):
     """Return a custom 500 error."""
     return "Sorry, unexpected error: {}".format(e), 500
-
-if __name__ == "__main__":
-    app.run()
