@@ -267,7 +267,6 @@ public class MainActivity extends AppCompatActivity
                         .show();
                 break;
             default:
-                mTitle = getString(R.string.title_section7);
                 break;
         }
         // update the main content by replacing fragments
