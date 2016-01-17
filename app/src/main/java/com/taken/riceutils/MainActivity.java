@@ -400,6 +400,12 @@ public class MainActivity extends AppCompatActivity
         actionBar.setDisplayShowTitleEnabled(false);
     }
 
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem settingsItem = menu.findItem(R.id.action_settings);
+        settingsItem.setVisible(false);
+        return true;
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
