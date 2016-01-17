@@ -12,7 +12,9 @@ public class BuildingMap {
 
 	public static HashMap<String, HashMap> busRoutes = new HashMap<>();
 
-	public static HashMap<String, LatLng> texMed_StopNotifs = new HashMap<>();
+	// LatLng about a quarter mile away from the given stop
+//	public static HashMap<String, LatLng> texMed_StopNotifs = new HashMap<>();
+//	public static HashMap<String, LatLng> nightEsct_StopNotifs = new HashMap<>();
 	public static HashMap<String, LatLng> inLoop_StopNotifs = new HashMap<>();
 	public static HashMap<String, LatLng> gradAprt_StopNotifs = new HashMap<>();
 	public static HashMap<String, LatLng> riceVilAprt_StopNotifs = new HashMap<>();
@@ -20,7 +22,6 @@ public class BuildingMap {
 	public static HashMap<String, LatLng> satRiceVil_StopNotifs = new HashMap<>();
 	public static HashMap<String, LatLng> gradShop_StopNotifs = new HashMap<>();
 	public static HashMap<String, LatLng> ungradShop_StopNotifs = new HashMap<>();
-	public static HashMap<String, LatLng> nightEsct_StopNotifs = new HashMap<>();
 	public static HashMap<String, LatLng> greatLoop_StopNotifs = new HashMap<>();
 	public static HashMap<String, LatLng> brc_StopNotifs = new HashMap<>();
 
@@ -85,7 +86,7 @@ public class BuildingMap {
 		gradAprt_StopNotifs.put("Bus Stop 21", new LatLng(29.718374, -95.403062));
 		gradAprt_StopNotifs.put("Bus Stop 22", new LatLng(29.722648, -95.397059));
 		gradAprt_StopNotifs.put("Bus Stop 23", new LatLng(29.721966, -95.395928));
-//
+
 //		riceVilAprt_StopNotifs.put("Bus Stop 2", new LatLng());
 //		riceVilAprt_StopNotifs.put("Bus Stop C", new LatLng());
 //		riceVilAprt_StopNotifs.put("Bus Stop A", new LatLng());
@@ -103,7 +104,7 @@ public class BuildingMap {
 //		friRiceVil_StopNotifs.put("Bus Stop 18", new LatLng());
 //		friRiceVil_StopNotifs.put("Bus Stop G", new LatLng());
 //		friRiceVil_StopNotifs.put("Rice Village Apartments Bus Stop", new LatLng());
-//		friRiceVil_StopNotifs.put("Rice Village Bus Stop", new LatLng());
+		friRiceVil_StopNotifs.put("Rice Village Bus Stop", new LatLng(29.715104, -95.413389));
 
 //		satRiceVil_StopNotifs.put("Bus Stop 1", new LatLng());
 //		satRiceVil_StopNotifs.put("Bus Stop 2", new LatLng());
@@ -121,10 +122,10 @@ public class BuildingMap {
 		satRiceVil_StopNotifs.put("Bus Stop 15", new LatLng(29.719832, -95.398254));
 		satRiceVil_StopNotifs.put("Bus Stop 16", new LatLng(29.719161, -95.400014));
 		satRiceVil_StopNotifs.put("Bus Stop 17", new LatLng(29.718593, -95.401436));
-//		satRiceVil_StopNotifs.put("Rice Village Bus Stop", new LatLng());
+		satRiceVil_StopNotifs.put("Rice Village Bus Stop", new LatLng(29.715104, -95.413389));
 
-//		ungradShop_StopNotifs.put("Target Bus Stop", new LatLng());
-//		ungradShop_StopNotifs.put("Fiesta Bus Stop", new LatLng());
+		ungradShop_StopNotifs.put("Target Bus Stop", new LatLng(29.696935, -95.412450)); // about a half mile from stop
+		ungradShop_StopNotifs.put("Fiesta Bus Stop", new LatLng(29.692830, -95.418301)); // Target stop
 		ungradShop_StopNotifs.put("Bus Stop 4", new LatLng(29.716324, -95.407116));
 		ungradShop_StopNotifs.put("Bus Stop 5", new LatLng(29.714991, -95.405941));
 		ungradShop_StopNotifs.put("Bus Stop 6", new LatLng(29.715427, -95.404454));
@@ -144,7 +145,8 @@ public class BuildingMap {
 //		gradShop_StopNotifs.put("Rice Village Apartments Bus Stop", new LatLng());
 		gradShop_StopNotifs.put("Graduate Apartments Bus Stop", new LatLng(29.724246, -95.400762));
 
-		busRoutes.put("Texas Medical Center/BRC", texMed_StopNotifs);
+//		busRoutes.put("Texas Medical Center/BRC", texMed_StopNotifs);
+//		busRoutes.put("Night Escort Service", nightEsct_StopNotifs);
 		busRoutes.put("Inner Loop", inLoop_StopNotifs);
 		busRoutes.put("Graduate Apartments", gradAprt_StopNotifs);
 		busRoutes.put("Rice Village Apartments/Greenbriar", riceVilAprt_StopNotifs);
@@ -152,7 +154,6 @@ public class BuildingMap {
 		busRoutes.put("Saturday Night Rice Village", satRiceVil_StopNotifs);
 		busRoutes.put("Graduate Apartments Shopping Shuttle", gradShop_StopNotifs);
 		busRoutes.put("Undergraduate Shopping Shuttle", ungradShop_StopNotifs);
-		busRoutes.put("Night Escort Service", nightEsct_StopNotifs);
 		busRoutes.put("Greater Loop", greatLoop_StopNotifs);
 		busRoutes.put("BRC Express", brc_StopNotifs);
 
