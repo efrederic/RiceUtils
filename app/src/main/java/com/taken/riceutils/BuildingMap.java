@@ -123,11 +123,26 @@ public class BuildingMap {
 		satRiceVil_StopNotifs.put("Bus Stop 17", new LatLng(29.718593, -95.401436));
 //		satRiceVil_StopNotifs.put("Rice Village Bus Stop", new LatLng());
 
-//		ungradShop_StopNotifs.put("", new LatLng());
-//
-//
-//		gradShop_StopNotifs.put("", new LatLng());
+//		ungradShop_StopNotifs.put("Target Bus Stop", new LatLng());
+//		ungradShop_StopNotifs.put("Fiesta Bus Stop", new LatLng());
+		ungradShop_StopNotifs.put("Bus Stop 4", new LatLng(29.716324, -95.407116));
+		ungradShop_StopNotifs.put("Bus Stop 5", new LatLng(29.714991, -95.405941));
+		ungradShop_StopNotifs.put("Bus Stop 6", new LatLng(29.715427, -95.404454));
+		ungradShop_StopNotifs.put("Bus Stop 7", new LatLng(29.715563, -95.404145));
+		ungradShop_StopNotifs.put("Bus Stop 8", new LatLng(29.715946, -95.403124));
+		ungradShop_StopNotifs.put("Bus Stop 10", new LatLng(29.716597, -95.401464));
+		ungradShop_StopNotifs.put("Bus Stop 11", new LatLng(29.717601, -95.398940));
+		ungradShop_StopNotifs.put("Bus Stop 12", new LatLng(29.718434, -95.397267));
+		ungradShop_StopNotifs.put("Bus Stop 13", new LatLng(29.718826, -95.396929));
+		ungradShop_StopNotifs.put("Bus Stop 14", new LatLng(29.719436, -95.396682));
+		ungradShop_StopNotifs.put("Bus Stop 15", new LatLng(29.719832, -95.398254));
+		ungradShop_StopNotifs.put("Bus Stop 16", new LatLng(29.719161, -95.400014));
+		ungradShop_StopNotifs.put("Bus Stop 17", new LatLng(29.718593, -95.401436));
 
+//		gradShop_StopNotifs.put("Target Bus Stop", new LatLng());
+//		gradShop_StopNotifs.put("Fiesta Bus Stop", new LatLng());
+//		gradShop_StopNotifs.put("Rice Village Apartments Bus Stop", new LatLng());
+//		gradShop_StopNotifs.put("Graduate Apartments Bus Stop", new LatLng());
 
 		busRoutes.put("Texas Medical Center/BRC", texMed_StopNotifs);
 		busRoutes.put("Inner Loop", inLoop_StopNotifs);
