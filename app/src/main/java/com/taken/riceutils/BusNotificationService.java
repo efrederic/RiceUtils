@@ -126,8 +126,8 @@ public class BusNotificationService extends Service {
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(BusNotificationService.this)
                         .setSmallIcon(R.drawable.ic_directions_bus_white_48dp)
-                        .setContentTitle(busType)
-                        .setContentText("Monitoring " + busType + "bus near " + busStop)
+                        .setContentTitle(busType + " bus")
+                        .setContentText("Monitoring " + busStop)
                         .addAction(R.drawable.ic_cancel_white_48dp, "Dismiss", dismissPendingIntent)
                         .setOngoing(true)
                         .setPriority(Notification.PRIORITY_MAX)
