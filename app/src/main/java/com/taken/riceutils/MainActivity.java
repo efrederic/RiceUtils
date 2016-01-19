@@ -11,6 +11,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Handler;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.FragmentManager;
@@ -60,6 +61,7 @@ public class MainActivity extends AppCompatActivity
     private LocationListener locListener;
     private boolean isRunning;
     private String lastBusName;
+    private FragmentManager fragmentManager;
 
     private HashMap<String, LatLng> allLocs = new HashMap<>();
 
@@ -175,9 +177,9 @@ public class MainActivity extends AppCompatActivity
                 mTitle = getString(R.string.title_section2);
                 findViewById(R.id.map).setVisibility(View.GONE);
                 actionBar.setDisplayShowTitleEnabled(true);
-                clearShoutoutMarkers();
-                FragmentManager fragmentManager = getSupportFragmentManager();
+                fragmentManager = getSupportFragmentManager();
                 fragmentManager.beginTransaction()
+                        .addToBackStack(null)
                         .replace(R.id.container, HappeningNow.newInstance())
                         .commit();
 
@@ -232,7 +234,6 @@ public class MainActivity extends AppCompatActivity
                 updateShoutoutMap();
                 break;
             case 4: // servery menu
-                clearShoutoutMarkers();
                 mTitle = getString(R.string.title_section5);
                 actionBar.setDisplayShowTitleEnabled(true);
                 Intent webViewIntent = new Intent(this, WebViews.class);
@@ -240,7 +241,6 @@ public class MainActivity extends AppCompatActivity
                 startActivity(webViewIntent);
                 break;
             case 5: // other links
-                clearShoutoutMarkers();
                 mTitle = getString(R.string.title_section6);
                 actionBar.setDisplayShowTitleEnabled(true);
                 final ArrayList<String> sites = new ArrayList<>();
@@ -323,13 +323,13 @@ public class MainActivity extends AppCompatActivity
                .show();
     }
 
-    private void clearShoutoutMarkers(){
+    private void clearShoutoutMarkers() {
         for (Marker marker : shoutoutMarkers){
             marker.setVisible(false);
         }
     }
 
-    private void showShoutoutMarkers(){
+    private void showShoutoutMarkers() {
         for (Marker marker : shoutoutMarkers){
             marker.showInfoWindow();
         }
@@ -500,6 +500,16 @@ public class MainActivity extends AppCompatActivity
         InputMethodManager inputManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
         if (getCurrentFocus() != null) {
             inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (fragmentManager.getBackStackEntryCount() != 0) {
+            fragmentManager.popBackStack();
+            findViewById(R.id.map).setVisibility(View.VISIBLE);
+        } else {
+            super.onBackPressed();
         }
     }
 
