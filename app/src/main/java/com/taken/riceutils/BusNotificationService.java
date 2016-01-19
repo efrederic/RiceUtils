@@ -169,8 +169,8 @@ public class BusNotificationService extends Service {
             Notification.Builder mBuilder =
                     new Notification.Builder(this)
                             .setSmallIcon(R.drawable.ic_directions_bus_white_48dp)
-                            .setContentTitle("Bus Arrival")
-                            .setContentText(busType + " has arrived at " + busStop)
+                            .setContentTitle("Bus Approaching")
+                            .setContentText(busType + " bus is near " + busStop)
                             .setAutoCancel(true)
                             .setPriority(Notification.PRIORITY_MAX)
                             .setDefaults(Notification.DEFAULT_ALL);
