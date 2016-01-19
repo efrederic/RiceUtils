@@ -6,7 +6,7 @@ app = Flask(__name__)
 posts = []
 
 # maximum number of posts to store
-NUMPOSTS = 20
+NUMPOSTS = 60
 
 @app.route("/")
 def hello():
