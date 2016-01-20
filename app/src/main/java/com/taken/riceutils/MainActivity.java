@@ -102,7 +102,15 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onMapReady(GoogleMap googleMap) {
                 mMap = googleMap;
-                mMap.setMyLocationEnabled(true);
+                try {
+                    mMap.setMyLocationEnabled(true);
+                } catch (SecurityException e) {
+                    new AlertDialog.Builder(MainActivity.this)
+                            .setTitle("Failed to set user location")
+                            .setMessage("Please make sure your location services are enabled")
+                            .setPositiveButton(R.string.ok, null)
+                            .show();
+                }
                 marker = mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)));
                 mMap.setOnMarkerClickListener(MainActivity.this);
                 mMap.setOnMapClickListener(MainActivity.this);
