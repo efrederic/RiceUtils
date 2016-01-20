@@ -1,16 +1,21 @@
 package com.taken.riceutils;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Handler;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.FragmentManager;
@@ -62,6 +67,7 @@ public class MainActivity extends AppCompatActivity
     private boolean isRunning;
     private String lastBusName;
     private FragmentManager fragmentManager;
+    private boolean hasLocationPermissions = false;
 
     private HashMap<String, LatLng> allLocs = new HashMap<>();
 
@@ -75,6 +81,8 @@ public class MainActivity extends AppCompatActivity
     static HashMap<String, ArrayList<LatLng>> busRouteMarkerArrays = null;
     public static ArrayList<Marker> shoutoutMarkers = new ArrayList<>();
 
+    final static int MY_PERMISSIONS_REQUEST_LOCATION = 100;
+
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
@@ -85,6 +93,10 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
+
+        if (android.os.Build.VERSION.SDK_INT < 23) {
+            hasLocationPermissions = true;
+        }
 
         ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMapAsync(new OnMapReadyCallback() {
             @Override
@@ -143,7 +155,7 @@ public class MainActivity extends AppCompatActivity
             inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
                     InputMethodManager.HIDE_NOT_ALWAYS);
         }
-        findViewById(R.id.shoutout).setVisibility(View.GONE);
+        findViewById(R.id.create_shoutout_button).setVisibility(View.GONE);
         this.loaded = true;
     }
 
@@ -175,7 +187,7 @@ public class MainActivity extends AppCompatActivity
                 mMap.clear();
                 marker = mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)));
                 findViewById(R.id.map).setVisibility(View.VISIBLE);
-                findViewById(R.id.shoutout).setVisibility(View.GONE);
+                findViewById(R.id.create_shoutout_button).setVisibility(View.GONE);
                 clearShoutoutMarkers();
                 break;
             case 1: // happening now
@@ -188,7 +200,7 @@ public class MainActivity extends AppCompatActivity
                         .replace(R.id.container, HappeningNow.newInstance())
                         .commit();
 
-                findViewById(R.id.shoutout).setVisibility(View.GONE);
+                findViewById(R.id.create_shoutout_button).setVisibility(View.GONE);
                 break;
             case 2: //Bus Notifications
                 clearShoutoutMarkers();
@@ -235,7 +247,7 @@ public class MainActivity extends AppCompatActivity
                 mMap.clear();
                 marker = mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)));
                 findViewById(R.id.map).setVisibility(View.VISIBLE);
-                findViewById(R.id.shoutout).setVisibility(View.VISIBLE);
+                findViewById(R.id.create_shoutout_button).setVisibility(View.VISIBLE);
                 updateShoutoutMap();
                 break;
             case 4: // servery menu
@@ -298,7 +310,13 @@ public class MainActivity extends AppCompatActivity
         showShoutoutMarkers();
     }
 
-    public void giveShoutout(View view){
+    public void giveShoutout(View view) {
+//        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
+//                ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//            ActivityCompat.requestPermissions(MainActivity.this,
+//                    new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION},
+//                    MY_PERMISSIONS_REQUEST_LOCATION);
+//        }
         android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
         builder.setTitle("Give a shoutout!");
         LayoutInflater inflater = this.getLayoutInflater();
@@ -307,14 +325,14 @@ public class MainActivity extends AppCompatActivity
                .setPositiveButton("Post", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        String text = ((EditText)v.findViewById(R.id.shoutoutText)).getText().toString();
+                        String text = ((EditText) v.findViewById(R.id.shoutoutText)).getText().toString();
                         String lat = "";
                         String lng = "";
                         try {
                             locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 2, locListener);
                             Location location = locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                            lat = location.getLatitude()+"";
-                            lng = location.getLongitude()+"";
+                            lat += location.getLatitude();
+                            lng += location.getLongitude();
                         } catch (SecurityException e) {
                             Log.e("e", e.toString());
                         }
@@ -325,6 +343,17 @@ public class MainActivity extends AppCompatActivity
                 })
                .setNegativeButton("Cancel", null)
                .show();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_LOCATION:
+                hasLocationPermissions = grantResults.length > 0 &&
+                        grantResults[0] == PackageManager.PERMISSION_GRANTED &&
+                        grantResults[1] == PackageManager.PERMISSION_GRANTED;
+                break;
+        }
     }
 
     private void clearShoutoutMarkers() {
@@ -491,7 +520,7 @@ public class MainActivity extends AppCompatActivity
 
                 String toastText = calculateWalkingTime(location, loc);
                 Toast.makeText(this, toastText, Toast.LENGTH_LONG).show();
-            } catch (Exception e) {
+            } catch (SecurityException e) {
                 Log.e("e", e.toString());
             }
         } else if (BuildingMap.classes.containsKey(text)) {
