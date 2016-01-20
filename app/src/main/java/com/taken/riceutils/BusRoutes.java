@@ -28,11 +28,11 @@ public class BusRoutes extends AsyncTask<String, Void, JSONArray> {
 			HttpURLConnection connection = (HttpURLConnection) busUrl.openConnection();
 			connection.setRequestMethod("POST");
 			inputStream = new BufferedInputStream(connection.getInputStream());
-		}catch (Exception e){
+		} catch (Exception e) {
 			//Log.e("e",e.toString());
 		}
 		
-		try{
+		try {
 			BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
 			StringBuilder sBuilder = new StringBuilder();
 			

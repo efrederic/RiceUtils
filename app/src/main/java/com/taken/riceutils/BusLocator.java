@@ -55,7 +55,7 @@ public class BusLocator extends AsyncTask<String, Void, String> {
 	@Override
 	protected void onPostExecute(String res){
 		super.onPostExecute(res);
-		try{
+		try {
 			JSONObject obj = new JSONObject(res);
             JSONArray jArray = obj.getJSONArray("d");
             

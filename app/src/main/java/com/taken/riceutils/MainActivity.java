@@ -11,7 +11,6 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Handler;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.FragmentManager;
@@ -34,6 +33,7 @@ import android.widget.Toast;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -86,11 +86,16 @@ public class MainActivity extends AppCompatActivity
 
         setContentView(R.layout.activity_main);
 
-        mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
-        mMap.setMyLocationEnabled(true);
-        marker = mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)));
-        mMap.setOnMarkerClickListener(this);
-        mMap.setOnMapClickListener(this);
+        ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(GoogleMap googleMap) {
+                mMap = googleMap;
+                mMap.setMyLocationEnabled(true);
+                marker = mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)));
+                mMap.setOnMarkerClickListener(MainActivity.this);
+                mMap.setOnMapClickListener(MainActivity.this);
+            }
+        });
         BuildingMap.buildMap();
 
         locListener = new MyLocationListener();
@@ -314,8 +319,7 @@ public class MainActivity extends AppCompatActivity
                             Log.e("e", e.toString());
                         }
                         // Create a PostShoutoutTask to send the new shoutout to the server
-                        AsyncTask<String, Void, Void> postShoutoutTask =
-                                new PostShoutoutTask(mMap, text, lat, lng);
+                        AsyncTask<String, Void, Void> postShoutoutTask = new PostShoutoutTask(mMap, text, lat, lng, MainActivity.this);
                         postShoutoutTask.execute("http://rice-utilities.appspot.com/addpost");
                     }
                 })
@@ -324,13 +328,13 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void clearShoutoutMarkers() {
-        for (Marker marker : shoutoutMarkers){
+        for (Marker marker : shoutoutMarkers) {
             marker.setVisible(false);
         }
     }
 
     private void showShoutoutMarkers() {
-        for (Marker marker : shoutoutMarkers){
+        for (Marker marker : shoutoutMarkers) {
             marker.showInfoWindow();
         }
     }
@@ -389,7 +393,7 @@ public class MainActivity extends AppCompatActivity
 
     public void restoreActionBar() {
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+        //actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         if (mTitle.equals(getString(R.string.title_section1))) {
             actionBar.setDisplayShowTitleEnabled(false);
         } else {

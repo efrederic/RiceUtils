@@ -21,12 +21,14 @@ public class PostShoutoutTask extends AsyncTask<String, Void, Void> {
     private String mText;
     private String mLat;
     private String mLng;
+    private MainActivity mainActivity;
 
-    public PostShoutoutTask(GoogleMap map, String text, String lat, String lng) {
+    public PostShoutoutTask(GoogleMap map, String text, String lat, String lng, MainActivity mainActivity) {
         mMap = map;
         mText = text;
         mLat = lat;
         mLng = lng;
+        this.mainActivity = mainActivity;
     }
 
     @Override
@@ -45,16 +47,17 @@ public class PostShoutoutTask extends AsyncTask<String, Void, Void> {
                 InputStream in = new BufferedInputStream(urlConnection.getInputStream());
                 byte[] contents = new byte[1024];
                 while (in.read(contents) != -1);
-            }
-            finally{
+                in.close();
+            } finally {
                 urlConnection.disconnect();
             }
         } catch (Exception e) {
             Log.e("RICEUTILS", e.toString());
         }
         // Create a GetShoutoutsTask to retrieve new pins, clear pins, and set new pins
-        AsyncTask<String, Void, String> getShoutoutsTask = new GetShoutoutsTask(mMap);
-        getShoutoutsTask.execute("http://rice-utilities.appspot.com/getposts");
+        mainActivity.updateShoutoutMap();
+//        AsyncTask<String, Void, String> getShoutoutsTask = new GetShoutoutsTask(mMap);
+//        getShoutoutsTask.execute("http://rice-utilities.appspot.com/getposts");
         return null;
     }
 }
