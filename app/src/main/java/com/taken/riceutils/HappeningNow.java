@@ -93,7 +93,10 @@ public class HappeningNow extends Fragment {
                         HashMap<String, String> map = new HashMap<String, String>();
                         if (nNode.getNodeType() == Node.ELEMENT_NODE) {
                             Element eElement = (Element) nNode;
-                            map.put(KEY_TITLE, eElement.getElementsByTagName("title").item(0).getTextContent());
+                            String title = eElement.getElementsByTagName("title").item(0).getTextContent();
+                            title = title.replaceAll("<br.*?>","\n");
+                            title = title.replaceAll("<.*?>","");
+                            map.put(KEY_TITLE, title);
 
                             Pattern timePattern = Pattern.compile("(?<=20\\d\\d<br>).*?(?=<br><br><br>)");
                             Matcher timeMatcher = timePattern.matcher(eElement.getElementsByTagName("description").item(0).getTextContent());
@@ -108,8 +111,9 @@ public class HappeningNow extends Fragment {
                             }
 
                             String description = eElement.getElementsByTagName("description").item(0).getTextContent();
-                            String[] descriptionParts = description.split("<br>");
-                            map.put(KEY_DESCRIPTION, descriptionParts[descriptionParts.length-1]);
+                            description = description.replaceAll("<br.*?>","\n");
+                            description = description.replaceAll("<.*?>","");
+                            map.put(KEY_DESCRIPTION, description);
 
                             events.add(map);
                         }

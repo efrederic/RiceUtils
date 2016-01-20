@@ -124,6 +124,7 @@ public class MainActivity extends AppCompatActivity
         allLocs.putAll(BuildingMap.buildings);
         allLocs.putAll(BuildingMap.classes);
         allLocs.putAll(BuildingMap.busStops);
+        allLocs.putAll(BuildingMap.pointsOfInterest);
         String[] placeNames = Arrays.copyOf(allLocs.keySet().toArray(), allLocs.keySet().toArray().length, String[].class);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, placeNames);
 
@@ -198,7 +199,7 @@ public class MainActivity extends AppCompatActivity
                 findViewById(R.id.create_shoutout_button).setVisibility(View.GONE);
                 clearShoutoutMarkers();
                 break;
-            case 1: // happening now
+            case 1: // happening today
                 mTitle = getString(R.string.title_section2);
                 findViewById(R.id.map).setVisibility(View.GONE);
                 actionBar.setDisplayShowTitleEnabled(true);
@@ -610,7 +611,6 @@ public class MainActivity extends AppCompatActivity
 
         HashMap<String, LatLng> selectableLocs = new HashMap<>();
         selectableLocs.putAll(BuildingMap.buildings);
-        selectableLocs.putAll(BuildingMap.busStops);
 
         for (Map.Entry<String, LatLng> entry : selectableLocs.entrySet()) {
             double x = entry.getValue().longitude;
