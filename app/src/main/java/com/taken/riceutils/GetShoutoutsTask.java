@@ -30,11 +30,13 @@ public class GetShoutoutsTask extends AsyncTask<String, Void, String> {
 
     private GoogleMap mMap;
     private static final String KEY_TEXT = "text";
-    private static final String KEY_LAT = "latatitute";
+    private static final String KEY_LAT = "latitude";
     private static final String KEY_LNG = "longitude";
+    private MainActivity mainActivity;
 
-    public GetShoutoutsTask(GoogleMap map) {
+    public GetShoutoutsTask(GoogleMap map, MainActivity mainActivity) {
         mMap = map;
+        this.mainActivity = mainActivity;
     }
 
     @Override
@@ -95,6 +97,7 @@ public class GetShoutoutsTask extends AsyncTask<String, Void, String> {
             } catch (Exception e) {
                 //Handling exceptions is for wusses
             }
+            mainActivity.showShoutoutMarkers();
         }
     }
 }

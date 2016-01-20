@@ -313,9 +313,8 @@ public class MainActivity extends AppCompatActivity
 
     public void updateShoutoutMap() {
         // Create a GetShoutoutsTask to retrieve new pins, clear pins, and set new pins
-        AsyncTask<String, Void, String> getShoutoutsTask = new GetShoutoutsTask(mMap);
+        AsyncTask<String, Void, String> getShoutoutsTask = new GetShoutoutsTask(mMap, this);
         getShoutoutsTask.execute("http://rice-utilities.appspot.com/getposts");
-        showShoutoutMarkers();
     }
 
     public void giveShoutout(View view) {
@@ -370,7 +369,7 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    private void showShoutoutMarkers() {
+    public void showShoutoutMarkers() {
         for (Marker marker : shoutoutMarkers) {
             marker.showInfoWindow();
         }
