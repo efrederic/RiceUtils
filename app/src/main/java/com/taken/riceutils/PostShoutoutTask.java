@@ -17,14 +17,12 @@ import com.google.android.gms.maps.GoogleMap;
  */
 public class PostShoutoutTask extends AsyncTask<String, Void, Void> {
 
-    private GoogleMap mMap;
     private String mText;
     private String mLat;
     private String mLng;
     private MainActivity mainActivity;
 
-    public PostShoutoutTask(GoogleMap map, String text, String lat, String lng, MainActivity mainActivity) {
-        mMap = map;
+    public PostShoutoutTask(String text, String lat, String lng, MainActivity mainActivity) {
         mText = text;
         mLat = lat;
         mLng = lng;
