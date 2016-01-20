@@ -33,6 +33,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
+import android.widget.NumberPicker;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -201,14 +202,34 @@ public class MainActivity extends AppCompatActivity
                 break;
             case 1: // happening today
                 mTitle = getString(R.string.title_section2);
-                findViewById(R.id.map).setVisibility(View.GONE);
                 actionBar.setDisplayShowTitleEnabled(true);
-                fragmentManager = getSupportFragmentManager();
-                fragmentManager.beginTransaction()
-                        .addToBackStack(null)
-                        .replace(R.id.container, HappeningNow.newInstance())
-                        .commit();
 
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("View events for the following number of days:");
+                LayoutInflater inflater = this.getLayoutInflater();
+                final View v = inflater.inflate(R.layout.happening_number_picker_dialog, null);
+                final NumberPicker np = (NumberPicker) v.findViewById(R.id.numberOfDaysPicker);
+                np.setMaxValue(7);
+                np.setMinValue(1);
+                np.setWrapSelectorWheel(false);
+                np.setClickable(false);
+                builder.setView(v)
+                        .setPositiveButton("Select", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int id) {
+                                int days = np.getValue();
+                                fragmentManager = getSupportFragmentManager();
+                                fragmentManager.beginTransaction()
+                                        .addToBackStack(null)
+                                        .replace(R.id.container, HappeningNow.newInstance(days))
+                                        .commit();
+                            }
+                        })
+                        .setNegativeButton("Cancel", null)
+                        .show();
+
+
+                findViewById(R.id.map).setVisibility(View.GONE);
                 findViewById(R.id.create_shoutout_button).setVisibility(View.GONE);
                 break;
             case 2: //Bus Notifications
@@ -339,8 +360,10 @@ public class MainActivity extends AppCompatActivity
                         try {
                             locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 2, locListener);
                             Location location = locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                            lat += location.getLatitude();
-                            lng += location.getLongitude();
+                            if (location != null) {
+                                lat += location.getLatitude();
+                                lng += location.getLongitude();
+                            }
                         } catch (SecurityException e) {
                             Log.e("e", e.toString());
                         }
@@ -348,7 +371,7 @@ public class MainActivity extends AppCompatActivity
                         AsyncTask<String, Void, Void> postShoutoutTask = new PostShoutoutTask(text, lat, lng, MainActivity.this);
                         postShoutoutTask.execute("http://rice-utilities.appspot.com/addpost");
                     }
-                })
+               })
                .setNegativeButton("Cancel", null)
                .show();
     }
@@ -526,8 +549,10 @@ public class MainActivity extends AppCompatActivity
                 locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 2, locListener);
                 Location location = locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
-                String toastText = calculateWalkingTime(location, loc);
-                Toast.makeText(this, toastText, Toast.LENGTH_LONG).show();
+                if(location != null) {
+                    String toastText = calculateWalkingTime(location, loc);
+                    Toast.makeText(this, toastText, Toast.LENGTH_LONG).show();
+                }
             } catch (SecurityException e) {
                 Log.e("e", e.toString());
             }

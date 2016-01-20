@@ -42,9 +42,6 @@
             android:value="AIzaSyA_rRKOagqIMK5xiVvpsHBKsJzP1NMLM68" />
             <!--DEBUG KEY: android:value="AIzaSyA_rRKOagqIMK5xiVvpsHBKsJzP1NMLM68"-->
             <!--PROD KEY: android:value="AIzaSyAhQTTDxTg48QhZv2eSAar8FLWSAjJphsI"-->
-            android:value="AIzaSyA_rRKOagqIMK5xiVvpsHBKsJzP1NMLM68"
-             />
-            <!--android:value="AIzaSyAhQTTDxTg48QhZv2eSAar8FLWSAjJphsI"-->
 
     </application>
 

@@ -36,6 +36,7 @@ public class HappeningNow extends Fragment {
     static final String KEY_LOCATION = "location";
     static final String KEY_TIME = "time";
     static final String KEY_DESCRIPTION = "description";
+    static int days = 0;
 
     final ArrayList<HashMap<String, String>> events = new ArrayList<HashMap<String, String>>();
 
@@ -44,7 +45,8 @@ public class HappeningNow extends Fragment {
     }
 
     // TODO: Rename and change types and number of parameters
-    public static HappeningNow newInstance() {
+    public static HappeningNow newInstance(int d) {
+        days = d - 1; //0 = today, 1 = today+tomorrow, etc.
         HappeningNow fragment = new HappeningNow();
         Bundle args = new Bundle();
         fragment.setArguments(args);
@@ -142,7 +144,7 @@ public class HappeningNow extends Fragment {
                     }
                 });
             }
-        }.execute("http://services.rice.edu/events/dailyevents.cfm");
+        }.execute("http://services.rice.edu/events/dailyevents.cfm?days=" + days);
 
         return myInflatedView;
     }
