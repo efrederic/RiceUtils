@@ -315,11 +315,11 @@ public class MainActivity extends AppCompatActivity
                             Location location = locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
                             lat = location.getLatitude()+"";
                             lng = location.getLongitude()+"";
-                        } catch (Exception e) {
+                        } catch (SecurityException e) {
                             Log.e("e", e.toString());
                         }
                         // Create a PostShoutoutTask to send the new shoutout to the server
-                        AsyncTask<String, Void, Void> postShoutoutTask = new PostShoutoutTask(mMap, text, lat, lng, MainActivity.this);
+                        AsyncTask<String, Void, Void> postShoutoutTask = new PostShoutoutTask(text, lat, lng, MainActivity.this);
                         postShoutoutTask.execute("http://rice-utilities.appspot.com/addpost");
                     }
                 })
