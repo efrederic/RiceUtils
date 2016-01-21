@@ -1,9 +1,9 @@
 package com.taken.riceutils;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.DialogFragment;
+import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -14,11 +14,8 @@ import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
-import android.support.v4.app.FragmentManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.Html;
@@ -99,7 +96,8 @@ public class MainActivity extends AppCompatActivity
             hasLocationPermissions = true;
         }
 
-        ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMapAsync(new OnMapReadyCallback() {
+        fragmentManager = getFragmentManager();
+        ((MapFragment) fragmentManager.findFragmentById(R.id.map)).getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(GoogleMap googleMap) {
                 mMap = googleMap;
@@ -218,7 +216,6 @@ public class MainActivity extends AppCompatActivity
                             @Override
                             public void onClick(DialogInterface dialog, int id) {
                                 int days = np.getValue();
-                                fragmentManager = getSupportFragmentManager();
                                 fragmentManager.beginTransaction()
                                         .addToBackStack(null)
                                         .replace(R.id.container, HappeningNow.newInstance(days))
