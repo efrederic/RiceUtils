@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -106,7 +107,7 @@ public class MainActivity extends AppCompatActivity
                 } catch (SecurityException e) {
                     new AlertDialog.Builder(MainActivity.this)
                             .setTitle("Failed to set user location")
-                            .setMessage("Please make sure your location services are enabled")
+                            .setMessage("Please make sure your location services are enabled. Some app functionality will not work correctly without location services.")
                             .setPositiveButton(R.string.ok, null)
                             .show();
                 }
@@ -358,6 +359,11 @@ public class MainActivity extends AppCompatActivity
                                 lat += location.getLatitude();
                                 lng += location.getLongitude();
                             }
+//                            Location location = locManager.getLastKnownLocation(locManager.getBestProvider(new Criteria(), true));
+//                            if (location != null) {
+//                                lat += location.getLatitude();
+//                                lng += location.getLongitude();
+//                            }
                         } catch (SecurityException e) {
                             Log.e("e", e.toString());
                         }

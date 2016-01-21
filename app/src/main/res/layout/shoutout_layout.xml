@@ -11,6 +11,6 @@
         android:padding="15dp"
         android:layout_margin="20dp"
         android:hint="@string/shoutoutHint"
-        android:maxLength="40"/>
+        android:maxLength="80"/>
 
 </LinearLayout>

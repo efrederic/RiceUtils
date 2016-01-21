@@ -174,7 +174,7 @@ public class HappeningNow extends Fragment {
         public View getView(int position, View convertView, ViewGroup parent) {
             View view = convertView;
             if(convertView == null) {
-                view = inflater.inflate(R.layout.list_row, parent);
+                view = inflater.inflate(R.layout.list_row, null);
             }
 
             TextView title = (TextView) view.findViewById(R.id.event_title);
