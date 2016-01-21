@@ -1,14 +1,6 @@
 apply plugin: 'com.android.application'
 
 android {
-    signingConfigs {
-        config {
-            keyAlias 'Rice Utilities'
-            keyPassword 'TAKEN!'
-            storeFile file('C:/Users/User/Documents/RiceUtilitiesKeystore.jks')
-            storePassword 'TAKEN!'
-        }
-    }
     compileSdkVersion 23
     buildToolsVersion "23.0.0"
     defaultConfig {
@@ -22,10 +14,6 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.config
-        }
-        debug {
-            signingConfig signingConfigs.config
         }
     }
     productFlavors {
