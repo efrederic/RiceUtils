@@ -93,7 +93,7 @@ public class HappeningNow extends Fragment {
 
                     for (int i = 0; i < nodes.getLength(); i++) {
                         Node nNode = nodes.item(i);
-                        HashMap<String, String> map = new HashMap<String, String>();
+                        HashMap<String, String> map = new HashMap<>();
                         if (nNode.getNodeType() == Node.ELEMENT_NODE) {
                             Element eElement = (Element) nNode;
                             String title = eElement.getElementsByTagName("title").item(0).getTextContent();
@@ -174,12 +174,12 @@ public class HappeningNow extends Fragment {
         public View getView(int position, View convertView, ViewGroup parent) {
             View view = convertView;
             if(convertView == null) {
-                view = inflater.inflate(R.layout.list_row, null);
+                view = inflater.inflate(R.layout.list_row, parent);
             }
 
-            TextView title = (TextView) view.findViewById(R.id.title);
-            TextView time = (TextView) view.findViewById(R.id.time);
-            TextView location = (TextView) view.findViewById(R.id.location);
+            TextView title = (TextView) view.findViewById(R.id.event_title);
+            TextView time = (TextView) view.findViewById(R.id.event_time);
+            TextView location = (TextView) view.findViewById(R.id.event_location);
 
             HashMap<String, String> event = events.get(position);
 
