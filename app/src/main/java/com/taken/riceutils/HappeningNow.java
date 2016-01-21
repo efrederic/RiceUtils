@@ -1,6 +1,7 @@
 package com.taken.riceutils;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -8,7 +9,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
@@ -38,7 +41,7 @@ public class HappeningNow extends Fragment {
     private static final String KEY_DESCRIPTION = "description";
     private static int numDays = 0;
 
-    final ArrayList<HashMap<String, String>> events = new ArrayList<HashMap<String, String>>();
+    final ArrayList<HashMap<String, String>> events = new ArrayList<>();
 
     public HappeningNow() {
         // Required empty public constructor
@@ -55,14 +58,13 @@ public class HappeningNow extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         final View myInflatedView = inflater.inflate(R.layout.fragment_happening_now, container, false);
 
         new AsyncTask<String, Void, String>() {
             @Override
-            protected String doInBackground(String... url){
+            protected String doInBackground(String... url) {
                 try{
                     URL eventsURL = new URL(url[0]);
                     HttpURLConnection connection = (HttpURLConnection) eventsURL.openConnection();
@@ -120,7 +122,7 @@ public class HappeningNow extends Fragment {
                         }
                     }
 
-                }catch(Exception e){
+                } catch(Exception e) {
                     //Log.e("e",e.toString());
                 }
                 return null;
@@ -129,22 +131,64 @@ public class HappeningNow extends Fragment {
             @Override
             protected void onPostExecute(String xmldata) {
                 ListView eventsList = (ListView) myInflatedView.findViewById(R.id.eventsList);
-                HappeningNowAdapter adapter = new HappeningNowAdapter(getActivity(), events);
+                HappeningNowAdapter adapter = new HappeningNowAdapter(events);
                 eventsList.setAdapter(adapter);
 
                 eventsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                        builder.setMessage(events.get(position).get(KEY_DESCRIPTION))
-                                .setTitle(events.get(position).get(KEY_TITLE));
-                        AlertDialog dialog = builder.create();
-                        dialog.show();
+                        new AlertDialog.Builder(getActivity())
+                                .setMessage(events.get(position).get(KEY_DESCRIPTION))
+                                .setTitle(events.get(position).get(KEY_TITLE))
+                                .show();
                     }
                 });
             }
         }.execute("http://services.rice.edu/events/dailyevents.cfm?days=" + numDays);
 
         return myInflatedView;
+    }
+
+    public class HappeningNowAdapter extends BaseAdapter {
+
+        private ArrayList<HashMap<String, String>> events;
+        private LayoutInflater inflater;
+
+        public HappeningNowAdapter(ArrayList<HashMap<String, String>> events) {
+            this.events = events;
+            inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        }
+
+        public int getCount() {
+            return events.size();
+        }
+
+        public Object getItem(int position) {
+            return position;
+        }
+
+        public long getItemId(int position) {
+            return position;
+        }
+
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View view = convertView;
+            if(convertView == null) {
+                view = inflater.inflate(R.layout.list_row, null);
+            }
+
+            TextView title = (TextView) view.findViewById(R.id.title);
+            TextView time = (TextView) view.findViewById(R.id.time);
+            TextView location = (TextView) view.findViewById(R.id.location);
+
+            HashMap<String, String> event = events.get(position);
+
+            // Setting all values in listview
+            title.setText(event.get(HappeningNow.KEY_TITLE));
+            time.setText(event.get(HappeningNow.KEY_TIME));
+            location.setText(event.get(HappeningNow.KEY_LOCATION));
+
+            return view;
+        }
     }
 }

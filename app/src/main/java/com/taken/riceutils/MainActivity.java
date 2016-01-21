@@ -202,29 +202,26 @@ public class MainActivity extends AppCompatActivity
                 mTitle = getString(R.string.title_section2);
                 actionBar.setDisplayShowTitleEnabled(true);
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("View events for the following number of days:");
-                LayoutInflater inflater = this.getLayoutInflater();
-                final View v = inflater.inflate(R.layout.happening_number_picker_dialog, null);
-                final NumberPicker np = (NumberPicker) v.findViewById(R.id.numberOfDaysPicker);
-                np.setMaxValue(7);
-                np.setMinValue(1);
-                np.setWrapSelectorWheel(false);
-                np.setClickable(false);
-                builder.setView(v)
+                View pickerView = getLayoutInflater().inflate(R.layout.happening_number_picker_dialog, null);
+                final NumberPicker numberPicker = (NumberPicker) pickerView.findViewById(R.id.numberOfDaysPicker);
+                numberPicker.setMaxValue(7);
+                numberPicker.setMinValue(1);
+                numberPicker.setWrapSelectorWheel(false);
+                numberPicker.setClickable(false);
+                new AlertDialog.Builder(this)
+                        .setTitle("View events for the following number of days:")
+                        .setView(pickerView)
                         .setPositiveButton("Select", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int id) {
-                                int days = np.getValue();
                                 fragmentManager.beginTransaction()
                                         .addToBackStack(null)
-                                        .replace(R.id.container, HappeningNow.newInstance(days))
+                                        .replace(R.id.container, HappeningNow.newInstance(numberPicker.getValue()))
                                         .commit();
                             }
                         })
                         .setNegativeButton("Cancel", null)
                         .show();
-
 
                 findViewById(R.id.map).setVisibility(View.GONE);
                 findViewById(R.id.create_shoutout_button).setVisibility(View.GONE);
