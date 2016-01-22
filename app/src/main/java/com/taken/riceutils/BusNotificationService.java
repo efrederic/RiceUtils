@@ -11,13 +11,13 @@ import android.app.PendingIntent;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
-import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class BusNotificationService extends Service {
 
-    public HashMap<Integer, String[]> mBusNotifications;
+    public ConcurrentHashMap<Integer, String[]> mBusNotifications;
     private boolean mTimersScheduled;
     private int mCurrNotifId;
     private Timer timer;
@@ -30,7 +30,7 @@ public class BusNotificationService extends Service {
         // background priority so CPU-intensive work will not disrupt our UI.
 
         // Create an array of bus stops to track
-        mBusNotifications = new HashMap<>();
+        mBusNotifications = new ConcurrentHashMap<>();
 
         // The first time onStartCommand is run, the timers will be scheduled
         mTimersScheduled = false;
@@ -77,7 +77,6 @@ public class BusNotificationService extends Service {
                     handler.post(new Runnable() {
                         public void run() {
                             try {
-                                Log.d("HELLO", "HELLO WORLD");
                                 // call to check for our target buses using the data at this website
                                 new BusServiceDataRetriever(BusNotificationService.this, mBusNotifications).execute("http://bus.rice.edu/json/buses.php");
                             } catch (Exception e) {
@@ -117,7 +116,7 @@ public class BusNotificationService extends Service {
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(BusNotificationService.this);
         stackBuilder.addParentStack(MainActivity.class);
         stackBuilder.addNextIntent(mainIntent);
-        PendingIntent mainPendingIntent =
+        PendingIntent mainPendingIntent = //PendingIntent.getService(this, notifId, mainIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                 stackBuilder.getPendingIntent(
                         0,
                         PendingIntent.FLAG_UPDATE_CURRENT
@@ -140,7 +139,7 @@ public class BusNotificationService extends Service {
 
     public void removeFromTrackedBuses(int notifId, boolean foundBus){
         //check that the bus is in the hash map. panic if its not
-        if (!mBusNotifications.containsKey(notifId)){
+        if (!mBusNotifications.containsKey(notifId)) {
             return;
         }
 

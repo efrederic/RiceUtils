@@ -16,6 +16,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by Karin on 1/16/2016.
@@ -23,10 +24,10 @@ import java.util.Map;
 public class BusServiceDataRetriever extends AsyncTask<String, Void, String> {
 
     private InputStream inputStream = null;
-    private HashMap<Integer, String[]> trackedStops;
+    private ConcurrentHashMap<Integer, String[]> trackedStops;
     private BusNotificationService service;
 
-    public BusServiceDataRetriever(BusNotificationService service, HashMap<Integer, String[]> trackedStops){
+    public BusServiceDataRetriever(BusNotificationService service, ConcurrentHashMap<Integer, String[]> trackedStops){
         this.service = service;
         this.trackedStops = trackedStops;
     }
