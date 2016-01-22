@@ -353,7 +353,7 @@ public class MainActivity extends AppCompatActivity
                         String lat = "";
                         String lng = "";
                         try {
-                            locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 2, locListener);
+                            locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, locListener);
                             Location location = locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
                             if (location != null) {
                                 lat += location.getLatitude();
@@ -546,7 +546,7 @@ public class MainActivity extends AppCompatActivity
             marker.showInfoWindow();
 
             try {
-                locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 2, locListener);
+                locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, locListener);
                 Location location = locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
                 if(location != null) {
@@ -589,10 +589,13 @@ public class MainActivity extends AppCompatActivity
                 }
             }
 
+            if (busStop.equals("")) {
+                return false;
+            }
+
             Intent serviceIntent = new Intent(this, BusNotificationService.class);
             serviceIntent.putExtra("BusType", lastBusName).putExtra("BusStop", busStop);
             startService(serviceIntent);
-            //Toast.makeText(this, "Bus notification pending", Toast.LENGTH_LONG).show();
             new AlertDialog.Builder(this)
                     .setTitle("Bus notification pending")
                     .setPositiveButton("OK", null)
