@@ -42,12 +42,6 @@ def getposts():
     xmlstr = etree.tostring(root)
     return xmlstr
 
-@app.route("/clearposts")
-def clearposts():
-    global posts
-    posts = []
-    return "Success!"
-
 @app.errorhandler(404)
 def page_not_found(e):
     """Return a custom 404 error."""
